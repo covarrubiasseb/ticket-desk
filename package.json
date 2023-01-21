@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/covarrubiasseb/ticket-desk/issues"
   },
-  "homepage": "https://github.com/covarrubiasseb/ticket-desk#readme"
+  "homepage": "https://github.com/covarrubiasseb/ticket-desk#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
