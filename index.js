@@ -10,7 +10,7 @@ const isLoggedIn = (req, res, next) => {
   if (req.user) {
     next()
   } else {
-    res.redirect('/google')
+    res.redirect('/login')
   }
 }
 
@@ -24,9 +24,9 @@ app.use(passport.session())
 
 app.get('/', (req, res) => {
   if (req.user) {
-    res.redirect('/success')
+    res.redirect('/dashboard')
   } else {
-    res.redirect('/google')
+    res.redirect('/login')
   }
 })
 
@@ -34,16 +34,16 @@ app.get('/failed', (req, res) => {
   res.send('<h1>Failed</h1>')
 })
 
-app.use('/success', isLoggedIn, express.static('www'))
+app.use('/dashboard', isLoggedIn, express.static('www'))
 
-app.get('/google', 
+app.get('/login', 
         passport.authenticate('google', { scope: ['email', 'profile'] })
 )
 
-app.get('/google/callback',
+app.get('/login/callback',
         passport.authenticate('google', { failureRedirect: '/failed' }),
         (req, res) => {
-          res.redirect('/success')
+          res.redirect('/dashboard')
         }
 )
 
@@ -53,7 +53,6 @@ app.get('/logout', (req, res, next) => {
     res.redirect('/')
   })
 })
-
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`)
