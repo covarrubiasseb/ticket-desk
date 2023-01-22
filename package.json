@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/covarrubiasseb/ticket-desk#readme",
   "dependencies": {
-    "cookie-session": "^2.0.0",
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "passport": "^0.6.0",

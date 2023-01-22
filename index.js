@@ -4,7 +4,7 @@ const session = require('express-session')
 require('./passport')
 
 const app = express()
-const port = 3000
+const port = 5000
 
 const isLoggedIn = (req, res, next) => {
   if (req.user) {
@@ -15,36 +15,24 @@ const isLoggedIn = (req, res, next) => {
 }
 
 app.use(session({
-  secret: 'google-auth-session',
-  keys: ['key1', 'key2']
+  secret: 'google-auth-session'
 }))
 
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.get('/', (req, res) => {
-  if (req.user) {
-    res.redirect('/dashboard')
-  } else {
-    res.redirect('/login')
-  }
-})
-
-app.get('/failed', (req, res) => {
-  res.send('<h1>Failed</h1>')
-})
-
-app.use('/dashboard', isLoggedIn, express.static('www'))
-
-app.get('/login', 
-        passport.authenticate('google', { scope: ['email', 'profile'] })
-)
+app.get('/login',
+  passport.authenticate('google', {
+          scope:
+              ['email', 'profile']
+      }
+))
 
 app.get('/login/callback',
-        passport.authenticate('google', { failureRedirect: '/failed' }),
-        (req, res) => {
-          res.redirect('/dashboard')
-        }
+  passport.authenticate('google'),
+  (req, res) => {
+    res.redirect('/')  
+  }
 )
 
 app.get('/logout', (req, res, next) => {
@@ -53,6 +41,8 @@ app.get('/logout', (req, res, next) => {
     res.redirect('/')
   })
 })
+
+app.use(isLoggedIn, express.static(`${__dirname}/ticket-desk/build`))
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`)

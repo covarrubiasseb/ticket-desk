@@ -13,7 +13,7 @@ passport.use(new GoogleStrategy(
   {
     clientID: '270622692344-0mkd6u3c89d281b3dg6gpolqea1b7ggn.apps.googleusercontent.com',
     clientSecret: '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',
-    callbackURL: 'http://localhost:3000/login/callback',
+    callbackURL: 'http://localhost:5000/login/callback',
     passReqToCallback: true
   },
 
