@@ -5,28 +5,37 @@ const queries = {
   useDB: `USE TicketDesk;`,
 
   createTableUsers: `CREATE TABLE IF NOT EXISTS users (
-    ID int NOT NULL,
+    userID int NOT NULL,
     name varchar(255) NOT NULL,
     role varchar(255),
-    PRIMARY KEY (ID)
+    PRIMARY KEY (userID)
   );`,
 
   createTableProjects: `CREATE TABLE IF NOT EXISTS projects (
-    ID int NOT NULL,
+    projectID int NOT NULL,
     name varchar(255) NOT NULL,
     description varchar(255) NOT NULL,
-    PRIMARY KEY (ID)
+    PRIMARY KEY (projectID)
+  );`,
+
+  createTableUsersProjects: `CREATE TABLE IF NOT EXISTS usersProjects (
+    usersProjectsID int NOT NULL,
+    userID int,
+    projectID int,
+    PRIMARY KEY (usersProjectsID),
+    FOREIGN KEY (userID) REFERENCES users(userID),
+    FOREIGN KEY (projectID) REFERENCES projects(projectID)
   );`,
 
   createTableTickets: `CREATE TABLE IF NOT EXISTS tickets (
-    ID int NOT NULL,
+    ticketID int NOT NULL,
     title varchar(255) NOT NULL,
     status varchar(255) NOT NULL,
     type varchar(255) NOT NULL,
     date varchar(255) NOT NULL,
     description varchar(255) NOT NULL,
     priority varchar(255) NOT NULL,
-    PRIMARY KEY (ID)
+    PRIMARY KEY (ticketID)
   );`
 }
 
