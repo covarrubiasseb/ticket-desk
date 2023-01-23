@@ -73,6 +73,22 @@ app.get('/api/user', (req, res) => {
   })
 })
 
+app.get('/api/projects', (req, res) => {
+  let userID = ''
+  mysql.connection.query(db.queries.findProjects(userID), (err, results) => {
+    res.send(results)
+  })
+})
+
+app.post('/api/projects', (req, res) => {
+  let projectName = ''
+  let projectDesc = ''
+
+  mysql.connection.query(db.queries.createProject(projectName, projectDesc), (err, results) => {
+    res.end()
+  })
+})
+
 app.listen(port, () => {
   console.log(`App listening on port ${port}`)
 })

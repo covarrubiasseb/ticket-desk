@@ -45,6 +45,16 @@ const queries = {
 
   createUser: function(userName, userEmail) {
     return `INSERT INTO users (name, email, role) VALUES ('${userName}','${userEmail}','Unassigned');`
+  },
+
+  createProject: function(projectName, projectDescription) {
+    return `INSERT INTO projects (name, description) VALUES ('${projectName}','${projectDescription}');`
+  },
+
+  findProjects: function(userID) {
+    return `SELECT projects.name, projects.description FROM projects 
+      INNER JOIN (SELECT projectID FROM usersProjects WHERE userID='${userID}') AS userProjects 
+        ON projects.projectID = userProjects.projectID;`
   }
 }
 
