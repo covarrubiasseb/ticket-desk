@@ -20,3 +20,5 @@ connection.query(db.queries.createTableUsers)
 connection.query(db.queries.createTableProjects)
 connection.query(db.queries.createTableUsersProjects)
 connection.query(db.queries.createTableTickets)
+
+module.exports = {  connection  }

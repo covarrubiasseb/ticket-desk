@@ -5,21 +5,22 @@ const queries = {
   useDB: `USE TicketDesk;`,
 
   createTableUsers: `CREATE TABLE IF NOT EXISTS users (
-    userID int NOT NULL,
+    userID int NOT NULL AUTO_INCREMENT,
     name varchar(255) NOT NULL,
+    email varchar(255) NOT NULL,
     role varchar(255),
     PRIMARY KEY (userID)
   );`,
 
   createTableProjects: `CREATE TABLE IF NOT EXISTS projects (
-    projectID int NOT NULL,
+    projectID int NOT NULL AUTO_INCREMENT,
     name varchar(255) NOT NULL,
     description varchar(255) NOT NULL,
     PRIMARY KEY (projectID)
   );`,
 
   createTableUsersProjects: `CREATE TABLE IF NOT EXISTS usersProjects (
-    usersProjectsID int NOT NULL,
+    usersProjectsID int NOT NULL AUTO_INCREMENT,
     userID int,
     projectID int,
     PRIMARY KEY (usersProjectsID),
@@ -28,7 +29,7 @@ const queries = {
   );`,
 
   createTableTickets: `CREATE TABLE IF NOT EXISTS tickets (
-    ticketID int NOT NULL,
+    ticketID int NOT NULL AUTO_INCREMENT,
     title varchar(255) NOT NULL,
     status varchar(255) NOT NULL,
     type varchar(255) NOT NULL,
@@ -36,7 +37,15 @@ const queries = {
     description varchar(255) NOT NULL,
     priority varchar(255) NOT NULL,
     PRIMARY KEY (ticketID)
-  );`
+  );`,
+
+  findUser: function(userEmail) {
+    return `SELECT * FROM users WHERE users.email='${userEmail}';`
+  },
+
+  createUser: function(userName, userEmail) {
+    return `INSERT INTO users (name, email, role) VALUES ('${userName}','${userEmail}','Unassigned');`
+  }
 }
 
 module.exports = { queries }
