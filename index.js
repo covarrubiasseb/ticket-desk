@@ -2,6 +2,7 @@ const express = require('express')
 const passport = require('passport')
 const session = require('express-session')
 require('./passport')
+require('./mysql')
 
 const app = express()
 const port = 5000
@@ -43,6 +44,10 @@ app.get('/logout', (req, res, next) => {
 })
 
 app.use(isLoggedIn, express.static(`${__dirname}/ticket-desk/build`))
+
+app.get('/api/user', (req, res) => {
+  res.send(req.user.displayName)
+})
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`)
