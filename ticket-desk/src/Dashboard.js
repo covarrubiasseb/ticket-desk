@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
 class Dashboard extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   render() {
@@ -12,8 +12,8 @@ class Dashboard extends React.Component {
           <h1 className="h3 mb-0 text-gray-800">Dashboard</h1>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default Dashboard
+export default Dashboard;

@@ -1,13 +1,13 @@
-import React from 'react'
-import axios from 'axios'
+import React from 'react';
+import axios from 'axios';
 
 class Projects extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       projects: []
-    }
+    };
   }
 
   componentDidMount() {
@@ -25,13 +25,13 @@ class Projects extends React.Component {
                     {data.description}
                 </div>
               </div>
-            )
+            );
           })
-        })
+        });
       })
       .catch(error => {
-        console.log(error)
-      })
+        console.log(error);
+    });
   }
 
   render() {
@@ -45,9 +45,9 @@ class Projects extends React.Component {
           {this.state.projects}
         </div>
       </div>
-    )
+    );
   }
 
 }
 
-export default Projects
+export default Projects;
