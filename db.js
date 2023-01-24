@@ -40,7 +40,7 @@ const queries = {
   );`,
 
   findUser: function(userEmail) {
-    return `SELECT * FROM users WHERE users.email='${userEmail}';`
+    return `SELECT * FROM users WHERE email='${userEmail}';`
   },
 
   createUser: function(userName, userEmail) {

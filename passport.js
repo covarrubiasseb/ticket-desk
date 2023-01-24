@@ -9,9 +9,9 @@ passport.serializeUser( (user, done) => {
 
     if (err) { throw err }
 
-    else if (results.length === 0) {
-      
-      mysql.connection.query(db.queries.createUser(user.displayName, user.emails[0]), (err, results) => {
+    else if (results.length < 1) {
+
+      mysql.connection.query(db.queries.createUser(user.displayName, user.emails[0].value), (err, results) => {
 
         if (err) { throw err }
 
@@ -42,6 +42,6 @@ passport.use(new GoogleStrategy(
   },
 
   (request, accessToken, refreshToken, profile, done) => {
-    return done(null, profile)
+    return done(null, profile);
   }
-))
+));
