@@ -50,7 +50,8 @@ app.get('/api/users', (req, res) => {
   mysql.connection.query(db.queries.findUser(email), (err, results) => {
     res.send({
       userID: results[0].userID,
-      name: results[0].name
+      name: results[0].name,
+      role: results[0].role
     });
   });
 });
@@ -62,8 +63,15 @@ app.get('/api/projects', (req, res) => {
 });
 
 app.post('/api/projects', (req, res) => {
+  let email = req.user.emails[0].value;
   let projectName = '';
   let projectDesc = '';
+
+  // Check if User is Admin
+  mysql.connection.query(db.queries.findUser(email), (err, results) => {
+    
+
+  });
 
   mysql.connection.query(db.queries.createProject(projectName, projectDesc), (err, results) => {
     res.end();
