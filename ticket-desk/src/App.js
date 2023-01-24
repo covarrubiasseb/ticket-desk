@@ -17,7 +17,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('/api/user')
+    axios.get('/api/users')
       .then(response => {
         this.updateDisplayName(response.data)
     })

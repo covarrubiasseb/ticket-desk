@@ -65,7 +65,7 @@ app.get('/logout', (req, res, next) => {
 
 app.use(isLoggedIn, express.static(`${__dirname}/ticket-desk/build`))
 
-app.get('/api/user', (req, res) => {
+app.get('/api/users', (req, res) => {
   let email = req.user.emails[0].value
 
   mysql.connection.query(db.queries.findUser(email), (err, results) => {
@@ -75,6 +75,7 @@ app.get('/api/user', (req, res) => {
 
 app.get('/api/projects', (req, res) => {
   let userID = ''
+
   mysql.connection.query(db.queries.findProjects(userID), (err, results) => {
     res.send(results)
   })
@@ -85,6 +86,23 @@ app.post('/api/projects', (req, res) => {
   let projectDesc = ''
 
   mysql.connection.query(db.queries.createProject(projectName, projectDesc), (err, results) => {
+    res.end()
+  })
+})
+
+app.get('/api/project/users', (req, res) => {
+  let projectID = ''
+
+  mysql.connection.query(db.queries.findProjectUsers(projectID), (err, results) => {
+    res.send(results)
+  })
+})
+
+app.post('/api/project/users', (req, res) => {
+  let projectID = ''
+  let userID = ''
+
+  mysql.connection.query(db.queries.addUserToProject(userID, projectID), (err), (err, results) => {
     res.end()
   })
 })

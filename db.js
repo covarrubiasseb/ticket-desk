@@ -55,6 +55,16 @@ const queries = {
     return `SELECT projects.name, projects.description FROM projects 
       INNER JOIN (SELECT projectID FROM usersProjects WHERE userID='${userID}') AS userProjects 
         ON projects.projectID = userProjects.projectID;`
+  },
+
+  addUserToProject: function(userID, projectID) {
+    return `INSERT INTO usersProjects (userID, projectID) VALUES ('${userID}','${projectID}');`
+  },
+
+  findProjectUsers: function(projectID) {
+    return `SELECT user.name, user.email, user.role FROM users
+      INNER JOIN (SELECT userID FROM usersProjects WHERE projectID='${projectID}') As projectUsers
+        ON users.userID = projectUsers.userID;`
   }
 }
 
