@@ -1,13 +1,37 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const db = require('./db');
+const mysql = require('./mysql');
 
 passport.serializeUser( (user, done) => {
-  done(null, user);
-})
+
+  mysql.connection.query(db.queries.findUser(user.emails[0].value), (err, results) => {
+
+    if (err) { throw err }
+
+    else if (results.length === 0) {
+      
+      mysql.connection.query(db.queries.createUser(user.displayName, user.emails[0]), (err, results) => {
+
+        if (err) { throw err }
+
+        done(null, user);
+
+      });
+
+    } else {
+
+      done(null, user);
+
+    }
+
+  });
+
+});
 
 passport.deserializeUser( (user, done) => {
   done(null, user);
-})
+});
 
 passport.use(new GoogleStrategy(
   {

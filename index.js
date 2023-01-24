@@ -10,29 +10,8 @@ const port = 5000;
 
 const isLoggedIn = (req, res, next) => {
 
-  if (req.user && req.user.emails) {
-    let name = req.user.displayName;
-    let email = req.user.emails[0].value;
+  req.user ? next() : res.redirect('/login')
 
-    mysql.connection.query(db.queries.findUser(email), (err, results) => {
-      if (err) { throw err }
-      else {
-        if (results.length === 0) {
-          // create user
-          mysql.connection.query(db.queries.createUser(name, email), err => {
-            if (err) { throw err }
-          })
-        }
-
-        next();
-      }
-    })
-
-  }
-
-  else {
-    res.redirect('/login');
-  }
 };
 
 app.use(session({
