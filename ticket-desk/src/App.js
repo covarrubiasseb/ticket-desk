@@ -1,25 +1,52 @@
 import axios from 'axios'
 import React from 'react'
+import Dashboard from './Dashboard'
+import Projects from './Projects'
 
 class App extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      displayName: ''
+      displayName: '',
+      currentPage: 'Dashboard',
+      userID: ''
     }
 
-    this.updateDisplayName = this.updateDisplayName.bind(this)
+    this.setUserData = this.setUserData.bind(this)
+    this.setCurrentPage = this.setCurrentPage.bind(this)
+    this.setPageDashboard = this.setPageDashboard.bind(this)
+    this.setPageProjects = this.setPageProjects.bind(this)
   }
 
-  updateDisplayName(name) {
-    this.setState({ displayName: name})
+  setUserData(data) {
+    this.setState({ 
+      displayName: data.name,
+      userID: data.userID
+    })
+  }
+
+  setCurrentPage() {
+    switch (this.state.currentPage) {
+      case 'Dashboard':
+        return <Dashboard userID={this.state.userID} />
+      case 'Projects':
+        return <Projects userID={this.state.userID} />
+    }
+  }
+
+  setPageDashboard() {
+    this.setState({ currentPage: 'Dashboard' })
+  }
+
+  setPageProjects() {
+    this.setState({ currentPage: 'Projects' })
   }
 
   componentDidMount() {
     axios.get('/api/users')
       .then(response => {
-        this.updateDisplayName(response.data)
+        this.setUserData(response.data)
     })
       .catch(error => {
         console.log(error)
@@ -52,7 +79,7 @@ class App extends React.Component {
 
               
               <li className="nav-item active">
-                  <a className="nav-link" href="index.html">
+                  <a className="nav-link" href="#" onClick={this.setPageDashboard}>
                       <i className="fas fa-fw fa-tachometer-alt"></i>
                       <span>Dashboard</span></a>
               </li>
@@ -83,7 +110,7 @@ class App extends React.Component {
 
               
               <li className="nav-item">
-                  <a className="nav-link" href="#">
+                  <a className="nav-link" href="#" onClick={this.setPageProjects}>
                       <i className="fas fa-fw fa-folder"></i>
                       <span>My Projects</span>
                   </a>
@@ -311,21 +338,13 @@ class App extends React.Component {
 
                   </nav>
                   
-
-                  
-                  <div className="container-fluid">
-
-                      
-                      <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                          <h1 className="h3 mb-0 text-gray-800">Dashboard</h1>
-                      </div>
-
-                  </div>
+                  {
+                    this.setCurrentPage()
+                  }
                   
 
               </div>
               
-
               
               <footer className="sticky-footer bg-white">
                   <div className="container my-auto">

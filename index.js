@@ -69,14 +69,16 @@ app.get('/api/users', (req, res) => {
   let email = req.user.emails[0].value
 
   mysql.connection.query(db.queries.findUser(email), (err, results) => {
-    res.send(results[0].name)
+    res.send({
+      userID: results[0].userID,
+      name: results[0].name
+    })
   })
 })
 
 app.get('/api/projects', (req, res) => {
-  let userID = ''
-
-  mysql.connection.query(db.queries.findProjects(userID), (err, results) => {
+  mysql.connection.query(db.queries.findProjects(req.query.userID), (err, results) => {
+    console.log(results)
     res.send(results)
   })
 })
