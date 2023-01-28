@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import ProjectForm from './ProjectForm'
 
 class Projects extends React.Component {
   constructor(props) {
@@ -50,22 +51,7 @@ class Projects extends React.Component {
                 Create New Project (Admin only)
               </div>
               <div className="card-body">
-                <form
-                  className="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 container-fluid">
-                  <div className="row mb-2">
-                    <input type="text" className="form-control bg-light border-1 small col-12" placeholder="Project Name..."
-                        aria-describedby="basic-addon2" />
-                  </div>
-
-                  <div className="row mb-2">    
-                    <textarea className="form-control bg-light border-1 col-12" placeholder="Project Description..."
-                        aria-describedby="basic-addon2" />
-                  </div>
-
-                  <button className="btn-circle float-right mt-2">
-                    <i className="fa fa-plus"></i>
-                  </button>
-                </form>
+                <ProjectForm />
               </div>
             </div>
           </div>

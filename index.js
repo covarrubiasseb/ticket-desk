@@ -1,6 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const session = require('express-session');
+const bodyParser = require('body-parser');
 const db = require('./db');
 const mysql = require('./mysql');
 require('./passport');
@@ -62,20 +63,28 @@ app.get('/api/projects', (req, res) => {
   });
 });
 
-app.post('/api/projects', (req, res) => {
+app.post('/api/projects', bodyParser.json(), (req, res) => {
   let email = req.user.emails[0].value;
-  let projectName = '';
-  let projectDesc = '';
+  let projectName = req.body.projectName;
+  let projectDesc = req.body.projectDesc;
 
   // Check if User is Admin
   mysql.connection.query(db.queries.findUser(email), (err, results) => {
-    
+    if (results[0].role === 'Admin') {
 
+      mysql.connection.query(db.queries.createProject(projectName, projectDesc), (err, results) => {
+
+        res.send({valid : true});
+
+      });
+
+    }
+    res.send({valid : false});
   });
 
-  mysql.connection.query(db.queries.createProject(projectName, projectDesc), (err, results) => {
-    res.end();
-  });
+  // mysql.connection.query(db.queries.createProject(projectName, projectDesc), (err, results) => {
+  //   res.end();
+  // });
 });
 
 app.get('/api/project/users', (req, res) => {
