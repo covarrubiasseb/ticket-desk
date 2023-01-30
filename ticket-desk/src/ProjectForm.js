@@ -7,7 +7,8 @@ class ProjectForm extends React.Component {
 
     this.state = {
       projectName: '',
-      projectDesc: ''
+      projectDesc: '',
+      modalText: ''
     }
 
     this.handleNameChange = this.handleNameChange.bind(this);
@@ -40,10 +41,17 @@ class ProjectForm extends React.Component {
       .then(response => {
 
         if (!response.data.valid) {
-          console.log('in there')
+          this.setState({
+            modalText: 'You must be an Admin to create new projects'
+          });
         } else {
-          this.clearForm();
+          this.setState({
+            modalText: 'Project Created!'
+          });
         }
+
+        this.clearForm();
+
       })
       .catch(error => {
         console.log(error);
@@ -82,7 +90,7 @@ class ProjectForm extends React.Component {
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id="projectModalLabel">You must be an Admin to create new projects</h5>
+                        <h5 className="modal-title" id="projectModalLabel">{this.state.modalText}</h5>
                         <button className="close" type="button" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
