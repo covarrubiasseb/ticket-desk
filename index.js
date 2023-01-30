@@ -51,8 +51,7 @@ app.get('/api/users', (req, res) => {
   mysql.connection.query(db.queries.findUser(email), (err, results) => {
     res.send({
       userID: results[0].userID,
-      name: results[0].name,
-      role: results[0].role
+      name: results[0].name
     });
   });
 });
@@ -70,6 +69,7 @@ app.post('/api/projects', bodyParser.json(), (req, res) => {
 
   // Check if User is Admin
   mysql.connection.query(db.queries.findUser(email), (err, results) => {
+
     if (results[0].role === 'Admin') {
 
       mysql.connection.query(db.queries.createProject(projectName, projectDesc), (err, results) => {
@@ -78,13 +78,10 @@ app.post('/api/projects', bodyParser.json(), (req, res) => {
 
       });
 
+    } else {
+      res.send({valid : false});
     }
-    res.send({valid : false});
   });
-
-  // mysql.connection.query(db.queries.createProject(projectName, projectDesc), (err, results) => {
-  //   res.end();
-  // });
 });
 
 app.get('/api/project/users', (req, res) => {

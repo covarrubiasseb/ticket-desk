@@ -6,7 +6,6 @@ const mysql = require('./mysql');
 passport.serializeUser( (user, done) => {
 
   mysql.connection.query(db.queries.findUser(user.emails[0].value), (err, results) => {
-
     if (err) { throw err }
 
     else if (results.length < 1) {
@@ -15,22 +14,21 @@ passport.serializeUser( (user, done) => {
 
         if (err) { throw err }
 
-        done(null, user);
+        return done(null, user);
 
       });
 
     } else {
 
-      done(null, user);
+      return done(null, user);
 
     }
 
   });
-
 });
 
 passport.deserializeUser( (user, done) => {
-  done(null, user);
+  return done(null, user); 
 });
 
 passport.use(new GoogleStrategy(
