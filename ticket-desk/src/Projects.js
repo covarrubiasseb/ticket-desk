@@ -16,20 +16,25 @@ class Projects extends React.Component {
   getProjects() {
     axios.get(`/api/projects?userID=${this.props.userID}`)
       .then(response => {
+
         this.setState({
-          projects: response.data.map(data => {
+          projects: response.data.map(project => {
 
             return (
               <div className="col-xl-9">
                 <div className="card shadow mb-4">
-                  <a href="#" onClick={e => this.props.setPageProject({
-                      name: data.name,
-                      desc: data.description  
-                  })}><div className="card-header py-3">
-                      <h6 className="m-0 font-weight-bold text-primary">{data.name}</h6>
+                  <a href="#" onClick={e =>
+
+                      this.props.setPageProject({
+                        name: project.name,
+                        desc: project.description,
+                        projectID: project.projectID })
+                    
+                  }><div className="card-header py-3">
+                      <h6 className="m-0 font-weight-bold text-primary">{project.name}</h6>
                   </div></a>
                   <div className="card-body">
-                      {data.description}
+                      {project.description}
                   </div>
                 </div>
               </div>
@@ -40,7 +45,9 @@ class Projects extends React.Component {
       }).catch(error => {
           console.log(error);
       });
+
   }
+
 
   componentDidMount() {
     this.getProjects();

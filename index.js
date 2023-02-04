@@ -109,10 +109,15 @@ app.post('/api/projects', bodyParser.json(), (req, res) => {
 });
 
 app.get('/api/project/users', (req, res) => {
-  let projectID = '';
+  let projectID = req.query.projectID;
 
   mysql.connection.query(db.queries.findProjectUsers(projectID), (err, results) => {
-    res.send(results);
+    if (err) {
+      throw err;
+      res.end();
+    } else {
+      res.send(results);
+    }
   });
 });
 

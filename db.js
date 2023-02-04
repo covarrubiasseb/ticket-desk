@@ -56,7 +56,7 @@ const queries = {
   },
 
   findProjects: function(userID) {
-    return `SELECT projects.name, projects.description FROM projects 
+    return `SELECT projects.projectID, projects.name, projects.description FROM projects 
       INNER JOIN (SELECT projectID FROM usersProjects WHERE userID='${userID}') AS userProjects 
         ON projects.projectID = userProjects.projectID;`
   },
@@ -66,7 +66,7 @@ const queries = {
   },
 
   findProjectUsers: function(projectID) {
-    return `SELECT user.name, user.email, user.role FROM users
+    return `SELECT users.name, users.email, users.role FROM users
       INNER JOIN (SELECT userID FROM usersProjects WHERE projectID='${projectID}') As projectUsers
         ON users.userID = projectUsers.userID;`
   }

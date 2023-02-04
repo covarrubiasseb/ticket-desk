@@ -1,8 +1,32 @@
 import React from 'react';
+import axios from 'axios';
 
 class Project extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      users: []
+    }
+  }
+
+  componentDidMount() {
+    axios.get(`/api/project/users?projectID=${this.props.projectData.projectID}`)
+      .then(response => {
+        
+        this.setState({
+          users: response.data.map(user => {
+
+            return (
+
+              <li>{user.name}</li>
+
+            );
+
+          })
+        });
+
+      });
   }
 
   render() {
@@ -42,7 +66,9 @@ class Project extends React.Component {
                   <h6 className="m-0 font-weight-bold text-primary">Users</h6>
               </div>
               <div className="card-body">
-                  Filler
+                <ul>
+                  {this.state.users}
+                </ul>   
               </div>
             </div>
           </div>
