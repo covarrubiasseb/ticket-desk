@@ -2,6 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import Dashboard from './Dashboard';
 import Projects from './Projects';
+import Project from './Project';
 
 class App extends React.Component {
   constructor(props) {
@@ -17,6 +18,7 @@ class App extends React.Component {
     this.setCurrentPage = this.setCurrentPage.bind(this);
     this.setPageDashboard = this.setPageDashboard.bind(this);
     this.setPageProjects = this.setPageProjects.bind(this);
+    this.setPageProject = this.setPageProject.bind(this);
   }
 
   setUserData(data) {
@@ -31,7 +33,9 @@ class App extends React.Component {
       case 'Dashboard':
         return <Dashboard userID={this.state.userID} />
       case 'Projects':
-        return <Projects userID={this.state.userID} />
+        return <Projects userID={this.state.userID} setPageProject={this.setPageProject}/>
+      case 'Project':
+        return <Project />
     };
   }
 
@@ -41,6 +45,10 @@ class App extends React.Component {
 
   setPageProjects() {
     this.setState({ currentPage: 'Projects' });
+  }
+
+  setPageProject() {
+    this.setState({ currentPage: 'Project' });
   }
 
   componentDidMount() {

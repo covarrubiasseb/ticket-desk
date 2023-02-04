@@ -22,9 +22,9 @@ class Projects extends React.Component {
             return (
               <div className="col-xl-9">
                 <div className="card shadow mb-4">
-                  <div className="card-header py-3">
+                  <a href="#" onClick={this.props.setPageProject}><div className="card-header py-3">
                       <h6 className="m-0 font-weight-bold text-primary">{data.name}</h6>
-                  </div>
+                  </div></a>
                   <div className="card-body">
                       {data.description}
                   </div>
