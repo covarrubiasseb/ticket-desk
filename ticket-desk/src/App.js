@@ -11,7 +11,8 @@ class App extends React.Component {
     this.state = {
       displayName: '',
       currentPage: 'Dashboard',
-      userID: ''
+      userID: '',
+      currentProjectData: null
     };
 
     this.setUserData = this.setUserData.bind(this);
@@ -35,7 +36,7 @@ class App extends React.Component {
       case 'Projects':
         return <Projects userID={this.state.userID} setPageProject={this.setPageProject}/>
       case 'Project':
-        return <Project />
+        return <Project projectData={this.state.currentProjectData}/>
     };
   }
 
@@ -47,8 +48,12 @@ class App extends React.Component {
     this.setState({ currentPage: 'Projects' });
   }
 
-  setPageProject() {
-    this.setState({ currentPage: 'Project' });
+  setPageProject(projectData) {
+    this.setState({
+      currentProjectData: projectData
+    }, () => {
+      this.setState({ currentPage: 'Project' });
+    });
   }
 
   componentDidMount() {

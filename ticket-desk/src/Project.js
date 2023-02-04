@@ -8,9 +8,48 @@ class Project extends React.Component {
   render() {
     return (
       <div className="container-fluid">
-        <div className="d-sm-flex align-items-center justify-content-between mb-4">
-          <h1 className="h3 mb-0 text-gray-800">Individual Project Page</h1>
+
+        <div className="row">
+          <div className="col-xl-9">
+            <div className="card shadow mb-4">
+              <div className="card-header py-3">
+                  <h6 className="m-0 font-weight-bold text-primary">{this.props.projectData.name}</h6>
+              </div>
+              <div className="card-body">
+                  {this.props.projectData.desc}
+              </div>
+            </div>
+          </div>
         </div>
+
+        <div className="row">
+          <div className="col-xl-9">
+            <div className="card shadow mb-4">
+              <div className="card-header py-3">
+                  <h6 className="m-0 font-weight-bold text-primary">Tickets</h6>
+              </div>
+              <div className="card-body">
+                  Filler
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-xl-9">
+            <div className="card shadow mb-4">
+              <div className="card-header py-3">
+                  <h6 className="m-0 font-weight-bold text-primary">Users</h6>
+              </div>
+              <div className="card-body">
+                  Filler
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
       </div>
     );
   }

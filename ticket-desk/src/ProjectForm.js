@@ -51,7 +51,7 @@ class ProjectForm extends React.Component {
             modalText: 'Project Created!'
           });
 
-          this.props.refreshProjects();
+          this.props.getProjects();
         }
 
         this.clearForm();

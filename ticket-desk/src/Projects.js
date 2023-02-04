@@ -10,10 +10,10 @@ class Projects extends React.Component {
       projects: []
     };
 
-    this.refreshProjects = this.refreshProjects.bind(this);
+    this.getProjects = this.getProjects.bind(this);
   }
 
-  refreshProjects() {
+  getProjects() {
     axios.get(`/api/projects?userID=${this.props.userID}`)
       .then(response => {
         this.setState({
@@ -22,7 +22,10 @@ class Projects extends React.Component {
             return (
               <div className="col-xl-9">
                 <div className="card shadow mb-4">
-                  <a href="#" onClick={this.props.setPageProject}><div className="card-header py-3">
+                  <a href="#" onClick={e => this.props.setPageProject({
+                      name: data.name,
+                      desc: data.description  
+                  })}><div className="card-header py-3">
                       <h6 className="m-0 font-weight-bold text-primary">{data.name}</h6>
                   </div></a>
                   <div className="card-body">
@@ -40,7 +43,7 @@ class Projects extends React.Component {
   }
 
   componentDidMount() {
-    this.refreshProjects();
+    this.getProjects();
   }
 
   render() {
@@ -57,7 +60,7 @@ class Projects extends React.Component {
                 Create New Project (Admin only)
               </div>
               <div className="card-body">
-                <ProjectForm refreshProjects={this.refreshProjects}/>
+                <ProjectForm getProjects={this.getProjects}/>
               </div>
             </div>
           </div>
