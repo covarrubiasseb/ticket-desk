@@ -9,9 +9,11 @@ class Projects extends React.Component {
     this.state = {
       projects: []
     };
+
+    this.refreshProjects = this.refreshProjects.bind(this);
   }
 
-  componentDidMount() {
+  refreshProjects() {
     axios.get(`/api/projects?userID=${this.props.userID}`)
       .then(response => {
         this.setState({
@@ -29,12 +31,16 @@ class Projects extends React.Component {
                 </div>
               </div>
             );
+
           })
         });
-      })
-      .catch(error => {
-        console.log(error);
-    });
+      }).catch(error => {
+          console.log(error);
+      });
+  }
+
+  componentDidMount() {
+    this.refreshProjects();
   }
 
   render() {
@@ -51,7 +57,7 @@ class Projects extends React.Component {
                 Create New Project (Admin only)
               </div>
               <div className="card-body">
-                <ProjectForm />
+                <ProjectForm refreshProjects={this.refreshProjects}/>
               </div>
             </div>
           </div>

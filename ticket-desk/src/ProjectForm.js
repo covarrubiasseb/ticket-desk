@@ -44,10 +44,14 @@ class ProjectForm extends React.Component {
           this.setState({
             modalText: 'You must be an Admin to create new projects'
           });
+
+          // refresh Projects
         } else {
           this.setState({
             modalText: 'Project Created!'
           });
+
+          this.props.refreshProjects();
         }
 
         this.clearForm();
