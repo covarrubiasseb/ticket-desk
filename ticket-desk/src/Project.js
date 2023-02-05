@@ -23,7 +23,7 @@ class Project extends React.Component {
 
             return (
 
-              <li>{ticket.title}</li>
+              <li><a href="#" onClick={this.props.setPageTicket}>{ticket.title}</a></li>
 
             );
 
@@ -31,6 +31,8 @@ class Project extends React.Component {
         });
     });
   }
+
+
 
   componentDidMount() {
     // GET Project Users

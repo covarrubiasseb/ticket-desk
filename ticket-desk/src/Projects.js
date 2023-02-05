@@ -48,7 +48,6 @@ class Projects extends React.Component {
 
   }
 
-
   componentDidMount() {
     this.getProjects();
   }

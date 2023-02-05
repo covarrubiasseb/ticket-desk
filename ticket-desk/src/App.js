@@ -3,6 +3,7 @@ import React from 'react';
 import Dashboard from './Dashboard';
 import Projects from './Projects';
 import Project from './Project';
+import Ticket from './Ticket';
 
 class App extends React.Component {
   constructor(props) {
@@ -20,6 +21,7 @@ class App extends React.Component {
     this.setPageDashboard = this.setPageDashboard.bind(this);
     this.setPageProjects = this.setPageProjects.bind(this);
     this.setPageProject = this.setPageProject.bind(this);
+    this.setPageTicket = this.setPageTicket.bind(this);
   }
 
   setUserData(data) {
@@ -36,7 +38,9 @@ class App extends React.Component {
       case 'Projects':
         return <Projects userID={this.state.userID} setPageProject={this.setPageProject}/>
       case 'Project':
-        return <Project userID={this.state.userID} projectData={this.state.currentProjectData}/>
+        return <Project userID={this.state.userID} projectData={this.state.currentProjectData} setPageTicket={this.setPageTicket}/>
+      case 'Ticket':
+        return <Ticket />
     };
   }
 
@@ -54,6 +58,10 @@ class App extends React.Component {
     }, () => {
       this.setState({ currentPage: 'Project' });
     });
+  }
+
+  setPageTicket(ticketData) {
+    this.setState({ currentPage: 'Ticket' });
   }
 
   componentDidMount() {
