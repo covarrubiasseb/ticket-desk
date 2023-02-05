@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import TicketForm from'./TicketForm';
 
 class Project extends React.Component {
   constructor(props) {
@@ -27,16 +28,25 @@ class Project extends React.Component {
 
           })
         });
-
     });
 
     // Get Project Tickets
     axios.get(`/api/project/tickets?projectID=${this.props.projectData.projectID}`)
       .then(response => {
 
-        console.log(response);
+        this.setState({
+          tickets: response.data.map(ticket => {
 
-      })
+            return (
+
+              <li>{ticket.title}</li>
+
+            );
+
+          })
+        });
+    });
+
   }
 
   render() {
@@ -67,6 +77,11 @@ class Project extends React.Component {
                   {this.state.tickets}
                 </ul>
               </div>
+
+              <div className="card-footer">
+                <TicketForm />
+              </div>
+              
             </div>
           </div>
         </div>

@@ -69,7 +69,7 @@ app.get('/api/projects', (req, res) => {
 });
 
 // GET PROJECTS ////////////////////
- app.post('/api/projects', bodyParser.json(), (req, res) => {
+app.post('/api/projects', bodyParser.json(), (req, res) => {
   let email = req.user.emails[0].value;
   let projectName = req.body.projectName;
   let projectDesc = req.body.projectDesc;
@@ -151,6 +151,21 @@ app.get('/api/project/tickets', (req, res) => {
       res.send(results);
     }
   });
+});
+
+// CREATE PROJECT TICKET ////////////////////
+app.put('/api/project/tickets', bodyParser.json(), (req, res) => {
+  console.log(req.body)
+
+  // mysql.connection.query(db.queries.createTicket())
+
+});
+
+// UPDATE PROJECT TICKET ////////////////////
+app.post('/api/project/tickets', bodyParser.json(), (req, res) => {
+
+  // mysql.connection.query()
+
 });
 
 // GET USER TICKETS ////////////////////

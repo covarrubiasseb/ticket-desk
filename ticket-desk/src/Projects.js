@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import ProjectForm from './ProjectForm'
+import ProjectForm from './ProjectForm';
 
 class Projects extends React.Component {
   constructor(props) {

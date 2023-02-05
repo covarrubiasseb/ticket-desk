@@ -79,7 +79,6 @@ const queries = {
     return `SELECT projects.projectID, projects.name, projects.description FROM projects 
       INNER JOIN (SELECT projectID FROM usersProjects WHERE userID='${userID}') AS userProjects 
         ON projects.projectID = userProjects.projectID;`
-
   },
 
   addUserToProject: function(userID, projectID) {
@@ -90,6 +89,11 @@ const queries = {
     return `SELECT users.name, users.email, users.role FROM users
       INNER JOIN (SELECT userID FROM usersProjects WHERE projectID='${projectID}') As projectUsers
         ON users.userID = projectUsers.userID;`
+  },
+
+  createTicket: function(data) {
+    return `INSERT INTO tickets (projectID, title, status, type, date, description, priority) 
+      VALUES ('${data.projectID}','${data.title}','${data.status}','${data.type}','${data.date}','${data.description}','${data.priority}');`
   },
 
   findProjectTickets: function(projectID) {
