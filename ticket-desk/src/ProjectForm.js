@@ -85,8 +85,11 @@ class ProjectForm extends React.Component {
               aria-describedby="basic-addon2" onChange={this.handleDescChange} value={this.state.projectDesc} />
         </div>
 
-        <button className="btn-circle float-right mt-2" type="submit" data-toggle='modal' data-target="#projectModal">
-          <i className="fa fa-plus"></i>
+        <button href="#" className="btn btn-secondary btn-icon-split float-right" type="submit" data-toggle="modal" data-target="#projectModal">
+          <span className="icon text-white-50">
+              <i className="fas fa-arrow-right"></i>
+          </span>
+          <span className="text">Send Ticket</span>
         </button>
 
         <div className="modal fade" id="projectModal" tabIndex="-1" role="dialog" aria-labelledby="projectModalLabel"

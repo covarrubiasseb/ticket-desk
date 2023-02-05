@@ -31,6 +31,7 @@ const queries = {
   createTableTickets: `CREATE TABLE IF NOT EXISTS tickets (
     ticketID int NOT NULL AUTO_INCREMENT,
     projectID int,
+    userID int,
     title varchar(255) NOT NULL,
     status varchar(255) NOT NULL,
     type varchar(255) NOT NULL,
@@ -38,7 +39,8 @@ const queries = {
     description varchar(255) NOT NULL,
     priority varchar(255) NOT NULL,
     PRIMARY KEY (ticketID),
-    FOREIGN KEY (projectID) REFERENCES projects(projectID)
+    FOREIGN KEY (projectID) REFERENCES projects(projectID),
+    FOREIGN KEY (userID) REFERENCES users(userID)
   );`,
 
   createTableUsersTickets: `CREATE TABLE IF NOT EXISTS usersTickets (
@@ -92,8 +94,8 @@ const queries = {
   },
 
   createTicket: function(data) {
-    return `INSERT INTO tickets (projectID, title, status, type, date, description, priority) 
-      VALUES ('${data.projectID}','${data.title}','${data.status}','${data.type}','${data.date}','${data.description}','${data.priority}');`
+    return `INSERT INTO tickets (projectID, userID, title, status, type, date, description, priority) 
+      VALUES ('${data.projectID}','${data.userID}','${data.title}','${data.status}','${data.type}','${data.date}','${data.description}','${data.priority}');`
   },
 
   findProjectTickets: function(projectID) {

@@ -79,9 +79,12 @@ class Project extends React.Component {
               </div>
 
               <div className="card-footer">
-                <TicketForm />
+                <div className="card-header py-3">
+                  Send a New Ticket
+                </div>
+                <TicketForm userID={this.props.userID} projectID={this.props.projectData.projectID}/>
               </div>
-              
+
             </div>
           </div>
         </div>
