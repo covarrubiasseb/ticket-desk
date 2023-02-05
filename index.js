@@ -22,6 +22,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// LOGIN ////////////////////
 app.get('/login',
   passport.authenticate('google', {
           scope:
@@ -36,6 +37,8 @@ app.get('/login/callback',
   }
 );
 
+
+// LOGOUT ////////////////////
 app.get('/logout', (req, res, next) => {
   req.logout(err => {
     if (err) { return next(err); }
@@ -45,6 +48,7 @@ app.get('/logout', (req, res, next) => {
 
 app.use(isLoggedIn, express.static(`${__dirname}/ticket-desk/build`));
 
+// GET USER DATA ////////////////////
 app.get('/api/users', (req, res) => {
   let email = req.user.emails[0].value;
 
@@ -56,13 +60,16 @@ app.get('/api/users', (req, res) => {
   });
 });
 
+
+// GET USER PROJECTS ////////////////////
 app.get('/api/projects', (req, res) => {
   mysql.connection.query(db.queries.findProjects(req.query.userID), (err, results) => {
     res.send(results);
   });
 });
 
-app.post('/api/projects', bodyParser.json(), (req, res) => {
+// GET PROJECTS ////////////////////
+ app.post('/api/projects', bodyParser.json(), (req, res) => {
   let email = req.user.emails[0].value;
   let projectName = req.body.projectName;
   let projectDesc = req.body.projectDesc;
@@ -108,6 +115,7 @@ app.post('/api/projects', bodyParser.json(), (req, res) => {
   });
 });
 
+// GET Project USERS ////////////////////
 app.get('/api/project/users', (req, res) => {
   let projectID = req.query.projectID;
 
@@ -121,6 +129,7 @@ app.get('/api/project/users', (req, res) => {
   });
 });
 
+// UPDATE PROJECT USERS ////////////////////
 app.post('/api/project/users', (req, res) => {
   let projectID = '';
   let userID = '';
@@ -128,6 +137,25 @@ app.post('/api/project/users', (req, res) => {
   mysql.connection.query(db.queries.addUserToProject(userID, projectID), (err), (err, results) => {
     res.end();
   });
+});
+
+// GET PROJECT TICKETS ////////////////////
+app.get('/api/project/tickets', (req, res) => {
+  let projectID = req.query.projectID;
+
+  mysql.connection.query(db.queries.findProjectTickets(projectID), (err, results) => {
+    if (err) {
+      throw err;
+      res.end();
+    } else {
+      res.send(results);
+    }
+  });
+});
+
+// GET USER TICKETS ////////////////////
+app.get('/api/user/tickets', (req, res) => {
+
 });
 
 app.listen(port, () => {

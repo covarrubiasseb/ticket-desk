@@ -30,13 +30,33 @@ const queries = {
 
   createTableTickets: `CREATE TABLE IF NOT EXISTS tickets (
     ticketID int NOT NULL AUTO_INCREMENT,
+    projectID int,
     title varchar(255) NOT NULL,
     status varchar(255) NOT NULL,
     type varchar(255) NOT NULL,
     date varchar(255) NOT NULL,
     description varchar(255) NOT NULL,
     priority varchar(255) NOT NULL,
-    PRIMARY KEY (ticketID)
+    PRIMARY KEY (ticketID),
+    FOREIGN KEY (projectID) REFERENCES projects(projectID)
+  );`,
+
+  createTableUsersTickets: `CREATE TABLE IF NOT EXISTS usersTickets (
+    usersTicketsID int NOT NULL AUTO_INCREMENT,
+    userID int,
+    ticketID int,
+    PRIMARY KEY (usersTicketsID),
+    FOREIGN KEY (userID) REFERENCES users(userID),
+    FOREIGN KEY (ticketID) REFERENCES tickets(ticketID)
+  );`,
+
+  createTableProjectsTickets: `CREATE TABLE IF NOT EXISTS projectsTickets (
+    projectTicketsID int NOT NULL AUTO_INCREMENT,
+    projectID int,
+    ticketID int,
+    PRIMARY KEY (projectTicketsID),
+    FOREIGN KEY (projectID) REFERENCES projects(projectID),
+    FOREIGN KEY (ticketID) REFERENCES tickets(ticketID)
   );`,
 
   findUser: function(userEmail) {
@@ -59,6 +79,7 @@ const queries = {
     return `SELECT projects.projectID, projects.name, projects.description FROM projects 
       INNER JOIN (SELECT projectID FROM usersProjects WHERE userID='${userID}') AS userProjects 
         ON projects.projectID = userProjects.projectID;`
+
   },
 
   addUserToProject: function(userID, projectID) {
@@ -69,6 +90,10 @@ const queries = {
     return `SELECT users.name, users.email, users.role FROM users
       INNER JOIN (SELECT userID FROM usersProjects WHERE projectID='${projectID}') As projectUsers
         ON users.userID = projectUsers.userID;`
+  },
+
+  findProjectTickets: function(projectID) {
+    return `SELECT * FROM tickets WHERE projectID='${projectID}'`
   }
 }
 

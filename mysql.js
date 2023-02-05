@@ -20,5 +20,7 @@ connection.query(db.queries.createTableUsers);
 connection.query(db.queries.createTableProjects);
 connection.query(db.queries.createTableUsersProjects);
 connection.query(db.queries.createTableTickets);
+connection.query(db.queries.createTableUsersTickets);
+connection.query(db.queries.createTableProjectsTickets);
 
 module.exports = {  connection  }
