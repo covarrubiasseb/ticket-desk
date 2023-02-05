@@ -89,7 +89,7 @@ class ProjectForm extends React.Component {
           <span className="icon text-white-50">
               <i className="fas fa-arrow-right"></i>
           </span>
-          <span className="text">Send Ticket</span>
+          <span className="text">Create Project</span>
         </button>
 
         <div className="modal fade" id="projectModal" tabIndex="-1" role="dialog" aria-labelledby="projectModalLabel"

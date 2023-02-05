@@ -10,7 +10,8 @@ class TicketForm extends React.Component {
       ticketStatus: '',
       ticketType: '',
       ticketDesc: '',
-      ticketPriority: ''
+      ticketPriority: '',
+      submitModalText: ''
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -42,8 +43,17 @@ class TicketForm extends React.Component {
         ticketPriority: this.state.ticketPriority
       })
     .then(response => {
-      console.log(response);
-      this.clearForm();
+      if (response.data.valid) {
+        this.clearForm();
+
+        this.setState({
+          submitModalText: 'Ticket Submitted'
+        });
+      } else {
+        this.setState({
+          submitModalText: 'Something went wrong. Please try again.'
+        });
+      }
     });
   }
 
@@ -88,7 +98,7 @@ class TicketForm extends React.Component {
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id="ticketModalLabel"></h5>
+                        <h5 className="modal-title" id="ticketModalLabel">{this.state.submitModalText}</h5>
                         <button className="close" type="button" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
