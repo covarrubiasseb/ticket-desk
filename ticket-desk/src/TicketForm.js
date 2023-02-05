@@ -49,6 +49,9 @@ class TicketForm extends React.Component {
         this.setState({
           submitModalText: 'Ticket Submitted'
         });
+
+        this.props.getTickets();
+        
       } else {
         this.setState({
           submitModalText: 'Something went wrong. Please try again.'

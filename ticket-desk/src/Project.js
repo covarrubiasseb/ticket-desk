@@ -10,10 +10,30 @@ class Project extends React.Component {
       users: [],
       tickets: []
     }
+
+    this.getTickets = this.getTickets.bind(this);
+  }
+
+  getTickets() {    
+    axios.get(`/api/project/tickets?projectID=${this.props.projectData.projectID}`)
+      .then(response => {
+
+        this.setState({
+          tickets: response.data.map(ticket => {
+
+            return (
+
+              <li>{ticket.title}</li>
+
+            );
+
+          })
+        });
+    });
   }
 
   componentDidMount() {
-    // Get Project Users
+    // GET Project Users
     axios.get(`/api/project/users?projectID=${this.props.projectData.projectID}`)
       .then(response => {
         
@@ -30,23 +50,8 @@ class Project extends React.Component {
         });
     });
 
-    // Get Project Tickets
-    axios.get(`/api/project/tickets?projectID=${this.props.projectData.projectID}`)
-      .then(response => {
-
-        this.setState({
-          tickets: response.data.map(ticket => {
-
-            return (
-
-              <li>{ticket.title}</li>
-
-            );
-
-          })
-        });
-    });
-
+    // GET Project Tickets
+    this.getTickets();
   }
 
   render() {
@@ -82,7 +87,7 @@ class Project extends React.Component {
                 <div className="card-header py-3">
                   Send a New Ticket
                 </div>
-                <TicketForm userID={this.props.userID} projectID={this.props.projectData.projectID}/>
+                <TicketForm userID={this.props.userID} projectID={this.props.projectData.projectID} getTickets={this.getTickets}/>
               </div>
 
             </div>
