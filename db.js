@@ -43,6 +43,17 @@ const queries = {
     FOREIGN KEY (userID) REFERENCES users(userID)
   );`,
 
+  createTableComments: `CREATE TABLE IF NOT EXISTS comments (
+    commentID int NOT NULL AUTO_INCREMENT,
+    userID int,
+    ticketID int,
+    submit_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    content varchar(255) NOT NULL DEFAULT 'www',
+    PRIMARY KEY (commentID),
+    FOREIGN KEY (userID) REFERENCES users(userID),
+    FOREIGN KEY (ticketID) REFERENCES tickets(ticketID)
+  );`,
+
   createTableUsersTickets: `CREATE TABLE IF NOT EXISTS usersTickets (
     usersTicketsID int NOT NULL AUTO_INCREMENT,
     userID int,
