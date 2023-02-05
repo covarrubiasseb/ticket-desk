@@ -32,12 +32,12 @@ const queries = {
     ticketID int NOT NULL AUTO_INCREMENT,
     projectID int,
     userID int,
-    title varchar(255) NOT NULL,
-    status varchar(255) NOT NULL,
-    type varchar(255) NOT NULL,
-    date varchar(255) NOT NULL,
-    description varchar(255) NOT NULL,
-    priority varchar(255) NOT NULL,
+    title varchar(255) NOT NULL DEFAULT 'www',
+    status varchar(255) NOT NULL DEFAULT 'www',
+    type varchar(255) NOT NULL DEFAULT 'www',
+    submit_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    description varchar(255) NOT NULL DEFAULT 'www',
+    priority varchar(255) NOT NULL DEFAULT 'www',
     PRIMARY KEY (ticketID),
     FOREIGN KEY (projectID) REFERENCES projects(projectID),
     FOREIGN KEY (userID) REFERENCES users(userID)
@@ -94,8 +94,8 @@ const queries = {
   },
 
   createTicket: function(data) {
-    return `INSERT INTO tickets (projectID, userID, title, status, type, date, description, priority) 
-      VALUES ('${data.projectID}','${data.userID}','${data.title}','${data.status}','${data.type}','${data.date}','${data.description}','${data.priority}');`
+    return `INSERT INTO tickets (projectID, userID, title, status, type, description, priority) 
+      VALUES ('${data.projectID}','${data.userID}','${data.title}','${data.status}','${data.type}','${data.description}','${data.priority}');`
   },
 
   findProjectTickets: function(projectID) {

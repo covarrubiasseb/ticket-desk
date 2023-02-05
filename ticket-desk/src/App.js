@@ -36,7 +36,7 @@ class App extends React.Component {
       case 'Projects':
         return <Projects userID={this.state.userID} setPageProject={this.setPageProject}/>
       case 'Project':
-        return <Project projectData={this.state.currentProjectData}/>
+        return <Project userID={this.state.userID} projectData={this.state.currentProjectData}/>
     };
   }
 

@@ -155,10 +155,24 @@ app.get('/api/project/tickets', (req, res) => {
 
 // CREATE PROJECT TICKET ////////////////////
 app.put('/api/project/tickets', bodyParser.json(), (req, res) => {
-  console.log(req.body)
 
-  // mysql.connection.query(db.queries.createTicket())
+  let data = {
+    userID: req.body.userID,
+    projectID: req.body.projectID,
+    title: req.body.ticketTitle,
+    status: req.body.ticketStatus,
+    type: req.body.ticketType,
+    description: req.body.ticketDesc,
+    priority: req.body.ticketPriority
+  }
 
+  mysql.connection.query(db.queries.createTicket(data), (err, results) => {
+    if (err) {
+      throw err;
+    } else {
+      res.send(results);
+    }
+  });
 });
 
 // UPDATE PROJECT TICKET ////////////////////

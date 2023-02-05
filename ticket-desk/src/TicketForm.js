@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 class TicketForm extends React.Component {
   constructor(props) {
@@ -8,7 +9,6 @@ class TicketForm extends React.Component {
       ticketTitle: '',
       ticketStatus: '',
       ticketType: '',
-      ticketDate: '',
       ticketDesc: '',
       ticketPriority: ''
     }
@@ -24,7 +24,6 @@ class TicketForm extends React.Component {
       ticketTitle: '',
       ticketStatus: '',
       ticketType: '',
-      ticketDate: '',
       ticketDesc: '',
       ticketPriority: ''
     });
@@ -32,7 +31,20 @@ class TicketForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.clearForm();
+    axios.put('/api/project/tickets',
+      {
+        userID: this.props.userID,
+        projectID: this.props.projectID,
+        ticketTitle: this.state.ticketTitle,
+        ticketStatus: this.state.ticketStatus,
+        ticketType: this.state.ticketType,
+        ticketDesc: this.state.ticketDesc,
+        ticketPriority: this.state.ticketPriority
+      })
+    .then(response => {
+      console.log(response);
+      this.clearForm();
+    });
   }
 
   handleTitleChange(event) {
