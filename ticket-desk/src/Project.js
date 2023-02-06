@@ -78,20 +78,15 @@ class Project extends React.Component {
         <div className="row">
           <div className="col-xl-9">
             <div className="card shadow mb-4">
+
               <div className="card-header py-3">
-                  <h6 className="m-0 font-weight-bold text-primary">Tickets</h6>
+                <h6 className="m-0 font-weight-bold text-primary">Tickets</h6>
               </div>
+
               <div className="card-body">
                 <ul>
                   {this.state.tickets}
                 </ul>
-              </div>
-
-              <div className="card-footer">
-                <div className="card-header py-3">
-                  Send a New Ticket
-                </div>
-                <TicketForm userID={this.props.userID} projectID={this.props.projectData.projectID} getTickets={this.getTickets}/>
               </div>
 
             </div>
@@ -101,19 +96,36 @@ class Project extends React.Component {
         <div className="row">
           <div className="col-xl-9">
             <div className="card shadow mb-4">
+
               <div className="card-header py-3">
-                  <h6 className="m-0 font-weight-bold text-primary">Users</h6>
+                <h6 className="m-0 font-weight-bold text-primary">Send a New Ticket</h6>
               </div>
+
+              <div className="card-body">
+                <TicketForm userID={this.props.userID} projectID={this.props.projectData.projectID} getTickets={this.getTickets}/>
+              </div>
+
+            </div>
+          </div>
+        </div>
+                
+        <div className="row">
+          <div className="col-xl-9">
+            <div className="card shadow mb-4">
+
+              <div className="card-header py-3">
+                <h6 className="m-0 font-weight-bold text-primary">Users</h6>
+              </div>
+
               <div className="card-body">
                 <ul>
                   {this.state.users}
                 </ul>   
               </div>
+
             </div>
           </div>
         </div>
-
-
 
       </div>
     );
