@@ -6,7 +6,8 @@ class CommentForm extends React.Component {
     super(props);
 
     this.state = {
-      comment: ''
+      comment: '',
+      submitModalText: ''
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -19,12 +20,21 @@ class CommentForm extends React.Component {
 
     axios.put('/api/ticket/comments', {
       userID: this.props.userID,
-      projectID: this.props.projectID,
+      ticketID: this.props.ticketID,
       content: this.state.comment 
     })
     .then(response => {
-      console.log(response);
-      this.clearForm();
+      if (response.data.valid) {
+        this.setState({
+          submitModalText: 'Comment Submitted'
+        });
+
+        this.clearForm();
+      } else {
+        this.setState({
+          submitModalText: 'Something went wrong. Please try again'
+        });
+      }
     });
   }
 
@@ -64,7 +74,7 @@ class CommentForm extends React.Component {
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id="commentModalLabel"></h5>
+                        <h5 className="modal-title" id="commentModalLabel">{this.state.submitModalText}</h5>
                         <button className="close" type="button" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>

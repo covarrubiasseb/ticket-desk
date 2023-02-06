@@ -111,6 +111,11 @@ const queries = {
 
   findProjectTickets: function(projectID) {
     return `SELECT * FROM tickets WHERE projectID='${projectID}'`
+  },
+
+  createComment: function(data) {
+    return `INSERT INTO comments (userID, ticketID, content)
+      VALUES ('${data.userID}', '${data.ticketID}', '${data.content}');`
   }
 }
 

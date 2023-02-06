@@ -191,8 +191,16 @@ app.get('/api/user/tickets', (req, res) => {
 
 // CREATE TICKET COMMENT ////////////////////
 app.put('/api/ticket/comments', bodyParser.json(), (req, res) => {
-  console.log(req.body);
-  res.end();
+  let data = req.body;
+
+  mysql.connection.query(db.queries.createComment(data), (err, results) => {
+    if (err) {
+      throw err;
+      res.send({valid: false});
+    } else {
+      res.send({valid: true});
+    }
+  });
 });
 
 app.listen(port, () => {
