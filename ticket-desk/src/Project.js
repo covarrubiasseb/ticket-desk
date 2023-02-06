@@ -46,7 +46,7 @@ class Project extends React.Component {
 
             return (
 
-              <li>{user.name}</li>
+              <li className="list-group-item">{user.name}</li>
 
             );
 

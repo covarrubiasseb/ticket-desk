@@ -54,24 +54,26 @@ class Projects extends React.Component {
 
   render() {
     return (
-      <div className="container-fluid">              
+      <div className="container-fluid">
+
         <div className="d-sm-flex align-items-center justify-content-between mb-4">
           <h1 className="h3 mb-0 text-gray-800">Projects</h1>
         </div>
 
+        <button className="btn btn-primary mb-2" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+          Create New Project (Admin only)
+        </button>
+
         <div className="row">
-          <div className="col-xl-9">
-            <div className="card mb-4">
-              <div className="card-header py-3">
-                Create New Project (Admin only)
-              </div>
-              <div className="card-body">
-                <ProjectForm getProjects={this.getProjects}/>
-              </div>
+
+          <div className="collapse col-xl-9" id="collapseExample">
+            <div className="card card-body mt-2">
+              <ProjectForm className="mb-2" getProjects={this.getProjects}/>
             </div>
           </div>
-        </div>
 
+        </div>
+        
         <div className="row">
           <div className="col-xl-9">
             <div className="card shadow mb-4">
