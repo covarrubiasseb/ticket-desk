@@ -61,7 +61,7 @@ class CommentForm extends React.Component {
 
         <button href="#" className="btn btn-secondary btn-icon-split float-right mb-2" type="submit">
           <span className="icon text-white-50">
-              <i className="fas fa-arrow-right"></i>
+            <i className="fas fa-arrow-right"></i>
           </span>
           <span className="text">Send Comment</span>
         </button>

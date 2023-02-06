@@ -24,7 +24,7 @@ class Ticket extends React.Component {
 
           return (
 
-            <li>{comment.content}</li>
+            <li className="list-group-item">{comment.content}</li>
 
           );
 
@@ -37,10 +37,11 @@ class Ticket extends React.Component {
 
   componentDidMount() {
     this.getComments();
+    console.log(this.props);
   }
 
   render() {
-    console.log(this.props)
+    
     return (
 
       <div className="container-fluid">
@@ -74,7 +75,7 @@ class Ticket extends React.Component {
               </div>
 
               <div className="card-body">
-                <ul>
+                <ul className="list-group">
                   {this.state.comments}
                 </ul>
               </div>

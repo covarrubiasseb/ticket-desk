@@ -23,7 +23,7 @@ class Project extends React.Component {
 
             return (
 
-              <li><a href="#" onClick={e =>
+              <li className="list-group-item"><a href="#" onClick={e =>
 
                 this.props.setPageTicket(ticket)
 
@@ -84,7 +84,7 @@ class Project extends React.Component {
               </div>
 
               <div className="card-body">
-                <ul>
+                <ul className="list-group">
                   {this.state.tickets}
                 </ul>
               </div>
@@ -118,7 +118,7 @@ class Project extends React.Component {
               </div>
 
               <div className="card-body">
-                <ul>
+                <ul className="list-group">
                   {this.state.users}
                 </ul>   
               </div>

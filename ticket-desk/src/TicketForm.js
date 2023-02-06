@@ -84,6 +84,27 @@ class TicketForm extends React.Component {
               aria-describedby="basic-addon2" onChange={this.handleTitleChange} value={this.state.ticketTitle} />
         </div>
 
+        <div className="row mb-2">
+
+          <div className="col-6">
+            <input type="radio" id="High" name="fav_language" value="High" />
+            <label for="High">High</label><br />
+            <input type="radio" id="Medium" name="fav_language" value="Medium" />
+            <label for="Medium">Medium</label><br />
+            <input type="radio" id="Low" name="fav_language" value="Low" />
+            <label for="Low">Low</label>
+          </div>
+
+          <div className="col-6">
+            <input type="radio" id="www" name="fav_language" value="www" />
+            <label for="www">Client Side</label><br />
+            <input type="radio" id="Server" name="fav_language" value="Server" />
+            <label for="Server">Server</label><br />
+            <input type="radio" id="DevOps" name="fav_language" value="DevOps" />
+            <label for="DevOps">DevOps</label>
+          </div>
+        </div>
+
         <div className="row mb-2">    
           <textarea className="form-control bg-light border-1 col-12" placeholder="Ticket Description..."
               aria-describedby="basic-addon2" onChange={this.handleDescChange} value={this.state.ticketDesc} />
