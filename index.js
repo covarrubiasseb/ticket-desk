@@ -183,8 +183,8 @@ app.post('/api/project/tickets', bodyParser.json(), (req, res) => {
 
 });
 
-// GET USER TICKETS ////////////////////
-app.get('/api/user/tickets', (req, res) => {
+// GET TICKET COMMENTS ////////////////////
+app.get('/api/ticket/comments', (req, res) => {
   let ticketID = req.query.ticketID;
 
   mysql.connection.query(db.queries.findComments(ticketID), (err, results) => {
@@ -195,12 +195,6 @@ app.get('/api/user/tickets', (req, res) => {
       res.send(results);
     }
   });
-
-});
-
-
-// GET TICKET COMMENTS ////////////////////
-app.get('/api/ticket/comments', (req, res) => {
 
 });
 
@@ -217,6 +211,8 @@ app.put('/api/ticket/comments', bodyParser.json(), (req, res) => {
     }
   });
 });
+
+// GET USER TICKETS ////////////////////
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);

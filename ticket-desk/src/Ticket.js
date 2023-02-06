@@ -1,10 +1,42 @@
 import React from 'react';
+import axios from 'axios';
 import CommentForm from './CommentForm';
 
 
 class Ticket extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      comments: []
+    };
+
+    this.getComments = this.getComments.bind(this);
+  }
+
+  getComments() {
+    axios.get(`/api/ticket/comments?ticketID=${this.props.ticketID}`)
+    .then(response => {
+
+      this.setState({
+
+        comments: response.data.map(comment => {
+
+          return (
+
+            <li>{comment.content}</li>
+
+          );
+
+        })
+
+      });
+
+    });
+  }
+
+  componentDidMount() {
+    this.getComments();
   }
 
   render() {
@@ -42,7 +74,9 @@ class Ticket extends React.Component {
               </div>
 
               <div className="card-body">
-                {/* Comments Array here */}
+                <ul>
+                  {this.state.comments}
+                </ul>
               </div>
 
             </div>
