@@ -153,6 +153,20 @@ app.get('/api/project/tickets', (req, res) => {
   });
 });
 
+// GET USER TICKETS ////////////////////
+app.get('/api/user/tickets', (req, res) => {
+  let userID = req.query.userID;
+
+  mysql.connection.query(db.queries.findUserTickets(userID), (err, results) => {
+    if (err) {
+      throw err;
+      res.end();
+    } else {
+      res.send(results);
+    }
+  });
+});
+
 // CREATE PROJECT TICKET ////////////////////
 app.put('/api/project/tickets', bodyParser.json(), (req, res) => {
 
@@ -211,8 +225,6 @@ app.put('/api/ticket/comments', bodyParser.json(), (req, res) => {
     }
   });
 });
-
-// GET USER TICKETS ////////////////////
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
