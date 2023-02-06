@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 class CommentForm extends React.Component {
   constructor(props) {
@@ -16,7 +17,15 @@ class CommentForm extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    this.clearForm();
+    axios.put('/api/ticket/comments', {
+      userID: this.props.userID,
+      projectID: this.props.projectID,
+      content: this.state.comment 
+    })
+    .then(response => {
+      console.log(response);
+      this.clearForm();
+    });
   }
 
   handleCommentChange(event) {
@@ -47,7 +56,7 @@ class CommentForm extends React.Component {
           <span className="icon text-white-50">
               <i className="fas fa-arrow-right"></i>
           </span>
-          <span className="text">Send comment</span>
+          <span className="text">Send Comment</span>
         </button>
 
         <div className="modal fade" id="commentModal" tabIndex="-1" role="dialog" aria-labelledby="commentModalLabel"

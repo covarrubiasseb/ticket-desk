@@ -188,6 +188,13 @@ app.get('/api/user/tickets', (req, res) => {
 
 });
 
+
+// CREATE TICKET COMMENT ////////////////////
+app.put('/api/ticket/comments', bodyParser.json(), (req, res) => {
+  console.log(req.body);
+  res.end();
+});
+
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
 });

@@ -38,10 +38,26 @@ class Ticket extends React.Component {
             <div className="card shadow mb-4">
 
               <div className="card-header py-3">
+                <h6 className="m-0 font-weight-bold text-primary">Comments</h6>
+              </div>
+
+              <div className="card-body">
+                {/* Comments Array here */}
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-xl-9">
+            <div className="card shadow mb-4">
+
+              <div className="card-header py-3">
                 <h6 className="m-0 font-weight-bold text-primary">Post a Comment</h6>
               </div>
 
-              <CommentForm />
+              <CommentForm userID={this.props.userID} projectID={this.props.projectID}/>
 
             </div>
           </div>
