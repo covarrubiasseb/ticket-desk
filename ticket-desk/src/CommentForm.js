@@ -30,6 +30,9 @@ class CommentForm extends React.Component {
         });
 
         this.clearForm();
+
+        this.props.getComments();
+        
       } else {
         this.setState({
           submitModalText: 'Something went wrong. Please try again'

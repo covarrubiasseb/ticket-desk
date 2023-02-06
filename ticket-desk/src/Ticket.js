@@ -91,7 +91,7 @@ class Ticket extends React.Component {
                 <h6 className="m-0 font-weight-bold text-primary">Post a Comment</h6>
               </div>
 
-              <CommentForm userID={this.props.userID} ticketID={this.props.ticketID}/>
+              <CommentForm userID={this.props.userID} ticketID={this.props.ticketID} getComments={this.getComments}/>
 
             </div>
           </div>
