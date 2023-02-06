@@ -4,6 +4,7 @@ import Dashboard from './Dashboard';
 import Projects from './Projects';
 import Project from './Project';
 import Ticket from './Ticket';
+import Tickets from './Tickets';
 
 class App extends React.Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class App extends React.Component {
     this.setPageProjects = this.setPageProjects.bind(this);
     this.setPageProject = this.setPageProject.bind(this);
     this.setPageTicket = this.setPageTicket.bind(this);
+    this.setPageUserTickets = this.setPageUserTickets.bind(this);
   }
 
   setUserData(data) {
@@ -42,6 +44,8 @@ class App extends React.Component {
         return <Project userID={this.state.userID} projectData={this.state.currentProjectData} setPageTicket={this.setPageTicket}/>
       case 'Ticket':
         return <Ticket ticketData={this.state.currentTicketData} userID={this.state.userID} ticketID={this.state.currentTicketData.ticketID}/>
+      case 'Tickets':
+        return <Tickets />
     };
   }
 
@@ -66,8 +70,11 @@ class App extends React.Component {
       currentTicketData: ticketData
     }, () => {
       this.setState({ currentPage: 'Ticket' });
-    });
-    
+    }); 
+  }
+
+  setPageUserTickets() {
+    this.setState({ currentPage: 'Tickets' });
   }
 
   componentDidMount() {
@@ -144,7 +151,7 @@ class App extends React.Component {
 
                   
                   <li className="nav-item">
-                      <a className="nav-link" href="#">
+                      <a className="nav-link" href="#" onClick={this.setPageUserTickets}>
                           <i className="fas fa-fw fa-chart-area"></i>
                           <span>My Tickets</span></a>
                   </li>
