@@ -28,7 +28,8 @@ class Projects extends React.Component {
                       this.props.setPageProject({
                         name: project.name,
                         desc: project.description,
-                        projectID: project.projectID })
+                        projectID: project.projectID 
+                      })
                     
                   }><div className="card-header py-3">
                       <h6 className="m-0 font-weight-bold text-primary">{project.name}</h6>

@@ -13,7 +13,8 @@ class App extends React.Component {
       displayName: '',
       currentPage: 'Dashboard',
       userID: '',
-      currentProjectData: null
+      currentProjectData: null,
+      currentTicketData: null
     };
 
     this.setUserData = this.setUserData.bind(this);
@@ -40,7 +41,7 @@ class App extends React.Component {
       case 'Project':
         return <Project userID={this.state.userID} projectData={this.state.currentProjectData} setPageTicket={this.setPageTicket}/>
       case 'Ticket':
-        return <Ticket />
+        return <Ticket ticketData={this.state.currentTicketData}/>
     };
   }
 
@@ -61,7 +62,12 @@ class App extends React.Component {
   }
 
   setPageTicket(ticketData) {
-    this.setState({ currentPage: 'Ticket' });
+    this.setState({
+      currentTicketData: ticketData
+    }, () => {
+      this.setState({ currentPage: 'Ticket' });
+    });
+    
   }
 
   componentDidMount() {
