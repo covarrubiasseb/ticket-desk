@@ -6,8 +6,7 @@ class CommentForm extends React.Component {
     super(props);
 
     this.state = {
-      comment: '',
-      submitModalText: ''
+      comment: ''
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -25,18 +24,13 @@ class CommentForm extends React.Component {
     })
     .then(response => {
       if (response.data.valid) {
-        this.setState({
-          submitModalText: 'Comment Submitted'
-        });
 
         this.clearForm();
 
         this.props.getComments();
-        
+
       } else {
-        this.setState({
-          submitModalText: 'Something went wrong. Please try again'
-        });
+        alert('Something went wrong. Please try again.');
       }
     });
   }
@@ -61,30 +55,16 @@ class CommentForm extends React.Component {
         className="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 container-fluid">
 
         <div className="row mb-2">    
-          <textarea className="form-control bg-light border-1 col-12" placeholder="Type your comment here..."
+          <textarea className="form-control bg-light border-1 col-12 mt-2" placeholder="Type your comment here..."
               aria-describedby="basic-addon2" onChange={this.handleCommentChange} value={this.state.comment} />
         </div>
 
-        <button href="#" className="btn btn-secondary btn-icon-split float-right mb-2" type="submit" data-toggle="modal" data-target="#commentModal">
+        <button href="#" className="btn btn-secondary btn-icon-split float-right mb-2" type="submit">
           <span className="icon text-white-50">
               <i className="fas fa-arrow-right"></i>
           </span>
           <span className="text">Send Comment</span>
         </button>
-
-        <div className="modal fade" id="commentModal" tabIndex="-1" role="dialog" aria-labelledby="commentModalLabel"
-              aria-hidden="true">
-            <div className="modal-dialog" role="document">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h5 className="modal-title" id="commentModalLabel">{this.state.submitModalText}</h5>
-                        <button className="close" type="button" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
       </form>
 

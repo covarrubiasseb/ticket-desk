@@ -45,7 +45,7 @@ class App extends React.Component {
       case 'Ticket':
         return <Ticket ticketData={this.state.currentTicketData} userID={this.state.userID} ticketID={this.state.currentTicketData.ticketID}/>
       case 'Tickets':
-        return <Tickets />
+        return <Tickets userID={this.state.userID} setPageTicket={this.setPageTicket}/>
     };
   }
 
