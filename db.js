@@ -85,7 +85,7 @@ const queries = {
   },
 
   findProject: function(projectID) {
-    return `SELECT * FROM projects where projectID='${projectID}'`
+    return `SELECT * FROM projects where projectID='${projectID}';`
   },
 
   findProjects: function(userID) {
@@ -110,12 +110,16 @@ const queries = {
   },
 
   findProjectTickets: function(projectID) {
-    return `SELECT * FROM tickets WHERE projectID='${projectID}'`
+    return `SELECT * FROM tickets WHERE projectID='${projectID}';`
   },
 
   createComment: function(data) {
     return `INSERT INTO comments (userID, ticketID, content)
       VALUES ('${data.userID}', '${data.ticketID}', '${data.content}');`
+  },
+
+  findComments: function (ticketID) {
+    return `SELECT * FROM comments WHERE ticketID='${ticketID}';`
   }
 }
 

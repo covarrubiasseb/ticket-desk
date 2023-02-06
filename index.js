@@ -185,9 +185,24 @@ app.post('/api/project/tickets', bodyParser.json(), (req, res) => {
 
 // GET USER TICKETS ////////////////////
 app.get('/api/user/tickets', (req, res) => {
+  let ticketID = req.query.ticketID;
+
+  mysql.connection.query(db.queries.findComments(ticketID), (err, results) => {
+    if (err) {
+      throw err;
+      res.end();
+    } else {
+      res.send(results);
+    }
+  });
 
 });
 
+
+// GET TICKET COMMENTS ////////////////////
+app.get('/api/ticket/comments', (req, res) => {
+
+});
 
 // CREATE TICKET COMMENT ////////////////////
 app.put('/api/ticket/comments', bodyParser.json(), (req, res) => {
