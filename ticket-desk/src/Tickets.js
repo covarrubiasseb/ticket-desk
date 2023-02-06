@@ -22,25 +22,13 @@ class Tickets extends React.Component {
 
           return (
 
-            <div className="row">
-              <div className="col-xl-9">
-                <div className="card shadow mb-4">
+            <li className="list-group-item">
 
-                  <div className="card-header py-3">
-                    <h6 className="m-0 font-weight-bold text-primary"><a href="#" onClick={e => this.props.setPageTicket(ticket)}>{ticket.title}</a></h6>
-                  </div>
+              <h6 className="m-0 font-weight-bold text-primary"><a href="#" onClick={e => this.props.setPageTicket(ticket)}>{ticket.title}</a></h6>
+              
+              <span className="float-right">{ticket.submit_date}</span>
 
-                  <div className="card-body">
-                    {ticket.description}
-                  </div>
-
-                  <div className="card-footer">
-                    <span className="float-right">{ticket.submit_date}</span>
-                  </div>
-
-                </div>
-              </div>
-            </div>
+            </li>
 
           );
 
@@ -61,7 +49,17 @@ class Tickets extends React.Component {
 
       <div className="container-fluid">
 
-        {this.state.tickets}
+        <div className="d-sm-flex align-items-center justify-content-between mb-4">
+          <h1 className="h3 mb-0 text-gray-800">Tickets</h1>
+        </div>
+
+        <div className="row">
+          <div className="col-xl-9">
+            <ul className="list-group">
+              {this.state.tickets}
+            </ul>
+          </div>
+        </div>
 
       </div>
 

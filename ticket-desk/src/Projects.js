@@ -21,24 +21,23 @@ class Projects extends React.Component {
           projects: response.data.map(project => {
 
             return (
-              <div className="col-xl-9">
-                <div className="card shadow mb-4">
-                  <a href="#" onClick={e =>
+              
+              <li className="list-group-item">
+                <a href="#" onClick={e =>
 
-                      this.props.setPageProject({
-                        name: project.name,
-                        desc: project.description,
-                        projectID: project.projectID 
-                      })
-                    
-                  }><div className="card-header py-3">
-                      <h6 className="m-0 font-weight-bold text-primary">{project.name}</h6>
-                  </div></a>
-                  <div className="card-body">
-                      {project.description}
-                  </div>
-                </div>
-              </div>
+                    this.props.setPageProject({
+                      name: project.name,
+                      desc: project.description,
+                      projectID: project.projectID 
+                    })
+                  
+                }>
+                  <h6 className="m-0 font-weight-bold text-primary">
+                    {project.name}
+                  </h6>
+                </a>
+              </li>
+              
             );
 
           })
@@ -74,8 +73,17 @@ class Projects extends React.Component {
         </div>
 
         <div className="row">
-          {this.state.projects}
+          <div className="col-xl-9">
+            <div className="card shadow mb-4">
+              <div className="card-body">
+                <ul className="list-group">
+                  {this.state.projects}
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
+
       </div>
     );
   }
