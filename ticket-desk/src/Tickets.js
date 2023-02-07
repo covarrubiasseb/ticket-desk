@@ -22,13 +22,16 @@ class Tickets extends React.Component {
 
           return (
 
-            <li className="list-group-item">
+            <tr>
+              <td>
+                <h6 className="m-0 font-weight-bold text-primary"><a href="#" onClick={e => this.props.setPageTicket(ticket)}>{ticket.title}</a></h6>
+              </td>
 
-              <h6 className="m-0 font-weight-bold text-primary"><a href="#" onClick={e => this.props.setPageTicket(ticket)}>{ticket.title}</a></h6>
-              
-              <span className="float-right">{ticket.submit_date}</span>
+              <td>
+                <span className="float-right">{ticket.submit_date}</span>
+              </td>
 
-            </li>
+            </tr>
 
           );
 
@@ -55,10 +58,32 @@ class Tickets extends React.Component {
 
         <div className="row">
           <div className="col-xl-9">
-            <ul className="list-group">
-              {this.state.tickets}
-            </ul>
+
+            <div className="card shadow mb-4">
+
+              <div className="card-body">
+
+                <table className="table table-hover">
+
+                  <thead className="table-light">
+                    <tr>
+                      <th scope="col">Title</th>
+                      <th className="float-right" scope="col">Submit Date</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {this.state.tickets}
+                  </tbody>
+
+                </table>
+
+              </div>
+
+            </div>
+
           </div>
+
         </div>
 
       </div>
