@@ -76,6 +76,10 @@ const queries = {
     return `SELECT * FROM users WHERE email='${userEmail}';`
   },
 
+  findUserById: function(userID) {
+    return `SELECT * FROM users WHERE userID='${userID}';`
+  },
+
   createUser: function(userName, userEmail) {
     return `INSERT INTO users (name, email, role) VALUES ('${userName}','${userEmail}','Unassigned');`
   },

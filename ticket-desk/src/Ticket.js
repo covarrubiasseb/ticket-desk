@@ -8,10 +8,15 @@ class Ticket extends React.Component {
     super(props);
 
     this.state = {
-      comments: []
+      comments: [],
+      project: '',
+      dev: ''
     };
 
     this.getComments = this.getComments.bind(this);
+    this.getTicketUser = this.getTicketUser.bind(this);
+    this.getTicketProject = this.getTicketProject.bind(this);
+
   }
 
   getComments() {
@@ -35,8 +40,38 @@ class Ticket extends React.Component {
     });
   }
 
+  getTicketProject() {
+    axios.get(`/api/project?projectID=${this.props.ticketData.projectID}`)
+    .then(response => {
+
+      let project = response.data[0];
+
+      this.setState({
+        project: project.name
+      });
+
+    });
+
+  }
+
+  getTicketUser() {
+    axios.get(`/api/ticket/dev?userID=${this.props.ticketData.userID}`)
+    .then(response => {
+
+      let user = response.data[0];
+
+      this.setState({
+        dev: user.name
+      });
+
+    });
+  }
+
   componentDidMount() {
     this.getComments();
+
+    this.getTicketProject();
+    this.getTicketUser();
     console.log(this.props);
   }
 
@@ -70,8 +105,8 @@ class Ticket extends React.Component {
                         <th className="text-dark" scope="col">Status</th>
                         <th className="text-dark" scope="col">Priority</th>
                         <th className="text-dark" scope="col">Type</th>
-                        <th className="text-dark" scope="col">ProjectID</th>
-                        <th className="text-dark" scope="col">UserID</th>
+                        <th className="text-dark" scope="col">Project</th>
+                        <th className="text-dark" scope="col">Creator</th>
                       </thead>
 
                       <tbody>
@@ -79,8 +114,8 @@ class Ticket extends React.Component {
                           <td>{this.props.ticketData.status}</td>
                           <td>{this.props.ticketData.priority}</td>
                           <td>{this.props.ticketData.type}</td>
-                          <td>{this.props.ticketData.projectID}</td>
-                          <td>{this.props.ticketData.userID}</td>
+                          <td>{this.state.project}</td>
+                          <td>{this.state.dev}</td>
                         </tr>
                       </tbody>
 

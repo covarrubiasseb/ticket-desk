@@ -60,6 +60,31 @@ app.get('/api/users', (req, res) => {
   });
 });
 
+// GET TICKET CREATOR/ASSIGNED DEV ////////////////////
+app.get('/api/ticket/dev', (req, res) => {
+
+  mysql.connection.query(db.queries.findUserById(req.query.userID), (err, results) => {
+    if (err) {
+      throw err;
+      res.end();
+    } else {
+      res.send(results);
+    }
+  });
+
+});
+
+// GET TICKET PROJECT ////////////////////
+app.get('/api/project', (req, res) => {
+  mysql.connection.query(db.queries.findProject(req.query.projectID), (err, results) => {
+    if (err) {
+      throw err;
+      res.end();
+    } else {
+      res.send(results);
+    }
+  });
+});
 
 // GET USER PROJECTS ////////////////////
 app.get('/api/projects', (req, res) => {
