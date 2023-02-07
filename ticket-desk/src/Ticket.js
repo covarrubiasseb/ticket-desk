@@ -55,11 +55,57 @@ class Ticket extends React.Component {
               </div>
 
               <div className="card-body">
-                {this.props.ticketData.description}
+
+                <div className="card mb-4">
+
+                  <div className="card-header">
+                    <h6 className="m-0 font-weight-bold text-dark">Info</h6>
+                  </div>
+
+                  <div className="card-body">
+
+                    <table className="table">
+
+                      <thead>
+                        <th className="text-dark" scope="col">Status</th>
+                        <th className="text-dark" scope="col">Priority</th>
+                        <th className="text-dark" scope="col">Type</th>
+                        <th className="text-dark" scope="col">ProjectID</th>
+                        <th className="text-dark" scope="col">UserID</th>
+                      </thead>
+
+                      <tbody>
+                        <tr>
+                          <td>{this.props.ticketData.status}</td>
+                          <td>{this.props.ticketData.priority}</td>
+                          <td>{this.props.ticketData.type}</td>
+                          <td>{this.props.ticketData.projectID}</td>
+                          <td>{this.props.ticketData.userID}</td>
+                        </tr>
+                      </tbody>
+
+                    </table>
+
+                  </div>
+
+                </div>
+
+                <div className="card">
+
+                  <div className="card-header">
+                    <h6 className="m-0 font-weight-bold text-dark">Description</h6>
+                  </div>
+
+                  <div className="card-body">
+                    {this.props.ticketData.description}
+                  </div>
+
+                </div>  
+
               </div>
 
               <div className="card-footer">
-                <span className="float-right">{this.props.ticketData.submit_date}</span>
+                <span className="float-right">Created: {this.props.ticketData.submit_date}</span>
               </div>
 
             </div>
