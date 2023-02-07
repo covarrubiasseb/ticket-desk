@@ -29,7 +29,23 @@ class Ticket extends React.Component {
 
           return (
 
-            <li className="list-group-item">{comment.content}</li>
+            <div className="card mb-2">
+
+              <div className="card-header">
+                <span className=" font-weight-bold text-dark">UserID:</span> {comment.userID}
+              </div>
+
+              <div className="card-body">
+
+                <div>{comment.content}</div>
+
+                <div className="float-right">
+                  <span className=" font-weight-bold text-dark">Date Posted:</span> {comment.submit_date}
+                </div>
+
+              </div>
+
+            </div>
 
           );
 
@@ -155,9 +171,9 @@ class Ticket extends React.Component {
               </div>
 
               <div className="card-body">
-                <ul className="list-group">
-                  {this.state.comments}
-                </ul>
+
+                {this.state.comments}
+
               </div>
 
             </div>
