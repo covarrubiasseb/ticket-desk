@@ -7,10 +7,10 @@ class TicketForm extends React.Component {
 
     this.state = {
       ticketTitle: '',
-      ticketStatus: '',
-      ticketType: '',
+      ticketStatus: 'open',
+      ticketType: 'client',
       ticketDesc: '',
-      ticketPriority: '',
+      ticketPriority: 'medium',
       submitModalText: ''
     }
 
@@ -18,6 +18,8 @@ class TicketForm extends React.Component {
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleDescChange = this.handleDescChange.bind(this);
     this.clearForm = this.clearForm.bind(this);
+    this.setTicketPriority = this.setTicketPriority.bind(this);
+    this.setTicketType = this.setTicketType.bind(this);
   }
 
   clearForm() {
@@ -72,6 +74,18 @@ class TicketForm extends React.Component {
     });
   }
 
+  setTicketPriority(event) {
+    this.setState({
+      ticketPriority: event.target.value
+    });
+  }
+
+  setTicketType(event) {
+    this.setState({
+      ticketType: event.target.value
+    });
+  }
+
   render() {
 
     return (
@@ -80,34 +94,49 @@ class TicketForm extends React.Component {
         className="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 container-fluid">
 
         <div className="row mb-2">
+
+          <h6 className="font-weight-bold text-secondary">Title</h6>
+
           <input type="text" className="form-control bg-light border-1 small col-12" placeholder="Ticket Title..."
               aria-describedby="basic-addon2" onChange={this.handleTitleChange} value={this.state.ticketTitle} />
+
+        </div>
+
+        <div className="row mb-2">
+
+          <h6 className="font-weight-bold text-secondary">Description</h6>
+
+          <textarea className="form-control bg-light border-1 col-12" placeholder="Ticket Description..."
+              aria-describedby="basic-addon2" onChange={this.handleDescChange} value={this.state.ticketDesc} />
+
         </div>
 
         <div className="row mb-2">
 
           <div className="col-6">
-            <input type="radio" id="High" name="fav_language" value="High" />
-            <label for="High">High</label><br />
-            <input type="radio" id="Medium" name="fav_language" value="Medium" />
-            <label for="Medium">Medium</label><br />
-            <input type="radio" id="Low" name="fav_language" value="Low" />
-            <label for="Low">Low</label>
+
+            <h6 className="font-weight-bold text-secondary">Priority</h6>
+
+            <select className="form-select" value={this.state.ticketPriority} onChange={this.setTicketPriority}>
+              <option value="high">High</option>
+              <option value="medium" selected>Medium</option>
+              <option value="low">Low</option>
+            </select>
+
           </div>
 
           <div className="col-6">
-            <input type="radio" id="www" name="fav_language" value="www" />
-            <label for="www">Client Side</label><br />
-            <input type="radio" id="Server" name="fav_language" value="Server" />
-            <label for="Server">Server</label><br />
-            <input type="radio" id="DevOps" name="fav_language" value="DevOps" />
-            <label for="DevOps">DevOps</label>
-          </div>
-        </div>
 
-        <div className="row mb-2">    
-          <textarea className="form-control bg-light border-1 col-12" placeholder="Ticket Description..."
-              aria-describedby="basic-addon2" onChange={this.handleDescChange} value={this.state.ticketDesc} />
+            <h6 className="font-weight-bold text-secondary">Type</h6>
+
+            <select className="form-select" value={this.state.ticketType} onChange={this.setTicketType}>
+              <option value="client" selected>Client Side</option>
+              <option value="server">Server Side</option>
+              <option value="dev">Dev Ops</option>
+            </select>
+
+          </div>
+
         </div>
 
         <button href="#" className="btn btn-secondary btn-icon-split float-right" type="submit" data-toggle="modal" data-target="#ticketModal">

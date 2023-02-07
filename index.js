@@ -170,6 +170,7 @@ app.get('/api/user/tickets', (req, res) => {
 // CREATE PROJECT TICKET ////////////////////
 app.put('/api/project/tickets', bodyParser.json(), (req, res) => {
 
+  console.log(req.body)
   let data = {
     userID: req.body.userID,
     projectID: req.body.projectID,
