@@ -114,9 +114,9 @@ class Ticket extends React.Component {
 
                   <div className="card-body">
 
-                    <table className="table">
+                    <table className="table table-hover">
 
-                      <thead>
+                      <thead className="table-light">
                         <th className="text-dark" scope="col">Status</th>
                         <th className="text-dark" scope="col">Priority</th>
                         <th className="text-dark" scope="col">Type</th>
