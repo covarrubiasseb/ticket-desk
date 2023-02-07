@@ -95,7 +95,7 @@ class TicketForm extends React.Component {
 
         <div className="row mb-2">
 
-          <h6 className="font-weight-bold text-secondary">Title</h6>
+          <h6 className="font-weight-bold text-dark">Title</h6>
 
           <input type="text" className="form-control bg-light border-1 small col-12" placeholder="Ticket Title..."
               aria-describedby="basic-addon2" onChange={this.handleTitleChange} value={this.state.ticketTitle} />
@@ -104,7 +104,7 @@ class TicketForm extends React.Component {
 
         <div className="row mb-2">
 
-          <h6 className="font-weight-bold text-secondary">Description</h6>
+          <h6 className="font-weight-bold text-dark">Description</h6>
 
           <textarea className="form-control bg-light border-1 col-12" placeholder="Ticket Description..."
               aria-describedby="basic-addon2" onChange={this.handleDescChange} value={this.state.ticketDesc} />
@@ -115,7 +115,7 @@ class TicketForm extends React.Component {
 
           <div className="col-6">
 
-            <h6 className="font-weight-bold text-secondary">Priority</h6>
+            <h6 className="font-weight-bold text-dark">Priority</h6>
 
             <select className="form-select" value={this.state.ticketPriority} onChange={this.setTicketPriority}>
               <option value="high">High</option>
@@ -127,7 +127,7 @@ class TicketForm extends React.Component {
 
           <div className="col-6">
 
-            <h6 className="font-weight-bold text-secondary">Type</h6>
+            <h6 className="font-weight-bold text-dark">Type</h6>
 
             <select className="form-select" value={this.state.ticketType} onChange={this.setTicketType}>
               <option value="client" selected>Client Side</option>
