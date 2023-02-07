@@ -22,8 +22,8 @@ class Projects extends React.Component {
 
             return (
               
-              <li className="list-group-item">
-                <a href="#" onClick={e =>
+              <tr>
+                <td><a href="#" onClick={e =>
 
                     this.props.setPageProject({
                       name: project.name,
@@ -35,8 +35,8 @@ class Projects extends React.Component {
                   <h6 className="m-0 font-weight-bold text-primary">
                     {project.name}
                   </h6>
-                </a>
-              </li>
+                </a></td>
+              </tr>
               
             );
 
@@ -78,9 +78,18 @@ class Projects extends React.Component {
           <div className="col-xl-9">
             <div className="card shadow mb-4">
               <div className="card-body">
-                <ul className="list-group">
-                  {this.state.projects}
-                </ul>
+
+                <table className="table table-hover">
+                  <thead className="table-light">
+                    <tr>
+                      <th className="text-dark" scope="col">Project Name</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.state.projects}
+                  </tbody>
+                </table>
+
               </div>
             </div>
           </div>

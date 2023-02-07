@@ -72,7 +72,6 @@ class Ticket extends React.Component {
 
     this.getTicketProject();
     this.getTicketUser();
-    console.log(this.props);
   }
 
   render() {
