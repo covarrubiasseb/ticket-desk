@@ -23,11 +23,19 @@ class Project extends React.Component {
 
             return (
 
-              <li className="list-group-item"><a href="#" onClick={e =>
+              <tr>
 
-                this.props.setPageTicket(ticket)
+                <td>
 
-              }>{ticket.title}</a></li>
+                  <a href="#" onClick={e =>
+
+                    this.props.setPageTicket(ticket)
+
+                  }>{ticket.title}</a>
+
+                </td>
+
+              </tr>
 
             );
 
@@ -84,9 +92,21 @@ class Project extends React.Component {
               </div>
 
               <div className="card-body">
-                <ul className="list-group">
-                  {this.state.tickets}
-                </ul>
+
+                <table className="table table-hover">
+
+                  <thead className="table-light">
+                    <tr>
+                      <th className="text-dark" scope="col">Title</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {this.state.tickets}
+                  </tbody>
+
+                </table>
+
               </div>
 
             </div>

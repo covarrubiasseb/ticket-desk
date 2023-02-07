@@ -66,7 +66,7 @@ class Tickets extends React.Component {
                 <table className="table table-hover">
 
                   <thead className="table-light">
-                    <tr>
+                    <tr className="text-dark">
                       <th scope="col">Title</th>
                       <th className="float-right" scope="col">Submit Date</th>
                     </tr>
