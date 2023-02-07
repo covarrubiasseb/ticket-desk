@@ -20,7 +20,7 @@ class Project extends React.Component {
 
         this.setState({
           tickets: response.data.map(ticket => {
-
+            
             return (
 
               <tr>
@@ -33,6 +33,10 @@ class Project extends React.Component {
 
                   }>{ticket.title}</a>
 
+                </td>
+
+                <td>
+                  <span className="float-right">{ticket.submit_date}</span>
                 </td>
 
               </tr>
@@ -51,10 +55,14 @@ class Project extends React.Component {
         
         this.setState({
           users: response.data.map(user => {
-
+            
             return (
 
-              <li className="list-group-item">{user.name}</li>
+              <tr>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>{user.role}</td>
+              </tr>
 
             );
 
@@ -96,8 +104,9 @@ class Project extends React.Component {
                 <table className="table table-hover">
 
                   <thead className="table-light">
-                    <tr>
-                      <th className="text-dark" scope="col">Title</th>
+                    <tr className="text-dark">
+                      <th scope="col">Title</th>
+                      <th className="float-right" scope="col">Submit Date</th>
                     </tr>
                   </thead>
 
@@ -138,9 +147,22 @@ class Project extends React.Component {
               </div>
 
               <div className="card-body">
-                <ul className="list-group">
-                  {this.state.users}
-                </ul>   
+
+                <table className="table table-hover">
+
+                  <thead className="table-light">
+                    <tr className="text-dark">
+                      <th scope="col">Name</th>
+                      <th scope="col">email</th>
+                      <th scope="col">Role</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {this.state.users}
+                  </tbody>
+                </table>
+
               </div>
 
             </div>
