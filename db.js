@@ -115,7 +115,7 @@ const queries = {
 
   updateTicket: function(data) {
     return `;`
-  }
+  },
 
   findProjectTickets: function(projectID) {
     return `SELECT * FROM tickets WHERE projectID='${projectID}';`
