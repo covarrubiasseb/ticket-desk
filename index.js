@@ -209,7 +209,7 @@ app.put('/api/project/tickets', bodyParser.json(), (req, res) => {
   mysql.connection.query(db.queries.createTicket(data), (err, results) => {
     if (err) {
       throw err;
-      res.send({valid: false})
+      res.send({valid: false});
     } else {
       res.send({valid: true});
     }

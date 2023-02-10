@@ -113,6 +113,10 @@ const queries = {
       VALUES ('${data.projectID}','${data.userID}','${data.title}','${data.status}','${data.type}','${data.description}','${data.priority}');`
   },
 
+  updateTicket: function(data) {
+    return `;`
+  }
+
   findProjectTickets: function(projectID) {
     return `SELECT * FROM tickets WHERE projectID='${projectID}';`
   },
