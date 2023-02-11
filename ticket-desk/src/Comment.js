@@ -30,9 +30,16 @@ class Comment extends React.Component {
                 commentID: this.props.comment.commentID,
                 content: this.state.edit_content
               }
-    );
+    )
+    .then(response => {
+      if (response.data.valid) {
+        this.setState({
+          content: this.state.edit_content
+        });
+      }
+    });
 
-    $("#closeCommentEditModal").trigger("click");
+    $(`#closeCommentEditModal${this.props.commentIndex}`).trigger("click");
   }
 
   render() {
@@ -53,23 +60,23 @@ class Comment extends React.Component {
 
               {/* Display Conditionallly on page load if User submitted Comment or is an Admin */}
               <div className="dropdown no-arrow float-right">
-                <a className="dropdown-toggle" href="#" role="button" id="dropdownMenuCommentEdit" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a className="dropdown-toggle" href="#" role="button" id={`dropdownMenuCommentEdit${this.props.commentIndex}`} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i className="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                 </a>
-                <div className="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuCommentEdit">
-                  <a className="dropdown-item" href="#" data-toggle="modal" data-target="#commentEditModal">Edit</a>
+                <div className="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby={`dropdownMenuCommentEdit${this.props.commentIndex}`}>
+                  <a className="dropdown-item" href="#" data-toggle="modal" data-target={`#commentEditModal${this.props.commentIndex}`}>Edit</a>
                   <div className="dropdown-divider"></div>
-                  <a className="dropdown-item" href="#" data-toggle="modal" data-target="#commentDeleteModal"><span className="text-danger">Delete</span></a>
+                  <a className="dropdown-item" href="#" data-toggle="modal" data-target={`#commentDeleteModal${this.props.commentIndex}`}><span className="text-danger">Delete</span></a>
                 </div>
               </div>
 
-              <div className="modal fade" id="commentEditModal" tabIndex="-1" role="dialog" aria-labelledby="commentEditModalLabel"
+              <div className="modal fade" id={`commentEditModal${this.props.commentIndex}`} tabIndex="-1" role="dialog" aria-labelledby={`commentEditModalLabel${this.props.commentIndex}`}
                   aria-hidden="true">
                 <div className="modal-dialog" role="document">
                   <div className="modal-content">
                     <div className="modal-header">
-                      <h5 className="modal-title" id="commentEditModalLabel">Edit Comment</h5>
-                      <button className="close" id="closeCommentEditModal" type="button" data-dismiss="modal" aria-label="Close">
+                      <h5 className="modal-title" id={`commentEditModalLabel${this.props.commentIndex}`}>Edit Comment</h5>
+                      <button className="close" id={`closeCommentEditModal${this.props.commentIndex}`} type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                       </button>
                     </div>

@@ -35,11 +35,11 @@ class Ticket extends React.Component {
 
       this.setState({
 
-        comments: response.data.map(comment => {
+        comments: response.data.map((comment, index) => {
 
           return (
 
-            <Comment comment={comment} userID={this.props.userID}/>
+            <Comment comment={comment} userID={this.props.userID} commentIndex={index}/>
 
           );
 
