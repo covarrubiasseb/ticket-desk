@@ -144,8 +144,8 @@ const queries = {
     return `SELECT * FROM comments WHERE commentID='${commentID}';`
   },
 
-  updateComment: function(data) {
-    return `UPDATE comments SET content='${data.content}' WHERE commentID='${data.commentID}';`
+  updateComment: function(commentID, data) {
+    return `UPDATE comments SET content='${data.content}' WHERE commentID='${commentID}';`
   }
 }
 

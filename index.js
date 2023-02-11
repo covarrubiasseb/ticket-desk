@@ -318,7 +318,7 @@ app.post('/api/ticket/comments', bodyParser.json(), (req, res) => {
 
       if (userID === comment.userID.toString()) {
         // Validated as user submitted comment
-        mysql.connection.query(db.queries.updateComment(data), (err, results) => {
+        mysql.connection.query(db.queries.updateComment(commentID, data), (err, results) => {
           if (err) {
             throw err;
             res.send({valid: false});
@@ -330,7 +330,7 @@ app.post('/api/ticket/comments', bodyParser.json(), (req, res) => {
       }
 
     }
-    
+
   });
 
 });
