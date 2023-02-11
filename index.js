@@ -242,14 +242,14 @@ app.post('/api/project/tickets', bodyParser.json(), (req, res) => {
       if (userID === ticket.userID) {
 
         // Validated as user submitted ticket
-          mysql.connection.query(db.queries.updateTicket(ticketID, data), (err, results) => {
-            if (err) {
-              throw err;
-              res.send({valid: true});
-            } else {
-              res.send({valid: false});
-            }
-          });
+        mysql.connection.query(db.queries.updateTicket(ticketID, data), (err, results) => {
+          if (err) {
+            throw err;
+            res.send({valid: true});
+          } else {
+            res.send({valid: false});
+          }
+        });
 
       }
       
