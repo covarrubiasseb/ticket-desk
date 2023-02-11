@@ -226,37 +226,29 @@ class Ticket extends React.Component {
 
                         <table className="table table-hover">
 
-{/*                          <thead className="table-light">
-                            <th className="text-dark" scope="col">Status</th>
-                            <th className="text-dark" scope="col">Priority</th>
-                            <th className="text-dark" scope="col">Type</th>
-                            <th className="text-dark" scope="col">Project</th>
-                            <th className="text-dark" scope="col">Creator</th>
-                          </thead>*/}
-
                           <tbody>
                             <tr>
-                              <td className="text-dark">Status</td>
+                              <td className="font-weight-bold text-dark">Status</td>
                               <td>{this.state.status}</td>
                             </tr>
 
                             <tr>
-                              <td className="text-dark">Priority</td>
+                              <td className="font-weight-bold text-dark">Priority</td>
                               <td>{this.state.priority}</td>
                             </tr>
 
                             <tr>
-                              <td className="text-dark">Type</td>
+                              <td className="font-weight-bold text-dark">Type</td>
                               <td>{this.state.type}</td>
                             </tr>
 
                             <tr>
-                              <td className="text-dark">Project</td>
+                              <td className="font-weight-bold text-dark">Project</td>
                               <td>{this.state.project}</td>
                             </tr>
 
                             <tr>
-                              <td className="text-dark">Creator</td>
+                              <td className="font-weight-bold text-dark">Creator</td>
                               <td>{this.state.dev}</td>
                             </tr>
 
