@@ -303,6 +303,38 @@ app.put('/api/ticket/comments', bodyParser.json(), (req, res) => {
   });
 });
 
+// EDIT TICKET COMMENT ////////////////////
+app.post('/api/ticket/comments', bodyParser.json(), (req, res) => {
+  let userID = req.query.userID;
+  let commentID = req.body.commentID;
+  let data = { content: req.body.content };
+
+  mysql.connection.query(db.queries.findCommentById(commentID), (err, results) => {
+    if (err) {
+      throw err;
+      res.send({valid: false});
+    } else {
+      let comment = results[0];
+
+      if (userID === comment.userID.toString()) {
+        // Validated as user submitted comment
+        mysql.connection.query(db.queries.updateComment(data), (err, results) => {
+          if (err) {
+            throw err;
+            res.send({valid: false});
+          } else {
+            res.send({valid: true});
+          }
+        });
+
+      }
+
+    }
+    
+  });
+
+});
+
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
 });

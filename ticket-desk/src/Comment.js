@@ -30,10 +30,9 @@ class Comment extends React.Component {
                 commentID: this.props.comment.commentID,
                 content: this.state.edit_content
               }
-    )
-    .then(response => {
-      $("#closeCommentEditModal").trigger("click");
-    });
+    );
+
+    $("#closeCommentEditModal").trigger("click");
   }
 
   render() {
@@ -69,7 +68,7 @@ class Comment extends React.Component {
                 <div className="modal-dialog" role="document">
                   <div className="modal-content">
                     <div className="modal-header">
-                      <h5 className="modal-title" id="commentEditModalLabel">(Edit Comment Form)</h5>
+                      <h5 className="modal-title" id="commentEditModalLabel">Edit Comment</h5>
                       <button className="close" id="closeCommentEditModal" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                       </button>
