@@ -119,6 +119,10 @@ const queries = {
               description='${data.description}', priority='${data.priority}' WHERE ticketID='${ticketID}';`
   },
 
+  findTicketById: function(ticketID) {
+    return `SELECT * FROM tickets WHERE ticketID='${ticketID}';`
+  },
+
   findProjectTickets: function(projectID) {
     return `SELECT * FROM tickets WHERE projectID='${projectID}';`
   },

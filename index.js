@@ -219,6 +219,7 @@ app.put('/api/project/tickets', bodyParser.json(), (req, res) => {
 app.post('/api/project/tickets', bodyParser.json(), (req, res) => {
 
   let ticketID = req.query.ticketID;
+  let userID = req.query.userID;
 
   let data = {
     userID: req.body.userID,
@@ -230,13 +231,30 @@ app.post('/api/project/tickets', bodyParser.json(), (req, res) => {
     priority: req.body.ticketPriority
   }
 
-  mysql.connection.query(db.queries.updateTicket(ticketID, data), (err, results) => {
+  mysql.connection.query(db.queries.findTicketById(ticketID), (err, results) => {
     if (err) {
       throw err;
-      res.send({valid: true});
+      res.end();
     } else {
-      res.send({valid: false});
+
+      let ticket = results[0];
+
+      if (userID === ticket.userID) {
+
+        // Validated as user submitted ticket
+          mysql.connection.query(db.queries.updateTicket(ticketID, data), (err, results) => {
+            if (err) {
+              throw err;
+              res.send({valid: true});
+            } else {
+              res.send({valid: false});
+            }
+          });
+
+      }
+      
     }
+
   });
 
 });
