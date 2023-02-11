@@ -43,7 +43,7 @@ app.get('/logout', (req, res, next) => {
   req.logout(err => {
     if (err) { return next(err); }
     res.redirect('/');
-  })
+  });
 });
 
 app.use(isLoggedIn, express.static(`${__dirname}/ticket-desk/build`));
@@ -84,6 +84,11 @@ app.get('/api/project', (req, res) => {
       res.send(results);
     }
   });
+});
+
+// UPDATE PROJECT ////////////////////
+app.post('/api/project', bodyParser.json(), (req, res) => {
+  mysql.connection.query(db.queries.findProject)
 });
 
 // GET USER PROJECTS ////////////////////
