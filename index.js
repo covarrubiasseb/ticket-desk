@@ -164,6 +164,22 @@ app.post('/api/project/users', (req, res) => {
   });
 });
 
+// GET TICKET BY ID (ONE) ////////////////////
+app.get('/api/ticket', (req, res) => {
+
+  let ticketID = req.query.ticketID;
+
+  mysql.connection.query(db.queries.findTicketById(ticketID), (err, results) => {
+    if (err) {
+      throw err;
+      res.end();
+    } else {
+      res.send(results);
+    }
+  });
+
+});
+
 // GET PROJECT TICKETS ////////////////////
 app.get('/api/project/tickets', (req, res) => {
   let projectID = req.query.projectID;
@@ -234,25 +250,24 @@ app.post('/api/project/tickets', bodyParser.json(), (req, res) => {
   mysql.connection.query(db.queries.findTicketById(ticketID), (err, results) => {
     if (err) {
       throw err;
-      res.end();
+      res.send({valid: false});
     } else {
 
       let ticket = results[0];
 
-      if (userID === ticket.userID) {
-
+      if (userID === ticket.userID.toString()) {
         // Validated as user submitted ticket
         mysql.connection.query(db.queries.updateTicket(ticketID, data), (err, results) => {
           if (err) {
             throw err;
-            res.send({valid: true});
-          } else {
             res.send({valid: false});
+          } else {
+            res.send({valid: true});
           }
         });
 
       }
-      
+
     }
 
   });

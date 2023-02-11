@@ -1,66 +1,56 @@
 import React from 'react';
 import axios from 'axios';
 
-class TicketForm extends React.Component {
+class TicketEditForm extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      ticketTitle: '',
-      ticketStatus: 'open',
-      ticketType: 'client',
-      ticketDesc: '',
-      ticketPriority: 'medium',
-      submitModalText: ''
-    }
+      ticketTitle: this.props.ticketData.title,
+      ticketStatus: this.props.ticketData.status,
+      ticketType: this.props.ticketData.type || 'client',
+      ticketDesc: this.props.ticketData.description,
+      ticketPriority: this.props.ticketData.priority || 'medium'
+    };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleDescChange = this.handleDescChange.bind(this);
-    this.clearForm = this.clearForm.bind(this);
     this.setTicketPriority = this.setTicketPriority.bind(this);
-    this.setTicketType = this.setTicketType.bind(this);
-  }
-
-  clearForm() {
-    this.setState({
-      ticketTitle: '',
-      ticketStatus: '',
-      ticketType: '',
-      ticketDesc: '',
-      ticketPriority: ''
-    });
+    this.setTicketType = this.setTicketType.bind(this)
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    
-    axios.put('/api/project/tickets',
-      {
-        userID: this.props.userID,
-        projectID: this.props.projectID,
-        ticketTitle: this.state.ticketTitle,
-        ticketStatus: this.state.ticketStatus,
-        ticketType: this.state.ticketType,
-        ticketDesc: this.state.ticketDesc,
-        ticketPriority: this.state.ticketPriority
-      })
+
+    axios.post(`/api/project/tickets?userID=${this.props.userID}&ticketID=${this.props.ticketData.ticketID}`,
+              {
+                userID: this.props.ticketData.userID,
+                projectID: this.props.ticketData.projectID,
+                ticketTitle: this.state.ticketTitle,
+                ticketStatus: this.state.ticketStatus,
+                ticketType: this.state.ticketType,
+                ticketDesc: this.state.ticketDesc,
+                ticketPriority: this.state.ticketPriority
+              })
     .then(response => {
       if (response.data.valid) {
-        this.clearForm();
+
+        this.props.reloadTicketData();
 
         this.setState({
-          submitModalText: 'Ticket Submitted'
+          submitModalText: 'Ticket Updated'
         });
 
-        this.props.getTickets();
-        
       } else {
+
         this.setState({
-          submitModalText: 'Something went wrong. Please try again.'
+          submitModalText: 'Something went wrong. Please Try again.'
         });
+
       }
     });
+
   }
 
   handleTitleChange(event) {
@@ -140,26 +130,12 @@ class TicketForm extends React.Component {
 
         </div>
 
-        <button href="#" className="btn btn-secondary btn-icon-split float-right" type="submit" data-toggle="modal" data-target="#ticketModal">
+        <button href="#" className="btn btn-secondary btn-icon-split float-right" type="submit">
           <span className="icon text-white-50">
               <i className="fas fa-arrow-right"></i>
           </span>
-          <span className="text">Send Ticket</span>
+          <span className="text">Update Ticket</span>
         </button>
-
-        <div className="modal fade" id="ticketModal" tabIndex="-1" role="dialog" aria-labelledby="ticketModalLabel"
-              aria-hidden="true">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="ticketModalLabel">{this.state.submitModalText}</h5>
-                <button className="close" type="button" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">×</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
 
       </form>
 
@@ -168,4 +144,4 @@ class TicketForm extends React.Component {
   }
 }
 
-export default TicketForm;
+export default TicketEditForm;

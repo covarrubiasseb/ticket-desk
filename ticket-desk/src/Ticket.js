@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
+import $ from 'jquery';
 import CommentForm from './CommentForm';
-
+import TicketEditForm from './TicketEditForm';
 
 class Ticket extends React.Component {
   constructor(props) {
@@ -10,16 +11,24 @@ class Ticket extends React.Component {
     this.state = {
       comments: [],
       project: '',
-      dev: ''
-    };
+      dev: '',
+      title: this.props.ticketData.title,
+      status: this.props.ticketData.status,
+      priority: this.props.ticketData.priority,
+      type: this.props.ticketData.type,
+      description: this.props.ticketData.description,
+      submit_date: this.props.ticketData.submit_date
+    }
 
     this.getComments = this.getComments.bind(this);
     this.getTicketUser = this.getTicketUser.bind(this);
     this.getTicketProject = this.getTicketProject.bind(this);
+    this.reloadTicketData = this.reloadTicketData.bind(this);
 
   }
 
   getComments() {
+
     axios.get(`/api/ticket/comments?ticketID=${this.props.ticketID}`)
     .then(response => {
 
@@ -54,6 +63,7 @@ class Ticket extends React.Component {
       });
 
     });
+
   }
 
   getTicketProject() {
@@ -83,6 +93,27 @@ class Ticket extends React.Component {
     });
   }
 
+  reloadTicketData() {
+
+    axios.get(`/api/ticket?ticketID=${this.props.ticketData.ticketID}`)
+    .then(response => {
+
+      let updatedTicket = response.data[0];
+
+      this.setState({
+        title: updatedTicket.title,
+        status: updatedTicket.status,
+        priority: updatedTicket.priority,
+        type: updatedTicket.type,
+        description: updatedTicket.description
+      });
+
+    });
+
+    $("#closeTicketEditModal").trigger("click");
+
+  }
+
   componentDidMount() {
     this.getComments();
 
@@ -106,12 +137,13 @@ class Ticket extends React.Component {
 
                   <div className="col">
 
-                    <h6 className="m-0 font-weight-bold text-primary">{this.props.ticketData.title}</h6>
+                    <h6 className="m-0 font-weight-bold text-primary">{this.state.title}</h6>
 
                   </div>
 
+                  {/* Display Conditionallly on page load if User submitted Ticket or is an Admin */}
                   <div className="col">
-                    {/* Display Conditionallly on page load if User submitted Ticket*/}
+                    
                     <div className="dropdown no-arrow float-right">
                       <a className="dropdown-toggle" href="#" role="button" id="dropdownMenuTicketEdit" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i className="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -119,7 +151,7 @@ class Ticket extends React.Component {
                       <div className="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuTicketEdit">
                         <a className="dropdown-item" href="#" data-toggle="modal" data-target="#ticketEditModal">Edit</a>
                         <div className="dropdown-divider"></div>
-                        <a className="dropdown-item" href="#" data-toggle="modal" data-target="#ticketDeleteModal"><span className="text-danger">Delete</span></a>
+                        <a className="dropdown-item" href="#" data-toggle="modal" data-target="#ticketDeleteModal" onClick={this.reloadTicketData}><span className="text-danger">Delete</span></a>
                       </div>
                     </div>
 
@@ -128,11 +160,16 @@ class Ticket extends React.Component {
                       <div className="modal-dialog" role="document">
                         <div className="modal-content">
                           <div className="modal-header">
-                            <h5 className="modal-title" id="ticketEditModalLabel">(Edit Ticket Form here)</h5>
-                            <button className="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <h5 className="modal-title" id="ticketEditModalLabel">Edit Ticket</h5>
+                            <button className="close" id="closeTicketEditModal" type="button" data-dismiss="modal" aria-label="Close">
                               <span aria-hidden="true">×</span>
                             </button>
                           </div>
+
+                          <div className="modal-body">
+                            <TicketEditForm ticketData={this.props.ticketData} userID={this.props.userID} reloadTicketData={this.reloadTicketData}/>
+                          </div>
+
                         </div>
                       </div>
                     </div>
@@ -179,9 +216,9 @@ class Ticket extends React.Component {
 
                       <tbody>
                         <tr>
-                          <td>{this.props.ticketData.status}</td>
-                          <td>{this.props.ticketData.priority}</td>
-                          <td>{this.props.ticketData.type}</td>
+                          <td>{this.state.status}</td>
+                          <td>{this.state.priority}</td>
+                          <td>{this.state.type}</td>
                           <td>{this.state.project}</td>
                           <td>{this.state.dev}</td>
                         </tr>
@@ -200,7 +237,7 @@ class Ticket extends React.Component {
                   </div>
 
                   <div className="card-body">
-                    {this.props.ticketData.description}
+                    {this.state.description}
                   </div>
 
                 </div>  
@@ -208,7 +245,7 @@ class Ticket extends React.Component {
               </div>
 
               <div className="card-footer">
-                <span className="float-right">Created: {this.props.ticketData.submit_date}</span>
+                <span className="float-right">Created: {this.state.submit_date}</span>
               </div>
 
             </div>
