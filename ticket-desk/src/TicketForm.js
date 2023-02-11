@@ -12,7 +12,7 @@ class TicketForm extends React.Component {
       ticketDesc: '',
       ticketPriority: 'medium',
       submitModalText: ''
-    }
+    };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -34,7 +34,7 @@ class TicketForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    
+
     axios.put('/api/project/tickets',
       {
         userID: this.props.userID,

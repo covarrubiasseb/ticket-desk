@@ -9,7 +9,7 @@ class ProjectForm extends React.Component {
       projectName: '',
       projectDesc: '',
       modalText: ''
-    }
+    };
 
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleDescChange = this.handleDescChange.bind(this);

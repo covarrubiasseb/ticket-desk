@@ -9,7 +9,7 @@ class Project extends React.Component {
     this.state = {
       users: [],
       tickets: []
-    }
+    };
 
     this.getTickets = this.getTickets.bind(this);
   }

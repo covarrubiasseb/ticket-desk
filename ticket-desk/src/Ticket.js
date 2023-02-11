@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import $ from 'jquery';
+import Comment from './Comment';
 import CommentForm from './CommentForm';
 import TicketEditForm from './TicketEditForm';
 
@@ -18,7 +19,7 @@ class Ticket extends React.Component {
       type: this.props.ticketData.type,
       description: this.props.ticketData.description,
       submit_date: this.props.ticketData.submit_date
-    }
+    };
 
     this.getComments = this.getComments.bind(this);
     this.getTicketUser = this.getTicketUser.bind(this);
@@ -38,80 +39,7 @@ class Ticket extends React.Component {
 
           return (
 
-            <div className="card mb-2">
-
-              <div className="card-header">
-
-                <div className="row">
-
-                  <div className="col">
-                    <span className="font-weight-bold text-dark">UserID:</span> {comment.userID}
-                  </div>
-
-                  <div className="col">
-
-                    {/* Display Conditionallly on page load if User submitted Comment or is an Admin */}
-                    <div className="dropdown no-arrow float-right">
-                      <a className="dropdown-toggle" href="#" role="button" id="dropdownMenuCommentEdit" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i className="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                      </a>
-                      <div className="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuCommentEdit">
-                        <a className="dropdown-item" href="#" data-toggle="modal" data-target="#commentEditModal">Edit</a>
-                        <div className="dropdown-divider"></div>
-                        <a className="dropdown-item" href="#" data-toggle="modal" data-target="#commentDeleteModal"><span className="text-danger">Delete</span></a>
-                      </div>
-                    </div>
-
-                    <div className="modal fade" id="commentEditModal" tabIndex="-1" role="dialog" aria-labelledby="commentEditModalLabel"
-                        aria-hidden="true">
-                      <div className="modal-dialog" role="document">
-                        <div className="modal-content">
-                          <div className="modal-header">
-                            <h5 className="modal-title" id="commentEditModalLabel">(Edit Comment Form)</h5>
-                            <button className="close" id="closecommentEditModal" type="button" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">×</span>
-                            </button>
-                          </div>
-
-                          <div className="modal-body">
-                            {/*Edit Comment Form Body*/}
-                          </div>
-
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="modal fade" id="commentDeleteModal" tabIndex="-1" role="dialog" aria-labelledby="commentDeleteModalLabel"
-                        aria-hidden="true">
-                      <div className="modal-dialog" role="document">
-                        <div className="modal-content">
-                          <div className="modal-header">
-                            <h5 className="modal-title" id="commentDeleteModalLabel">(Delete Prompt Here)</h5>
-                            <button className="close" type="button" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">×</span>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-              <div className="card-body">
-
-                <div>{comment.content}</div>
-
-                <div className="float-right">
-                  <span className=" font-weight-bold text-dark">Date Posted:</span> {comment.submit_date}
-                </div>
-
-              </div>
-
-            </div>
+            <Comment comment={comment} />
 
           );
 
@@ -176,6 +104,7 @@ class Ticket extends React.Component {
 
     this.getTicketProject();
     this.getTicketUser();
+
   }
 
   render() {
