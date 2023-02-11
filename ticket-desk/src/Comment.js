@@ -1,5 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
+import axios from 'axios';
 
 class Comment extends React.Component {
   constructor(props) {
@@ -23,7 +24,16 @@ class Comment extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    $("#closeCommentEditModal").trigger("click");
+
+    axios.post(`/api/ticket/comments?userID=${this.props.userID}`,
+              {
+                commentID: this.props.comment.commentID,
+                content: this.state.edit_content
+              }
+    )
+    .then(response => {
+      $("#closeCommentEditModal").trigger("click");
+    });
   }
 
   render() {

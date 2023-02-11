@@ -39,7 +39,7 @@ class Ticket extends React.Component {
 
           return (
 
-            <Comment comment={comment} />
+            <Comment comment={comment} userID={this.props.userID}/>
 
           );
 
