@@ -196,51 +196,81 @@ class Ticket extends React.Component {
 
               <div className="card-body">
 
-                <div className="card mb-4">
+                <div className="row">
 
-                  <div className="card-header">
-                    <h6 className="m-0 font-weight-bold text-dark">Info</h6>
-                  </div>
+                  <div className="col-6">
 
-                  <div className="card-body">
+                    <div className="card">
 
-                    <table className="table table-hover">
+                      <div className="card-header">
+                        <h6 className="m-0 font-weight-bold text-dark">Description</h6>
+                      </div>
 
-                      <thead className="table-light">
-                        <th className="text-dark" scope="col">Status</th>
-                        <th className="text-dark" scope="col">Priority</th>
-                        <th className="text-dark" scope="col">Type</th>
-                        <th className="text-dark" scope="col">Project</th>
-                        <th className="text-dark" scope="col">Creator</th>
-                      </thead>
+                      <div className="card-body">
+                        {this.state.description}
+                      </div>
 
-                      <tbody>
-                        <tr>
-                          <td>{this.state.status}</td>
-                          <td>{this.state.priority}</td>
-                          <td>{this.state.type}</td>
-                          <td>{this.state.project}</td>
-                          <td>{this.state.dev}</td>
-                        </tr>
-                      </tbody>
-
-                    </table>
+                    </div>
 
                   </div>
 
-                </div>
+                  <div className="col-6">
 
-                <div className="card">
+                    <div className="card mb-4">
 
-                  <div className="card-header">
-                    <h6 className="m-0 font-weight-bold text-dark">Description</h6>
+                      <div className="card-header">
+                        <h6 className="m-0 font-weight-bold text-dark">Info</h6>
+                      </div>
+
+                      <div className="card-body">
+
+                        <table className="table table-hover">
+
+{/*                          <thead className="table-light">
+                            <th className="text-dark" scope="col">Status</th>
+                            <th className="text-dark" scope="col">Priority</th>
+                            <th className="text-dark" scope="col">Type</th>
+                            <th className="text-dark" scope="col">Project</th>
+                            <th className="text-dark" scope="col">Creator</th>
+                          </thead>*/}
+
+                          <tbody>
+                            <tr>
+                              <td className="text-dark">Status</td>
+                              <td>{this.state.status}</td>
+                            </tr>
+
+                            <tr>
+                              <td className="text-dark">Priority</td>
+                              <td>{this.state.priority}</td>
+                            </tr>
+
+                            <tr>
+                              <td className="text-dark">Type</td>
+                              <td>{this.state.type}</td>
+                            </tr>
+
+                            <tr>
+                              <td className="text-dark">Project</td>
+                              <td>{this.state.project}</td>
+                            </tr>
+
+                            <tr>
+                              <td className="text-dark">Creator</td>
+                              <td>{this.state.dev}</td>
+                            </tr>
+
+                          </tbody>
+
+                        </table>
+
+                      </div>
+
+                    </div>                    
+
                   </div>
 
-                  <div className="card-body">
-                    {this.state.description}
-                  </div>
-
-                </div>  
+                </div> 
 
               </div>
 
