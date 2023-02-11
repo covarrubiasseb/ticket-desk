@@ -41,7 +41,30 @@ class Ticket extends React.Component {
             <div className="card mb-2">
 
               <div className="card-header">
-                <span className=" font-weight-bold text-dark">UserID:</span> {comment.userID}
+
+                <div className="row">
+
+                  <div className="col">
+                    <span className="font-weight-bold text-dark">UserID:</span> {comment.userID}
+                  </div>
+
+                  <div className="col">
+
+                    <div className="dropdown no-arrow float-right">
+                      <a className="dropdown-toggle" href="#" role="button" id="dropdownMenuCommentEdit" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i className="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                      </a>
+                      <div className="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuCommentEdit">
+                        <a className="dropdown-item" href="#" data-toggle="modal" data-target="#commentEditModal">Edit</a>
+                        <div className="dropdown-divider"></div>
+                        <a className="dropdown-item" href="#" data-toggle="modal" data-target="#commentDeleteModal" onClick={this.reloadTicketData}><span className="text-danger">Delete</span></a>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+
               </div>
 
               <div className="card-body">
