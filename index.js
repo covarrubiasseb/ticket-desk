@@ -195,7 +195,6 @@ app.get('/api/user/tickets', (req, res) => {
 // CREATE PROJECT TICKET ////////////////////
 app.put('/api/project/tickets', bodyParser.json(), (req, res) => {
 
-  console.log(req.body)
   let data = {
     userID: req.body.userID,
     projectID: req.body.projectID,
@@ -219,7 +218,26 @@ app.put('/api/project/tickets', bodyParser.json(), (req, res) => {
 // UPDATE PROJECT TICKET ////////////////////
 app.post('/api/project/tickets', bodyParser.json(), (req, res) => {
 
-  // mysql.connection.query()
+  let ticketID = req.query.ticketID;
+
+  let data = {
+    userID: req.body.userID,
+    projectID: req.body.projectID,
+    title: req.body.ticketTitle,
+    status: req.body.ticketStatus,
+    type: req.body.ticketType,
+    description: req.body.ticketDesc,
+    priority: req.body.ticketPriority
+  }
+
+  mysql.connection.query(db.queries.updateTicket(ticketID, data), (err, results) => {
+    if (err) {
+      throw err;
+      res.send({valid: true});
+    } else {
+      res.send({valid: false});
+    }
+  });
 
 });
 

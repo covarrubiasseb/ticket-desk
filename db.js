@@ -113,8 +113,10 @@ const queries = {
       VALUES ('${data.projectID}','${data.userID}','${data.title}','${data.status}','${data.type}','${data.description}','${data.priority}');`
   },
 
-  updateTicket: function(data) {
-    return `;`
+  updateTicket: function(ticketID, data) {
+    return `UPDATE tickets 
+              SET projectID='${data.projectID}', userID='${data.userID}', title='${data.title}', status='${data.status}', type='${data.type}',
+              description='${data.description}', priority='${data.priority}' WHERE ticketID='${ticketID}';`
   },
 
   findProjectTickets: function(projectID) {
