@@ -138,6 +138,14 @@ const queries = {
 
   findComments: function (ticketID) {
     return `SELECT * FROM comments WHERE ticketID='${ticketID}';`
+  },
+
+  findCommentById: function(commentID) {
+    return `SELECT * FROM comments WHERE commentID='${commentID}';`
+  },
+
+  updateComment: function(data) {
+    return `UPDATE comments SET content='${data.content}' WHERE commentID='${data.commentID}';`
   }
 }
 
