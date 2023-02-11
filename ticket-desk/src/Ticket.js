@@ -50,6 +50,7 @@ class Ticket extends React.Component {
 
                   <div className="col">
 
+                    {/* Display Conditionallly on page load if User submitted Comment or is an Admin */}
                     <div className="dropdown no-arrow float-right">
                       <a className="dropdown-toggle" href="#" role="button" id="dropdownMenuCommentEdit" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i className="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -57,7 +58,40 @@ class Ticket extends React.Component {
                       <div className="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuCommentEdit">
                         <a className="dropdown-item" href="#" data-toggle="modal" data-target="#commentEditModal">Edit</a>
                         <div className="dropdown-divider"></div>
-                        <a className="dropdown-item" href="#" data-toggle="modal" data-target="#commentDeleteModal" onClick={this.reloadTicketData}><span className="text-danger">Delete</span></a>
+                        <a className="dropdown-item" href="#" data-toggle="modal" data-target="#commentDeleteModal"><span className="text-danger">Delete</span></a>
+                      </div>
+                    </div>
+
+                    <div className="modal fade" id="commentEditModal" tabIndex="-1" role="dialog" aria-labelledby="commentEditModalLabel"
+                        aria-hidden="true">
+                      <div className="modal-dialog" role="document">
+                        <div className="modal-content">
+                          <div className="modal-header">
+                            <h5 className="modal-title" id="commentEditModalLabel">(Edit Comment Form)</h5>
+                            <button className="close" id="closecommentEditModal" type="button" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                          </div>
+
+                          <div className="modal-body">
+                            {/*Edit Comment Form Body*/}
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="modal fade" id="commentDeleteModal" tabIndex="-1" role="dialog" aria-labelledby="commentDeleteModalLabel"
+                        aria-hidden="true">
+                      <div className="modal-dialog" role="document">
+                        <div className="modal-content">
+                          <div className="modal-header">
+                            <h5 className="modal-title" id="commentDeleteModalLabel">(Delete Prompt Here)</h5>
+                            <button className="close" type="button" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     </div>
 
