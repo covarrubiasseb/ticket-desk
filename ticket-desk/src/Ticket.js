@@ -101,7 +101,60 @@ class Ticket extends React.Component {
             <div className="card shadow mb-4">
 
               <div className="card-header py-3">
-                <h6 className="m-0 font-weight-bold text-primary">{this.props.ticketData.title}</h6>
+
+                <div className="row">
+
+                  <div className="col">
+
+                    <h6 className="m-0 font-weight-bold text-primary">{this.props.ticketData.title}</h6>
+
+                  </div>
+
+                  <div className="col">
+                    {/* Display Conditionallly on page load if User submitted Ticket*/}
+                    <div className="dropdown no-arrow float-right">
+                      <a className="dropdown-toggle" href="#" role="button" id="dropdownMenuTicketEdit" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i className="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                      </a>
+                      <div className="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuTicketEdit">
+                        <a className="dropdown-item" href="#" data-toggle="modal" data-target="#ticketEditModal">Edit</a>
+                        <div className="dropdown-divider"></div>
+                        <a className="dropdown-item" href="#" data-toggle="modal" data-target="#ticketDeleteModal"><span className="text-danger">Delete</span></a>
+                      </div>
+                    </div>
+
+                    <div className="modal fade" id="ticketEditModal" tabIndex="-1" role="dialog" aria-labelledby="ticketEditModalLabel"
+                        aria-hidden="true">
+                      <div className="modal-dialog" role="document">
+                        <div className="modal-content">
+                          <div className="modal-header">
+                            <h5 className="modal-title" id="ticketEditModalLabel">(Edit Ticket Form here)</h5>
+                            <button className="close" type="button" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="modal fade" id="ticketDeleteModal" tabIndex="-1" role="dialog" aria-labelledby="ticketDeleteModalLabel"
+                        aria-hidden="true">
+                      <div className="modal-dialog" role="document">
+                        <div className="modal-content">
+                          <div className="modal-header">
+                            <h5 className="modal-title" id="ticketDeleteModalLabel">(Delete Prompt Here)</h5>
+                            <button className="close" type="button" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+
               </div>
 
               <div className="card-body">
