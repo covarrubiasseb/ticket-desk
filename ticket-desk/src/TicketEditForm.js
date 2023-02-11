@@ -7,7 +7,7 @@ class TicketEditForm extends React.Component {
 
     this.state = {
       ticketTitle: this.props.ticketData.title,
-      ticketStatus: this.props.ticketData.status,
+      ticketStatus: this.props.ticketData.status || 'open',
       ticketType: this.props.ticketData.type || 'client',
       ticketDesc: this.props.ticketData.description,
       ticketPriority: this.props.ticketData.priority || 'medium'
@@ -16,8 +16,9 @@ class TicketEditForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleDescChange = this.handleDescChange.bind(this);
+    this.setTicketStatus = this.setTicketStatus.bind(this);
     this.setTicketPriority = this.setTicketPriority.bind(this);
-    this.setTicketType = this.setTicketType.bind(this)
+    this.setTicketType = this.setTicketType.bind(this);
   }
 
   handleSubmit(event) {
@@ -65,6 +66,12 @@ class TicketEditForm extends React.Component {
     });
   }
 
+  setTicketStatus(event) {
+    this.setState({
+      ticketStatus: event.target.value
+    });
+  }
+
   setTicketPriority(event) {
     this.setState({
       ticketPriority: event.target.value
@@ -104,7 +111,18 @@ class TicketEditForm extends React.Component {
 
         <div className="row mb-2">
 
-          <div className="col-6">
+          <div className="col-4">
+
+            <h6 className="font-weight-bold text-dark">Status</h6>
+
+            <select className="form-select" value={this.state.ticketStatus} onChange={this.setTicketStatus}>
+              <option value="open" selected>Open</option>
+              <option value="closed">Closed</option>
+            </select>
+
+          </div>
+
+          <div className="col-4">
 
             <h6 className="font-weight-bold text-dark">Priority</h6>
 
@@ -116,7 +134,7 @@ class TicketEditForm extends React.Component {
 
           </div>
 
-          <div className="col-6">
+          <div className="col-4">
 
             <h6 className="font-weight-bold text-dark">Type</h6>
 
