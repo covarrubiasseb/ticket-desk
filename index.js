@@ -79,6 +79,13 @@ app.post('/api/register', bodyParser(), (req, res) => {
 
 });
 
+// LOGOUT ////////////////////
+app.get('/api/logout', (req, res) => {
+  // Need to setup sessions/tokenization
+  // just redirect to Login for now
+  res.redirect('/');
+});
+
 // GET USER DATA ////////////////////
 app.get('/api/users', (req, res) => {
   let email = req.user.emails[0].value;
