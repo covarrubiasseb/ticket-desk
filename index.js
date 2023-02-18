@@ -1,35 +1,58 @@
 const express = require('express');
 const process = require('process');
-const { config } = require('dotenv');
-const bodyParser = require('body-parser');
+const { config } = require('dotenv').config();
+const jwt = require('jsonwebtoken');
 const db = require('./db');
 const mysql = require('./mysql');
 const bcrypt = require('bcrypt');
 
 const app = express();
 
-config();
+app.use(express.json());
 
 const saltRounds = 10;
 const port = process.env.PORT;
+const jwt_secret_key = process.env.JWT_SECRET_KEY;
 
 app.use(express.static(`${__dirname}/ticket-desk/build`));
 
 // LOGIN ////////////////////
-app.post('/api/login', bodyParser(), (req, res) => {
+app.post('/api/login', (req, res) => {
   let loginEmail = req.body.email;
   let passwordAttempt = req.body.password;
 
   // Check if email exists in DB
   mysql.connection.query(db.queries.findUser(loginEmail), (err, results) => {
-
+    let user = results[0];
     // if email exists check password
-    if (results[0]) {
+    if (user) {
+
       let hash = results[0].hash;
       // if password is correct
       bcrypt.compare(passwordAttempt, hash, (err, result) => {
+
         if (result) {
-          res.sendStatus(200);
+
+          const token = jwt.sign(
+            { userID: user.userID },
+            jwt_secret_key,
+            { expiresIn: '1h' }
+          );
+
+          res.status(200).json({
+            success: true,
+            data: {
+              name: {
+                firstName: user.firstName,
+                lastName: user.lastName
+              },
+              email: user.email,
+              role: user.role,
+              userID: user.userID,
+              token: token
+            }
+          });
+
         } else {
           res.sendStatus(401);
         }
@@ -45,7 +68,7 @@ app.post('/api/login', bodyParser(), (req, res) => {
 });
 
 // REGISTER ////////////////////
-app.post('/api/register', bodyParser(), (req, res) => {
+app.post('/api/register', (req, res) => {
   let firstName = req.body.firstName;
   let lastName = req.body.lastName;
   let registerEmail = req.body.email;
@@ -64,7 +87,35 @@ app.post('/api/register', bodyParser(), (req, res) => {
           if (err) {
             res.sendStatus(500);
           } else {
-            res.sendStatus(200);
+            console.log(results);
+
+            // user successfully created in DB
+            mysql.connection.query(db.queries.findUser(registerEmail), (err, results) => {
+              let user = results[0];
+
+              const token = jwt.sign(
+                { userID: user.userID },
+                jwt_secret_key,
+                { expiresIn: '1h' }
+              );
+
+              res.status(200).json({
+                success: true,
+                data: {
+                  name: {
+                    firstName: user.firstName,
+                    lastName: user.lastName
+                  },
+                  email: user.email,
+                  role: user.role,
+                  userID: user.userID,
+                  token: token
+                }
+              });
+
+            });
+
+            
           }
 
         });
@@ -125,7 +176,7 @@ app.get('/api/project', (req, res) => {
 });
 
 // UPDATE PROJECT ////////////////////
-app.post('/api/project', bodyParser.json(), (req, res) => {
+app.post('/api/project', (req, res) => {
   mysql.connection.query(db.queries.findProject)
 });
 
@@ -137,7 +188,7 @@ app.get('/api/projects', (req, res) => {
 });
 
 // GET PROJECTS ////////////////////
-app.post('/api/projects', bodyParser.json(), (req, res) => {
+app.post('/api/projects', (req, res) => {
   let email = req.user.emails[0].value;
   let projectName = req.body.projectName;
   let projectDesc = req.body.projectDesc;
@@ -252,7 +303,7 @@ app.get('/api/user/tickets', (req, res) => {
 });
 
 // CREATE PROJECT TICKET ////////////////////
-app.put('/api/project/tickets', bodyParser.json(), (req, res) => {
+app.put('/api/project/tickets', (req, res) => {
 
   let data = {
     userID: req.body.userID,
@@ -275,7 +326,7 @@ app.put('/api/project/tickets', bodyParser.json(), (req, res) => {
 });
 
 // UPDATE PROJECT TICKET ////////////////////
-app.post('/api/project/tickets', bodyParser.json(), (req, res) => {
+app.post('/api/project/tickets', (req, res) => {
 
   let ticketID = req.query.ticketID;
   let userID = req.query.userID;
@@ -333,7 +384,7 @@ app.get('/api/ticket/comments', (req, res) => {
 });
 
 // CREATE TICKET COMMENT ////////////////////
-app.put('/api/ticket/comments', bodyParser.json(), (req, res) => {
+app.put('/api/ticket/comments', (req, res) => {
   let data = req.body;
 
   mysql.connection.query(db.queries.createComment(data), (err, results) => {
@@ -347,7 +398,7 @@ app.put('/api/ticket/comments', bodyParser.json(), (req, res) => {
 });
 
 // EDIT TICKET COMMENT ////////////////////
-app.post('/api/ticket/comments', bodyParser.json(), (req, res) => {
+app.post('/api/ticket/comments', (req, res) => {
   let userID = req.query.userID;
   let commentID = req.body.commentID;
   let data = { content: req.body.content };

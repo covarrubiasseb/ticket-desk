@@ -25,6 +25,7 @@ class Login extends React.Component {
     })
     .then(response => {
       if (response.status === 200) {
+        console.log(response);
         this.props.setPageMain();
       } else {
         console.log(response);
