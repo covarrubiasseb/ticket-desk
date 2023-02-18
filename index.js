@@ -1,5 +1,5 @@
 const express = require('express');
-const passport = require('passport');
+// const passport = require('passport');
 const process = require('process');
 const { config } = require('dotenv');
 const session = require('express-session');
@@ -21,38 +21,43 @@ const isLoggedIn = (req, res, next) => {
 
 };
 
-app.use(session({
-  secret: secret
-}));
+// app.use(session({
+//   secret: secret
+// }));
 
-app.use(passport.initialize());
-app.use(passport.session());
-
-// LOGIN ////////////////////
-app.get('/login',
-  passport.authenticate('google', {
-          scope:
-              ['email', 'profile']
-      }
-));
-
-app.get('/login/callback',
-  passport.authenticate('google'),
-  (req, res) => {
-    res.redirect('/');
-  }
-);
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 
-// LOGOUT ////////////////////
-app.get('/logout', (req, res, next) => {
-  req.logout(err => {
-    if (err) { return next(err); }
-    res.redirect('/');
-  });
+// // LOGIN ////////////////////
+// app.get('/login',
+//   passport.authenticate('google', {
+//           scope:
+//               ['email', 'profile']
+//       }
+// ));
+
+// app.get('/login/callback',
+//   passport.authenticate('google'),
+//   (req, res) => {
+//     res.redirect('/');
+//   }
+// );
+
+
+// // LOGOUT ////////////////////
+// app.get('/logout', (req, res, next) => {
+//   req.logout(err => {
+//     if (err) { return next(err); }
+//     res.redirect('/');
+//   });
+// });
+
+// app.use(isLoggedIn, express.static(`${__dirname}/ticket-desk/build`));
+
+app.get('/', (req, res) => {
+  res.send('Hi')
 });
-
-app.use(isLoggedIn, express.static(`${__dirname}/ticket-desk/build`));
 
 // GET USER DATA ////////////////////
 app.get('/api/users', (req, res) => {
