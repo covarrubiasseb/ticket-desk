@@ -1,5 +1,7 @@
 const express = require('express');
 const passport = require('passport');
+const process = require('process');
+const { config } = require('dotenv');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const db = require('./db');
@@ -7,7 +9,11 @@ const mysql = require('./mysql');
 require('./passport');
 
 const app = express();
-const port = 5000;
+
+config();
+
+const port = process.env.PORT;
+let secret = process.env.SECRET;
 
 const isLoggedIn = (req, res, next) => {
 
@@ -16,7 +22,7 @@ const isLoggedIn = (req, res, next) => {
 };
 
 app.use(session({
-  secret: 'google-auth-session'
+  secret: secret
 }));
 
 app.use(passport.initialize());
