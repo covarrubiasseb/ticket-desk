@@ -6,9 +6,11 @@ const queries = {
 
   createTableUsers: `CREATE TABLE IF NOT EXISTS users (
     userID int NOT NULL AUTO_INCREMENT,
-    name varchar(255) NOT NULL,
+    firstName varchar(64) NOT NULL,
+    lastName varchar(64) NOT NULL,
     email varchar(255) NOT NULL,
     role varchar(255),
+    hash varchar(128) NOT NULL,
     PRIMARY KEY (userID)
   );`,
 
@@ -80,8 +82,8 @@ const queries = {
     return `SELECT * FROM users WHERE userID='${userID}';`
   },
 
-  createUser: function(userName, userEmail) {
-    return `INSERT INTO users (name, email, role) VALUES ('${userName}','${userEmail}','Unassigned');`
+  createUser: function(firstName, lastName, userEmail, hash) {
+    return `INSERT INTO users (firstName, lastName, email, role, hash) VALUES ('${firstName}','${lastName}','${userEmail}','Unassigned','${hash}');`
   },
 
   createProject: function(projectName, projectDescription) {

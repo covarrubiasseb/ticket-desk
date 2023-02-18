@@ -1,62 +1,82 @@
 const express = require('express');
-// const passport = require('passport');
 const process = require('process');
 const { config } = require('dotenv');
-const session = require('express-session');
 const bodyParser = require('body-parser');
 const db = require('./db');
 const mysql = require('./mysql');
-require('./passport');
+const bcrypt = require('bcrypt');
 
 const app = express();
 
 config();
 
+const saltRounds = 10;
 const port = process.env.PORT;
-let secret = process.env.SECRET;
 
-const isLoggedIn = (req, res, next) => {
+app.use(express.static(`${__dirname}/ticket-desk/build`));
 
-  req.user ? next() : res.redirect('/login')
+// LOGIN ////////////////////
+app.post('/api/login', bodyParser(), (req, res) => {
+  let loginEmail = req.body.email;
+  let passwordAttempt = req.body.password;
 
-};
+  // Check if email exists in DB
+  mysql.connection.query(db.queries.findUser(loginEmail), (err, results) => {
 
-// app.use(session({
-//   secret: secret
-// }));
+    // if email exists check password
+    if (results[0]) {
+      let hash = results[0].hash;
+      // if password is correct
+      bcrypt.compare(passwordAttempt, hash, (err, result) => {
+        if (result) {
+          res.sendStatus(200);
+        } else {
+          res.sendStatus(401);
+        }
 
-// app.use(passport.initialize());
-// app.use(passport.session());
+      });
 
+    } else {
+      res.sendStatus(404);
+    }
 
-// // LOGIN ////////////////////
-// app.get('/login',
-//   passport.authenticate('google', {
-//           scope:
-//               ['email', 'profile']
-//       }
-// ));
+  });
 
-// app.get('/login/callback',
-//   passport.authenticate('google'),
-//   (req, res) => {
-//     res.redirect('/');
-//   }
-// );
+});
 
+// REGISTER ////////////////////
+app.post('/api/register', bodyParser(), (req, res) => {
+  let firstName = req.body.firstName;
+  let lastName = req.body.lastName;
+  let registerEmail = req.body.email;
+  let registerPassword = req.body.password;
 
-// // LOGOUT ////////////////////
-// app.get('/logout', (req, res, next) => {
-//   req.logout(err => {
-//     if (err) { return next(err); }
-//     res.redirect('/');
-//   });
-// });
+  // Check if email exists in DB
+  mysql.connection.query(db.queries.findUser(registerEmail), (err, results) => {
 
-// app.use(isLoggedIn, express.static(`${__dirname}/ticket-desk/build`));
+    // if email doesn't exist create new user
+    if (results.length === 0) {
 
-app.get('/', (req, res) => {
-  res.send('Hi')
+      bcrypt.hash(registerPassword, saltRounds, (err, hash) => {
+
+        // add new user to db
+        mysql.connection.query(db.queries.createUser(firstName, lastName, registerEmail, hash), (err, results) => {
+          if (err) {
+            res.sendStatus(500);
+          } else {
+            res.sendStatus(200);
+          }
+
+        });
+
+      });
+
+    } else {
+      res.sendStatus(401);
+    }
+
+  });
+
 });
 
 // GET USER DATA ////////////////////
