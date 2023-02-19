@@ -139,6 +139,7 @@ app.get('/api/logout', (req, res) => {
 
 // GET TICKET CREATOR/ASSIGNED DEV ////////////////////
 app.get('/api/ticket/dev', (req, res) => {
+  const token = req.headers['jwt-token'];
 
   mysql.connection.query(db.queries.findUserById(req.query.userID), (err, results) => {
     if (err) {
@@ -153,31 +154,70 @@ app.get('/api/ticket/dev', (req, res) => {
 
 // GET TICKET PROJECT ////////////////////
 app.get('/api/project', (req, res) => {
-  mysql.connection.query(db.queries.findProject(req.query.projectID), (err, results) => {
-    if (err) {
-      throw err;
-      res.end();
-    } else {
-      res.send(results);
-    }
-  });
+  const token = req.headers['jwt-token'];
+
+  if (token) {
+    jwt.verify(token, jwt_secret_key, (err, decoded) => {
+      if (err) {
+        res.sendStatus(401);
+      } else {
+        if (decoded) {
+
+          console.log('Token Validated! - GET /api/project');
+
+          mysql.connection.query(db.queries.findProject(req.query.projectID), (err, results) => {
+            if (err) {
+              res.sendStatus(404);
+            } else {
+              res.status(200).send(results);
+            }
+          });
+
+        } else {
+          res.sendStatus(401);
+        }
+      }
+    });
+  }
+
 });
 
 // UPDATE PROJECT ////////////////////
 app.post('/api/project', (req, res) => {
-  mysql.connection.query(db.queries.findProject)
+  const token = req.headers['jwt-token'];
+  // mysql.connection.query(db.queries.findProject)
 });
 
 // GET USER PROJECTS ////////////////////
 app.get('/api/projects', (req, res) => {
-  
-  mysql.connection.query(db.queries.findProjects(req.query.userID), (err, results) => {
-    res.send(results);
-  });
+  const token = req.headers['jwt-token'];
+
+  if (token) {
+    jwt.verify(token, jwt_secret_key, (err, decoded) => {
+      if (err) {
+        res.send(401);
+      } else {
+        if (decoded) {
+
+          console.log('Token Validated! - GET /api/projects');
+
+          mysql.connection.query(db.queries.findProjects(req.query.userID), (err, results) => {
+            res.status(200).send(results);
+          });
+
+        } else {
+          res.sendStatus(401);
+        }
+      }
+    });
+  }
+
 });
 
 // CREATE NEW PROJECT ////////////////////
 app.post('/api/projects', (req, res) => {
+  const token = req.headers['jwt-token'];
+
   let email = req.body.userEmail;
   let projectName = req.body.projectName;
   let projectDesc = req.body.projectDesc;
@@ -225,6 +265,8 @@ app.post('/api/projects', (req, res) => {
 
 // GET Project USERS ////////////////////
 app.get('/api/project/users', (req, res) => {
+  const token = req.headers['jwt-token'];
+
   let projectID = req.query.projectID;
 
   mysql.connection.query(db.queries.findProjectUsers(projectID), (err, results) => {
@@ -239,6 +281,8 @@ app.get('/api/project/users', (req, res) => {
 
 // UPDATE PROJECT USERS ////////////////////
 app.post('/api/project/users', (req, res) => {
+  const token = req.headers['jwt-token'];
+
   let projectID = '';
   let userID = '';
 
@@ -249,6 +293,7 @@ app.post('/api/project/users', (req, res) => {
 
 // GET TICKET BY ID (ONE) ////////////////////
 app.get('/api/ticket', (req, res) => {
+  const token = req.headers['jwt-token'];
 
   let ticketID = req.query.ticketID;
 
@@ -265,6 +310,8 @@ app.get('/api/ticket', (req, res) => {
 
 // GET PROJECT TICKETS ////////////////////
 app.get('/api/project/tickets', (req, res) => {
+  const token = req.headers['jwt-token'];
+
   let projectID = req.query.projectID;
 
   mysql.connection.query(db.queries.findProjectTickets(projectID), (err, results) => {
@@ -279,6 +326,8 @@ app.get('/api/project/tickets', (req, res) => {
 
 // GET USER TICKETS ////////////////////
 app.get('/api/user/tickets', (req, res) => {
+  const token = req.headers['jwt-token'];
+
   let userID = req.query.userID;
 
   mysql.connection.query(db.queries.findUserTickets(userID), (err, results) => {
@@ -293,6 +342,7 @@ app.get('/api/user/tickets', (req, res) => {
 
 // CREATE PROJECT TICKET ////////////////////
 app.put('/api/project/tickets', (req, res) => {
+  const token = req.headers['jwt-token'];
 
   let data = {
     userID: req.body.userID,
@@ -316,6 +366,7 @@ app.put('/api/project/tickets', (req, res) => {
 
 // UPDATE PROJECT TICKET ////////////////////
 app.post('/api/project/tickets', (req, res) => {
+  const token = req.headers['jwt-token'];
 
   let ticketID = req.query.ticketID;
   let userID = req.query.userID;
@@ -359,6 +410,8 @@ app.post('/api/project/tickets', (req, res) => {
 
 // GET TICKET COMMENTS ////////////////////
 app.get('/api/ticket/comments', (req, res) => {
+  const token = req.headers['jwt-token'];
+
   let ticketID = req.query.ticketID;
 
   mysql.connection.query(db.queries.findComments(ticketID), (err, results) => {
@@ -374,6 +427,8 @@ app.get('/api/ticket/comments', (req, res) => {
 
 // CREATE TICKET COMMENT ////////////////////
 app.put('/api/ticket/comments', (req, res) => {
+  const token = req.headers['jwt-token'];
+
   let data = req.body;
 
   mysql.connection.query(db.queries.createComment(data), (err, results) => {
@@ -388,6 +443,8 @@ app.put('/api/ticket/comments', (req, res) => {
 
 // EDIT TICKET COMMENT ////////////////////
 app.post('/api/ticket/comments', (req, res) => {
+  const token = req.headers['jwt-token'];
+
   let userID = req.query.userID;
   let commentID = req.body.commentID;
   let data = { content: req.body.content };
