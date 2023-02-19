@@ -32,14 +32,18 @@ class ProjectForm extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
+    console.log(this.props.headersConfig)
     if (this.state.projectName && this.state.projectDesc) {
       axios.post('/api/projects', 
-              {
-                headers: this.props.headersConfig.headers, 
+              { 
                 userEmail: this.props.userEmail,
                 projectName: this.state.projectName,
                 projectDesc: this.state.projectDesc 
-              })
+              },
+              {
+                headers: this.props.headersConfig.headers
+              }
+      )
       .then(response => {
 
         if (!response.data.valid) {

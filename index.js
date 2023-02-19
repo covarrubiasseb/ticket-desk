@@ -211,7 +211,7 @@ app.get('/api/projects', (req, res) => {
   if (token) {
     jwt.verify(token, jwt_secret_key, (err, decoded) => {
       if (err) {
-        res.send(401);
+        res.sendStatus(401);
       } else {
         if (decoded) {
 
@@ -238,45 +238,62 @@ app.post('/api/projects', (req, res) => {
   let projectName = req.body.projectName;
   let projectDesc = req.body.projectDesc;
 
-  // Check if User is Admin, Get UserID
-  mysql.connection.query(db.queries.findUser(email), (err, results) => {
-    let userResults = results[0];
+  if (token) {
+    jwt.verify(token, jwt_secret_key, (err, decoded) => {
+      if (err) {
+        res.sendStatus(401);
+      } else {
+        if (decoded) {
 
-    if (results[0].role === 'Admin') {
-      // Create Project
-      mysql.connection.query(db.queries.createProject(projectName, projectDesc), (err, results) => {
-        if (err) {
-          res.send({valid : false});
-          throw err; 
-        }
-        else {
-          let projectID = results.insertId;
-          // Get ProjectID
-          mysql.connection.query(db.queries.findProject(projectID), (err, results) => {
-            if (err) {
-              res.send({valid : false});
-              throw err;
-            } else {
-              let projectResults = results[0];
-              // Add Admin to UsersProjects Table
-              mysql.connection.query(db.queries.addUserToProject(userResults.userID, projectResults.projectID), (err, results) => {
+          console.log('Token Validated! - POST /api/projects');
+
+          // Check if User is Admin, Get UserID
+          mysql.connection.query(db.queries.findUser(email), (err, results) => {
+            let userResults = results[0];
+
+            if (results[0].role === 'Admin') {
+              // Create Project
+              mysql.connection.query(db.queries.createProject(projectName, projectDesc), (err, results) => {
                 if (err) {
                   res.send({valid : false});
-                  throw err;
-                } else {
-                  res.send({valid : true});
+                  throw err; 
+                }
+                else {
+                  let projectID = results.insertId;
+                  // Get ProjectID
+                  mysql.connection.query(db.queries.findProject(projectID), (err, results) => {
+                    if (err) {
+                      res.send({valid : false});
+                      throw err;
+                    } else {
+                      let projectResults = results[0];
+                      // Add Admin to UsersProjects Table
+                      mysql.connection.query(db.queries.addUserToProject(userResults.userID, projectResults.projectID), (err, results) => {
+                        if (err) {
+                          res.send({valid : false});
+                          throw err;
+                        } else {
+                          res.send({valid : true});
+                        }
+                      });
+                    }
+                  });
                 }
               });
+
+            } else {
+              // Cannot Create Project
+              res.send({valid : false});
             }
           });
-        }
-      });
 
-    } else {
-      // Cannot Create Project
-      res.send({valid : false});
-    }
-  });
+        } else {
+          res.sendStatus(401);
+        }
+      }
+    });
+  }
+
 });
 
 // GET Project USERS ////////////////////

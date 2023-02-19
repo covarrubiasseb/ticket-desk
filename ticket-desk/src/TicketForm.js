@@ -37,7 +37,6 @@ class TicketForm extends React.Component {
 
     axios.put('/api/project/tickets',
       {
-        headers: this.props.headersConfig.headers,
         userID: this.props.userID,
         projectID: this.props.projectID,
         ticketTitle: this.state.ticketTitle,
@@ -45,7 +44,11 @@ class TicketForm extends React.Component {
         ticketType: this.state.ticketType,
         ticketDesc: this.state.ticketDesc,
         ticketPriority: this.state.ticketPriority
-      })
+      },
+      {
+        headers: this.props.headersConfig.headers
+      }
+    )
     .then(response => {
       if (response.data.valid) {
         this.clearForm();

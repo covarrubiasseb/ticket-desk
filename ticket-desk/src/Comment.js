@@ -27,9 +27,11 @@ class Comment extends React.Component {
 
     axios.post(`/api/ticket/comments?userID=${this.props.userID}`,
               {
-                headers: this.props.headersConfig.headers,
                 commentID: this.props.comment.commentID,
                 content: this.state.edit_content
+              },
+              {
+                headers: this.props.headersConfig.headers
               }
     )
     .then(response => {
