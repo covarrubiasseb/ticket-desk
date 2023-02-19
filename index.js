@@ -133,7 +133,6 @@ app.post('/api/register', (req, res) => {
 // LOGOUT ////////////////////
 app.get('/api/logout', (req, res) => {
   // Need to setup sessions/tokenization
-  // just redirect to Login for now
   res.redirect('/');
 });
 
