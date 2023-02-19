@@ -26,6 +26,7 @@ class TicketEditForm extends React.Component {
 
     axios.post(`/api/project/tickets?userID=${this.props.userID}&ticketID=${this.props.ticketData.ticketID}`,
               {
+                headers: this.props.headersConfig.headers,
                 userID: this.props.ticketData.userID,
                 projectID: this.props.ticketData.projectID,
                 ticketTitle: this.state.ticketTitle,

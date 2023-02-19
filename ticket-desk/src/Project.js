@@ -15,7 +15,7 @@ class Project extends React.Component {
   }
 
   getTickets() {    
-    axios.get(`/api/project/tickets?projectID=${this.props.projectData.projectID}`)
+    axios.get(`/api/project/tickets?projectID=${this.props.projectData.projectID}`, this.props.headersConfig)
       .then(response => {
 
         this.setState({
@@ -50,7 +50,7 @@ class Project extends React.Component {
 
   componentDidMount() {
     // GET Project Users
-    axios.get(`/api/project/users?projectID=${this.props.projectData.projectID}`)
+    axios.get(`/api/project/users?projectID=${this.props.projectData.projectID}`, this.props.headersConfig)
       .then(response => {
         
         this.setState({
@@ -131,7 +131,7 @@ class Project extends React.Component {
               </div>
 
               <div className="card-body">
-                <TicketForm userID={this.props.userID} projectID={this.props.projectData.projectID} getTickets={this.getTickets}/>
+                <TicketForm userID={this.props.userID} projectID={this.props.projectData.projectID} getTickets={this.getTickets} headersConfig={this.props.headersConfig}/>
               </div>
 
             </div>

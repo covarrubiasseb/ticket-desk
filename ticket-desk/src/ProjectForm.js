@@ -34,7 +34,8 @@ class ProjectForm extends React.Component {
 
     if (this.state.projectName && this.state.projectDesc) {
       axios.post('/api/projects', 
-              { 
+              {
+                headers: this.props.headersConfig.headers, 
                 userEmail: this.props.userEmail,
                 projectName: this.state.projectName,
                 projectDesc: this.state.projectDesc 

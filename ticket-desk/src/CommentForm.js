@@ -18,6 +18,7 @@ class CommentForm extends React.Component {
     event.preventDefault();
 
     axios.put('/api/ticket/comments', {
+      headers: this.props.headersConfig.headers,
       userID: this.props.userID,
       ticketID: this.props.ticketID,
       content: this.state.comment 

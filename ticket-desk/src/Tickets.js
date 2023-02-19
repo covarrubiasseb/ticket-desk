@@ -13,7 +13,7 @@ class Tickets extends React.Component {
   }
 
   getUserTickets() {
-    axios.get(`/api/user/tickets?userID=${this.props.userID}`)
+    axios.get(`/api/user/tickets?userID=${this.props.userID}`, this.props.headersConfig)
     .then(response => {
       
       this.setState({

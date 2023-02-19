@@ -30,7 +30,7 @@ class Ticket extends React.Component {
 
   getComments() {
 
-    axios.get(`/api/ticket/comments?ticketID=${this.props.ticketID}`)
+    axios.get(`/api/ticket/comments?ticketID=${this.props.ticketID}`, this.props.headersConfig)
     .then(response => {
 
       this.setState({
@@ -39,7 +39,7 @@ class Ticket extends React.Component {
 
           return (
 
-            <Comment comment={comment} userID={this.props.userID} commentIndex={index}/>
+            <Comment comment={comment} userID={this.props.userID} commentIndex={index} headersConfig={this.props.headersConfig}/>
 
           );
 
@@ -52,7 +52,7 @@ class Ticket extends React.Component {
   }
 
   getTicketProject() {
-    axios.get(`/api/project?projectID=${this.props.ticketData.projectID}`)
+    axios.get(`/api/project?projectID=${this.props.ticketData.projectID}`, this.props.headersConfig)
     .then(response => {
 
       let project = response.data[0];
@@ -66,7 +66,7 @@ class Ticket extends React.Component {
   }
 
   getTicketUser() {
-    axios.get(`/api/ticket/dev?userID=${this.props.ticketData.userID}`)
+    axios.get(`/api/ticket/dev?userID=${this.props.ticketData.userID}`, this.props.headersConfig)
     .then(response => {
 
       let user = response.data[0];
@@ -80,7 +80,7 @@ class Ticket extends React.Component {
 
   reloadTicketData() {
 
-    axios.get(`/api/ticket?ticketID=${this.props.ticketData.ticketID}`)
+    axios.get(`/api/ticket?ticketID=${this.props.ticketData.ticketID}`, this.props.headersConfig)
     .then(response => {
 
       let updatedTicket = response.data[0];
@@ -153,7 +153,7 @@ class Ticket extends React.Component {
                           </div>
 
                           <div className="modal-body">
-                            <TicketEditForm ticketData={this.props.ticketData} userID={this.props.userID} reloadTicketData={this.reloadTicketData}/>
+                            <TicketEditForm ticketData={this.props.ticketData} userID={this.props.userID} reloadTicketData={this.reloadTicketData} headersConfig={this.props.headersConfig}/>
                           </div>
 
                         </div>
@@ -286,7 +286,7 @@ class Ticket extends React.Component {
                 <h6 className="m-0 font-weight-bold text-primary">Post a Comment</h6>
               </div>
 
-              <CommentForm userID={this.props.userID} ticketID={this.props.ticketID} getComments={this.getComments}/>
+              <CommentForm userID={this.props.userID} ticketID={this.props.ticketID} getComments={this.getComments} headersConfig={this.props.headersConfig}/>
 
             </div>
           </div>

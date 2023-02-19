@@ -170,7 +170,7 @@ app.post('/api/project', (req, res) => {
 
 // GET USER PROJECTS ////////////////////
 app.get('/api/projects', (req, res) => {
-  console.log(req.headers)
+  
   mysql.connection.query(db.queries.findProjects(req.query.userID), (err, results) => {
     res.send(results);
   });

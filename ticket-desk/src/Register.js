@@ -30,8 +30,6 @@ class Register extends React.Component {
     })
     .then(response => {
       if (response.status === 200) {
-        console.log(response);
-
         this.props.getUserData(response.data.userData);
         this.props.setPageMain();
       } else {

@@ -37,6 +37,7 @@ class TicketForm extends React.Component {
 
     axios.put('/api/project/tickets',
       {
+        headers: this.props.headersConfig.headers,
         userID: this.props.userID,
         projectID: this.props.projectID,
         ticketTitle: this.state.ticketTitle,
