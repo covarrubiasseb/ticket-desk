@@ -253,7 +253,7 @@ class Ticket extends React.Component {
               </div>
 
               <div className="card-footer">
-                <span className="float-right">Created: {this.state.submit_date}</span>
+                <span className="float-right">Created: {this.state.submit_date.slice(0,10)}</span>
               </div>
 
             </div>

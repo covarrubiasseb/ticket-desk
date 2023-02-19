@@ -28,7 +28,7 @@ class Tickets extends React.Component {
               </td>
 
               <td>
-                <span className="float-right">{ticket.submit_date}</span>
+                <span className="float-right">{ticket.submit_date.slice(0,10)}</span>
               </td>
 
             </tr>

@@ -130,7 +130,7 @@ class Comment extends React.Component {
           <div>{this.state.content}</div>
 
           <div className="float-right">
-            <span className=" font-weight-bold text-dark">Date Posted:</span> {this.state.submit_date}
+            <span className=" font-weight-bold text-dark">Date Posted:</span> {this.state.submit_date.slice(0,10)}
           </div>
 
         </div>
