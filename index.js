@@ -405,14 +405,30 @@ app.get('/api/user/tickets', (req, res) => {
 
   let userID = req.query.userID;
 
-  mysql.connection.query(db.queries.findUserTickets(userID), (err, results) => {
-    if (err) {
-      throw err;
-      res.end();
-    } else {
-      res.send(results);
-    }
-  });
+  if (token) {
+    jwt.verify(token, jwt_secret_key, (err, decoded) => {
+      if (err) {
+        res.sendStatus(401);
+      } else {
+        if (decoded) {
+
+          console.log('Token Validated! - GET /api/user/tickets');
+
+          mysql.connection.query(db.queries.findUserTickets(userID), (err, results) => {
+            if (err) {
+              res.sendStatus(404);
+            } else {
+              res.send(results);
+            }
+          });
+
+        } else {
+          res.sendStatus(401);
+        }
+      }
+    });
+  }
+
 });
 
 // CREATE PROJECT TICKET ////////////////////
