@@ -373,14 +373,30 @@ app.get('/api/project/tickets', (req, res) => {
 
   let projectID = req.query.projectID;
 
-  mysql.connection.query(db.queries.findProjectTickets(projectID), (err, results) => {
-    if (err) {
-      throw err;
-      res.end();
-    } else {
-      res.send(results);
-    }
-  });
+  if (token) {
+    jwt.verify(token, jwt_secret_key, (err, decoded) => {
+      if (err) {
+        res.sendStatus(401);
+      } else {
+        if (decoded) {
+
+          console.log('Token Validated! - GET /api/project/tickets');
+
+          mysql.connection.query(db.queries.findProjectTickets(projectID), (err, results) => {
+            if (err) {
+              res.sendStatus(404);
+            } else {
+              res.status(200).send(results);
+            }
+          });
+
+        } else {
+          res.sendStatus(401);
+        }
+      }
+    });
+  }
+
 });
 
 // GET USER TICKETS ////////////////////
