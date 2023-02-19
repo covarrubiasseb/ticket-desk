@@ -567,14 +567,30 @@ app.put('/api/ticket/comments', (req, res) => {
 
   let data = req.body;
 
-  mysql.connection.query(db.queries.createComment(data), (err, results) => {
-    if (err) {
-      throw err;
-      res.send({valid: false});
-    } else {
-      res.send({valid: true});
-    }
-  });
+  if (token) {
+    jwt.verify(token, jwt_secret_key, (err, decoded) => {
+      if (err) {
+        res.sendStatus(401);
+      } else {
+        if (decoded) {
+
+          console.log('Token Validated! - PUT /api/ticket/comments');
+
+          mysql.connection.query(db.queries.createComment(data), (err, results) => {
+            if (err) {
+              res.send({valid: false});
+            } else {
+              res.status(200).send({valid: true});
+            }
+          });
+
+        } else {
+          res.sendStatus(401);
+        }
+      }
+    });
+  }  
+
 });
 
 // EDIT TICKET COMMENT ////////////////////
