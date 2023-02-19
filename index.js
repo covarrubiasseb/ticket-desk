@@ -251,12 +251,11 @@ app.post('/api/projects', (req, res) => {
           mysql.connection.query(db.queries.findUser(email), (err, results) => {
             let userResults = results[0];
 
-            if (results[0].role === 'Admin') {
+            if (userResults.role === 'Admin') {
               // Create Project
               mysql.connection.query(db.queries.createProject(projectName, projectDesc), (err, results) => {
                 if (err) {
                   res.send({valid : false});
-                  throw err; 
                 }
                 else {
                   let projectID = results.insertId;
@@ -264,14 +263,12 @@ app.post('/api/projects', (req, res) => {
                   mysql.connection.query(db.queries.findProject(projectID), (err, results) => {
                     if (err) {
                       res.send({valid : false});
-                      throw err;
                     } else {
                       let projectResults = results[0];
                       // Add Admin to UsersProjects Table
                       mysql.connection.query(db.queries.addUserToProject(userResults.userID, projectResults.projectID), (err, results) => {
                         if (err) {
                           res.send({valid : false});
-                          throw err;
                         } else {
                           res.send({valid : true});
                         }
@@ -302,14 +299,30 @@ app.get('/api/project/users', (req, res) => {
 
   let projectID = req.query.projectID;
 
-  mysql.connection.query(db.queries.findProjectUsers(projectID), (err, results) => {
-    if (err) {
-      throw err;
-      res.end();
-    } else {
-      res.send(results);
-    }
-  });
+  if (token) {
+    jwt.verify(token, jwt_secret_key, (err, decoded) => {
+      if (err) {
+        res.sendStatus(401);
+      } else {
+        if (decoded) {
+
+          console.log('Token Validated! - GET /api/project/users');
+
+          mysql.connection.query(db.queries.findProjectUsers(projectID), (err, results) => {
+            if (err) {
+              res.sendStatus(404);
+            } else {
+              res.status(200).send(results);
+            }
+          });          
+
+        } else {
+          res.sendStatus(401);
+        }
+      }
+    });
+  }
+
 });
 
 // UPDATE PROJECT USERS ////////////////////
