@@ -535,14 +535,29 @@ app.get('/api/ticket/comments', (req, res) => {
 
   let ticketID = req.query.ticketID;
 
-  mysql.connection.query(db.queries.findComments(ticketID), (err, results) => {
-    if (err) {
-      throw err;
-      res.end();
-    } else {
-      res.send(results);
-    }
-  });
+  if (token) {
+    jwt.verify(token, jwt_secret_key, (err, decoded) => {
+      if (err) {
+        res.sendStatus(401);
+      } else {
+        if (decoded) {
+
+          console.log('Token Validated! - GET /api/ticket/comments');
+
+          mysql.connection.query(db.queries.findComments(ticketID), (err, results) => {
+            if (err) {
+              res.sendStatus(404);
+            } else {
+              res.status(200).send(results);
+            }
+          });
+
+        } else {
+          res.sendStatus(401);
+        }
+      }
+    });
+  }
 
 });
 
