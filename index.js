@@ -140,14 +140,31 @@ app.get('/api/logout', (req, res) => {
 app.get('/api/ticket/dev', (req, res) => {
   const token = req.headers['jwt-token'];
 
-  mysql.connection.query(db.queries.findUserById(req.query.userID), (err, results) => {
-    if (err) {
-      throw err;
-      res.end();
-    } else {
-      res.send(results);
-    }
-  });
+  if (token) {
+    jwt.verify(token, jwt_secret_key, (err, decoded) => {
+      if (err) {
+        res.send(401);
+      } else {
+        if (decoded) {
+
+          console.log('Token Validated! - GET /api/ticket/dev');
+
+          mysql.connection.query(db.queries.findUserById(req.query.userID), (err, results) => {
+            if (err) {
+              res.sendStatus(404);
+            } else {
+              res.status(200).send(results);
+            }
+          });          
+
+        } else {
+          res.sendStatus(401);
+        }
+      }
+    });
+  }
+
+
 
 });
 
