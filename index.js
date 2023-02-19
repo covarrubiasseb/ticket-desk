@@ -162,6 +162,8 @@ app.get('/api/ticket/dev', (req, res) => {
         }
       }
     });
+  } else {
+    res.sendStatus(401);
   }
 
 });
@@ -192,6 +194,8 @@ app.get('/api/project', (req, res) => {
         }
       }
     });
+  } else {
+    res.sendStatus(401);
   }
 
 });
@@ -224,6 +228,8 @@ app.get('/api/projects', (req, res) => {
         }
       }
     });
+  } else {
+    res.sendStatus(401);
   }
 
 });
@@ -287,6 +293,8 @@ app.post('/api/projects', (req, res) => {
         }
       }
     });
+  } else {
+    res.sendStatus(401);
   }
 
 });
@@ -319,6 +327,8 @@ app.get('/api/project/users', (req, res) => {
         }
       }
     });
+  } else {
+    res.sendStatus(401);
   }
 
 });
@@ -363,6 +373,8 @@ app.get('/api/ticket', (req, res) => {
         }
       }
     });
+  } else {
+    res.sendStatus(401);
   }
 
 });
@@ -395,6 +407,8 @@ app.get('/api/project/tickets', (req, res) => {
         }
       }
     });
+  } else {
+    res.sendStatus(401);
   }
 
 });
@@ -427,6 +441,8 @@ app.get('/api/user/tickets', (req, res) => {
         }
       }
     });
+  } else {
+    res.sendStatus(401);
   }
 
 });
@@ -467,6 +483,8 @@ app.put('/api/project/tickets', (req, res) => {
         }
       }
     });
+  } else {
+    res.sendStatus(401);
   }
 
 });
@@ -525,6 +543,8 @@ app.post('/api/project/tickets', (req, res) => {
         }
       }
     });
+  } else {
+    res.sendStatus(401);
   }
 
 });
@@ -557,6 +577,8 @@ app.get('/api/ticket/comments', (req, res) => {
         }
       }
     });
+  } else {
+    res.sendStatus(401);
   }
 
 });
@@ -589,6 +611,8 @@ app.put('/api/ticket/comments', (req, res) => {
         }
       }
     });
+  } else {
+    res.sendStatus(401);
   }  
 
 });
