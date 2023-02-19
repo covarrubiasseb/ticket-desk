@@ -583,6 +583,40 @@ app.get('/api/ticket/comments', (req, res) => {
 
 });
 
+// GET TICKET COMMENT USER ////////////////////
+app.get('/api/ticket/comment/user', (req, res) => {
+  const token = req.headers['jwt-token'];
+
+  let userID = req.query.userID;
+
+  if (token) {
+    jwt.verify(token, jwt_secret_key, (err, decoded) => {
+      if (err) {
+        res.sendStatus(401);
+      } else {
+        if (decoded) {
+
+          console.log('Token Validated! - GET /api/ticket/comment/user');
+
+          mysql.connection.query(db.queries.findUserById(userID), (err, results) => {
+            if (err) {
+              res.sendStatus(404);
+            } else {
+              res.status(200).send(results);
+            }
+          });
+
+        } else {
+          res.sendStatus(401);
+        }
+      }
+    });
+  } else {
+    res.sendStatus(401);
+  }
+
+});
+
 // CREATE TICKET COMMENT ////////////////////
 app.put('/api/ticket/comments', (req, res) => {
   const token = req.headers['jwt-token'];

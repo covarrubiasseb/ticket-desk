@@ -39,7 +39,7 @@ class Ticket extends React.Component {
 
           return (
 
-            <Comment comment={comment} userID={this.props.userID} commentIndex={index} headersConfig={this.props.headersConfig}/>
+            <Comment comment={comment} userID={comment.userID} commentIndex={index} headersConfig={this.props.headersConfig}/>
 
           );
 

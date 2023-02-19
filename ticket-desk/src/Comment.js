@@ -7,6 +7,8 @@ class Comment extends React.Component {
     super(props);
 
     this.state = {
+      firstName: null,
+      lastName: null,
       content: this.props.comment.content,
       submit_date: this.props.comment.submit_date,
       edit_content: this.props.comment.content
@@ -45,6 +47,20 @@ class Comment extends React.Component {
     $(`#closeCommentEditModal${this.props.commentIndex}`).trigger("click");
   }
 
+  componentDidMount() {
+    axios.get(`/api/ticket/comment/user?userID=${this.props.userID}`, this.props.headersConfig)
+    .then(response => {
+
+      let user = response.data[0];
+
+      this.setState({
+        firstName: user.firstName,
+        lastName: user.lastName
+      });
+
+    });
+  }
+
   render() {
 
     return (
@@ -56,7 +72,7 @@ class Comment extends React.Component {
           <div className="row">
 
             <div className="col">
-              <span className="font-weight-bold text-dark">UserID:</span> {this.props.comment.userID}
+              <span className="font-weight-bold text-dark">{`${this.state.firstName} ${this.state.lastName}`}</span> 
             </div>
 
             <div className="col">
