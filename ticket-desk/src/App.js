@@ -12,16 +12,24 @@ import Project from './Project';
 import Ticket from './Ticket';
 import Tickets from './Tickets';
 
+const config = {
+  headers: {
+
+  }
+};
+
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      config: null,
       currentPage: 'Dashboard',
       userData: null,
       currentProjectData: null,
       currentTicketData: null,
-      currentLoginRegister: 'Login'
+      currentLoginRegister: 'Login',
+      token: null
     };
 
     this.getUserData = this.getUserData.bind(this);
@@ -45,7 +53,13 @@ class App extends React.Component {
           firstName: data.name.firstName,
           lastName: data.name.lastName
         },
-        email: data.email
+        email: data.email,
+        token: data.token
+      },
+      config: {
+        headers: {
+          'jwt-token': data.token
+        }
       }
     });
   }
@@ -81,7 +95,7 @@ class App extends React.Component {
       case 'Dashboard':
         return <Dashboard userID={this.state.userData.userID} />
       case 'Projects':
-        return <Projects userID={this.state.userData.userID} setPageProject={this.setPageProject} userData={this.state.userData}/>
+        return <Projects userID={this.state.userData.userID} setPageProject={this.setPageProject} userData={this.state.userData} headersConfig={this.state.config}/>
       case 'Project':
         return <Project userID={this.state.userData.userID} projectData={this.state.currentProjectData} setPageTicket={this.setPageTicket}/>
       case 'Ticket':

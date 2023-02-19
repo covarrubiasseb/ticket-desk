@@ -170,12 +170,13 @@ app.post('/api/project', (req, res) => {
 
 // GET USER PROJECTS ////////////////////
 app.get('/api/projects', (req, res) => {
+  console.log(req.headers)
   mysql.connection.query(db.queries.findProjects(req.query.userID), (err, results) => {
     res.send(results);
   });
 });
 
-// GET PROJECTS ////////////////////
+// CREATE NEW PROJECT ////////////////////
 app.post('/api/projects', (req, res) => {
   let email = req.body.userEmail;
   let projectName = req.body.projectName;
