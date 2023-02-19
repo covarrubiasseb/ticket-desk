@@ -72,7 +72,7 @@ class Ticket extends React.Component {
       let user = response.data[0];
 
       this.setState({
-        dev: user.name
+        dev: `${user.firstName} ${user.lastName}`
       });
 
     });
