@@ -418,7 +418,7 @@ app.get('/api/user/tickets', (req, res) => {
             if (err) {
               res.sendStatus(404);
             } else {
-              res.send(results);
+              res.status(200).send(results);
             }
           });
 
@@ -458,7 +458,7 @@ app.put('/api/project/tickets', (req, res) => {
             if (err) {
               res.send({valid: false});
             } else {
-              res.send({valid: true});
+              res.status(200).send({valid: true});
             }
           });
 
@@ -488,30 +488,44 @@ app.post('/api/project/tickets', (req, res) => {
     priority: req.body.ticketPriority
   }
 
-  mysql.connection.query(db.queries.findTicketById(ticketID), (err, results) => {
-    if (err) {
-      throw err;
-      res.send({valid: false});
-    } else {
+  if (token) {
+    jwt.verify(token, jwt_secret_key, (err, decoded) => {
+      if (err) {
+        res.sendStatus(401);
+      } else {
+        if (decoded) {
 
-      let ticket = results[0];
+          console.log('Token Validated! - POST /api/project/tickets');
 
-      if (userID === ticket.userID.toString()) {
-        // Validated as user submitted ticket
-        mysql.connection.query(db.queries.updateTicket(ticketID, data), (err, results) => {
-          if (err) {
-            throw err;
-            res.send({valid: false});
-          } else {
-            res.send({valid: true});
-          }
-        });
+          mysql.connection.query(db.queries.findTicketById(ticketID), (err, results) => {
+            if (err) {
+              res.send({valid: false});
+            } else {
 
+              let ticket = results[0];
+
+              if (userID === ticket.userID.toString()) {
+                // Validated as user submitted ticket
+                mysql.connection.query(db.queries.updateTicket(ticketID, data), (err, results) => {
+                  if (err) {
+                    res.send({valid: false});
+                  } else {
+                    res.status(200).send({valid: true});
+                  }
+                });
+
+              }
+
+            }
+
+          });          
+
+        } else {
+          res.sendStatus(401);
+        }
       }
-
-    }
-
-  });
+    });
+  }
 
 });
 
