@@ -105,7 +105,7 @@ const queries = {
   },
 
   findProjectUsers: function(projectID) {
-    return `SELECT users.name, users.email, users.role FROM users
+    return `SELECT users.userID, users.firstName, users.lastName, users.email, users.role FROM users
       INNER JOIN (SELECT userID FROM usersProjects WHERE projectID='${projectID}') As projectUsers
         ON users.userID = projectUsers.userID;`
   },

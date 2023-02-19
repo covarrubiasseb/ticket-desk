@@ -17,15 +17,14 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      displayName: '',
       currentPage: 'Dashboard',
-      userID: '',
+      userData: null,
       currentProjectData: null,
       currentTicketData: null,
       currentLoginRegister: 'Login'
     };
 
-    this.setUserData = this.setUserData.bind(this);
+    this.getUserData = this.getUserData.bind(this);
     this.renderLoginRegister = this.renderLoginRegister.bind(this);
     this.renderCurrentPage = this.renderCurrentPage.bind(this);
     this.setPageLogin = this.setPageLogin.bind(this);
@@ -38,19 +37,25 @@ class App extends React.Component {
     this.setPageUserTickets = this.setPageUserTickets.bind(this);
   }
 
-  setUserData(data) {
-    this.setState({ 
-      displayName: data.name,
-      userID: data.userID
+  getUserData(data) {
+    this.setState({
+      userData: {
+        userID: data.userID,
+        name: {
+          firstName: data.name.firstName,
+          lastName: data.name.lastName
+        },
+        email: data.email
+      }
     });
   }
 
   renderLoginRegister() {
     switch (this.state.currentLoginRegister) {
       case 'Login':
-        return <Login setPageRegister={this.setPageRegister} setPageMain={this.setPageMain}/>
+        return <Login setPageRegister={this.setPageRegister} setPageMain={this.setPageMain} getUserData={this.getUserData}/>
       case 'Register':
-        return <Register setPageLogin={this.setPageLogin} setPageMain={this.setPageMain} />
+        return <Register setPageLogin={this.setPageLogin} setPageMain={this.setPageMain} getUserData={this.getUserData}/>
       case 'Main':
         return (
 
@@ -58,8 +63,13 @@ class App extends React.Component {
             setPageDashboard={this.setPageDashboard} 
             setPageProjects={this.setPageProjects} 
             setPageUserTickets={this.setPageUserTickets} 
-            displayName={this.state.displayName} 
             renderCurrentPage={this.renderCurrentPage}
+            userName={
+              {
+                firstName: this.state.userData.name.firstName,
+                lastName: this.state.userData.name.lastName
+              }
+            }
           />
 
         )
@@ -69,15 +79,15 @@ class App extends React.Component {
   renderCurrentPage() {
     switch (this.state.currentPage) {
       case 'Dashboard':
-        return <Dashboard userID={this.state.userID} />
+        return <Dashboard userID={this.state.userData.userID} />
       case 'Projects':
-        return <Projects userID={this.state.userID} setPageProject={this.setPageProject}/>
+        return <Projects userID={this.state.userData.userID} setPageProject={this.setPageProject} userData={this.state.userData}/>
       case 'Project':
-        return <Project userID={this.state.userID} projectData={this.state.currentProjectData} setPageTicket={this.setPageTicket}/>
+        return <Project userID={this.state.userData.userID} projectData={this.state.currentProjectData} setPageTicket={this.setPageTicket}/>
       case 'Ticket':
-        return <Ticket ticketData={this.state.currentTicketData} userID={this.state.userID} ticketID={this.state.currentTicketData.ticketID}/>
+        return <Ticket ticketData={this.state.currentTicketData} userID={this.state.userData.userID} ticketID={this.state.currentTicketData.ticketID}/>
       case 'Tickets':
-        return <Tickets userID={this.state.userID} setPageTicket={this.setPageTicket}/>
+        return <Tickets userID={this.state.userData.userID} setPageTicket={this.setPageTicket}/>
     };
   }
 
@@ -125,17 +135,6 @@ class App extends React.Component {
 
   setPageUserTickets() {
     this.setState({ currentPage: 'Tickets' });
-  }
-
-  componentDidMount() {
-    // axios.get('/api/users')
-    //   .then(response => {
-    //     this.setUserData(response.data);
-    // })
-    //   .catch(error => {
-    //     console.log(error);
-    // });
-
   }
 
   render() {

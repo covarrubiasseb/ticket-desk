@@ -41,7 +41,7 @@ app.post('/api/login', (req, res) => {
 
           res.status(200).json({
             success: true,
-            data: {
+            userData: {
               name: {
                 firstName: user.firstName,
                 lastName: user.lastName
@@ -101,7 +101,7 @@ app.post('/api/register', (req, res) => {
 
               res.status(200).json({
                 success: true,
-                data: {
+                userData: {
                   name: {
                     firstName: user.firstName,
                     lastName: user.lastName
@@ -135,18 +135,6 @@ app.get('/api/logout', (req, res) => {
   // Need to setup sessions/tokenization
   // just redirect to Login for now
   res.redirect('/');
-});
-
-// GET USER DATA ////////////////////
-app.get('/api/users', (req, res) => {
-  let email = req.user.emails[0].value;
-
-  mysql.connection.query(db.queries.findUser(email), (err, results) => {
-    res.send({
-      userID: results[0].userID,
-      name: results[0].name
-    });
-  });
 });
 
 // GET TICKET CREATOR/ASSIGNED DEV ////////////////////
@@ -189,7 +177,7 @@ app.get('/api/projects', (req, res) => {
 
 // GET PROJECTS ////////////////////
 app.post('/api/projects', (req, res) => {
-  let email = req.user.emails[0].value;
+  let email = req.body.userEmail;
   let projectName = req.body.projectName;
   let projectDesc = req.body.projectDesc;
 

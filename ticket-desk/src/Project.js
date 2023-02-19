@@ -59,7 +59,7 @@ class Project extends React.Component {
             return (
 
               <tr>
-                <td>{user.name}</td>
+                <td>{`${user.firstName} ${user.lastName}`}</td>
                 <td>{user.email}</td>
                 <td>{user.role}</td>
               </tr>
