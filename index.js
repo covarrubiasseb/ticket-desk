@@ -656,7 +656,8 @@ app.post('/api/ticket/comments', (req, res) => {
   const token = req.headers['jwt-token'];
 
   let userID = req.query.userID;
-  let commentID = req.body.commentID;
+  let commentUserID = req.body.comment.userID;
+  let commentID = req.body.comment.commentID;
   let data = { content: req.body.content };
 
   if (token) {
@@ -668,27 +669,58 @@ app.post('/api/ticket/comments', (req, res) => {
 
           console.log('Token Validated! - POST /api/ticket/comments');
 
-          mysql.connection.query(db.queries.findCommentById(commentID), (err, results) => {
-            if (err) {
-              res.send({valid: false});
-            } else {
-              let comment = results[0];
-
-              if (userID === comment.userID.toString()) {
-                // Validated as user submitted comment
-                mysql.connection.query(db.queries.updateComment(commentID, data), (err, results) => {
-                  if (err) {
-                    res.send({valid: false});
-                  } else {
-                    res.status(200).send({valid: true});
-                  }
-                });
-
+          if (userID === commentUserID.toString()) {
+            // Validated as user submitted comment
+            mysql.connection.query(db.queries.updateComment(commentID, data), (err, results) => {
+              if (err) {
+                res.send({valid: false});
+              } else {
+                res.status(200).send({valid: true});
               }
+            });
 
-            }
+          } else {
+            res.sendStatus(401);
+          }
 
-          });
+        } else {
+          res.sendStatus(401);
+        }
+      }
+    });
+  } 
+
+});
+
+// DELETE TICKET COMMENT ////////////////////
+app.delete('/api/ticket/comments', (req, res) => {
+  const token = req.headers['jwt-token'];
+
+  let userID = req.query.userID;
+  let commentUserID = req.body.comment.userID;
+  let commentID = req.body.comment.commentID;
+
+  if (token) {
+    jwt.verify(token, jwt_secret_key, (err, decoded) => {
+      if (err) {
+        res.sendStatus(401);
+      } else {
+        if (decoded) {
+
+          console.log('Token Validated! - DELETE /api/ticket/comments');
+
+          // Check if userID matches comment userID
+          if (userID === commentUserID.toString()) {
+
+            mysql.connection.query(db.queries.removeCommentById(commentID), (err, results) => {
+              if (err) {
+                res.send({valid: false});
+              } else {
+                res.status(200).send({valid: true});
+              }
+            });
+
+          }
 
         } else {
           res.sendStatus(401);

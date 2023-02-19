@@ -29,7 +29,7 @@ class Comment extends React.Component {
 
     axios.post(`/api/ticket/comments?userID=${this.props.userID}`,
               {
-                commentID: this.props.comment.commentID,
+                comment: this.props.comment,
                 content: this.state.edit_content
               },
               {

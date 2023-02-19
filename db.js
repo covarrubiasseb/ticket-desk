@@ -148,6 +148,10 @@ const queries = {
 
   updateComment: function(commentID, data) {
     return `UPDATE comments SET content='${data.content}' WHERE commentID='${commentID}';`
+  },
+
+  removeCommentById: function (commentID) {
+    return `DELETE FROM comments WHERE commentID='${commentID}';`
   }
 }
 
