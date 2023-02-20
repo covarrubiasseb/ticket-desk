@@ -9,13 +9,12 @@ class Comment extends React.Component {
     this.state = {
       firstName: null,
       lastName: null,
-      content: this.props.comment.content,
-      submit_date: this.props.comment.submit_date,
       edit_content: this.props.comment.content
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   handleChange(event) {
@@ -38,14 +37,18 @@ class Comment extends React.Component {
     )
     .then(response => {
       if (response.data.valid) {
-        this.setState({
-          content: this.state.edit_content
-        });
+        this.props.editComment();
       }
     });
 
     $(`#closeCommentEditModal${this.props.commentIndex}`).trigger("click");
   }
+
+  handleDelete(event) {
+    $(`#closeDeleteEditModal${this.props.commentIndex}`).trigger("click");
+
+    this.props.deleteComment(this.props.comment.commentID);
+  } 
 
   componentDidMount() {
     axios.get(`/api/ticket/comment/user?userID=${this.props.userID}`, this.props.headersConfig)
@@ -73,6 +76,7 @@ class Comment extends React.Component {
 
             <div className="col">
               <span className="font-weight-bold text-dark">{`${this.state.firstName} ${this.state.lastName}`}</span> 
+              <span className="float-right"><span className="font-weight-bold">Comment ID: </span>{this.props.comment.commentID}</span>
             </div>
 
             <div className="col">
@@ -121,16 +125,26 @@ class Comment extends React.Component {
                 </div>
               </div>
 
-              <div className="modal fade" id="commentDeleteModal" tabIndex="-1" role="dialog" aria-labelledby="commentDeleteModalLabel"
+              <div className="modal fade" id={`commentDeleteModal${this.props.commentIndex}`} tabIndex="-1" role="dialog" aria-labelledby={`commentDeleteModalLabel${this.props.commentIndex}`}
                   aria-hidden="true">
                 <div className="modal-dialog" role="document">
                   <div className="modal-content">
+
                     <div className="modal-header">
-                      <h5 className="modal-title" id="commentDeleteModalLabel">(Delete Prompt Here)</h5>
-                      <button className="close" type="button" data-dismiss="modal" aria-label="Close">
+                      <h5 className="modal-title" id={`commentDeleteModalLabel${this.props.commentIndex}`}>Delete Comment</h5>
+                      <button className="close" id={`closeDeleteEditModal${this.props.commentIndex}`} type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                       </button>
                     </div>
+
+                    <div className="modal-body">
+                      Select "Delete" if you want to delete this comment.
+                    </div>
+
+                    <div className="modal-footer">
+                      <a className="btn btn-danger float-right" onClick={this.handleDelete}>Delete</a>
+                    </div>
+
                   </div>
                 </div>
               </div>
@@ -143,10 +157,10 @@ class Comment extends React.Component {
 
         <div className="card-body">
 
-          <div>{this.state.content}</div>
+          <div>{this.props.comment.content}</div>
 
           <div className="float-right">
-            <span className=" font-weight-bold text-dark">Date Posted:</span> {this.state.submit_date.slice(0,10)}
+            <span className=" font-weight-bold text-dark">Date Posted:</span> {this.props.comment.submit_date.slice(0,10)}
           </div>
 
         </div>

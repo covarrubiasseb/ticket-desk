@@ -697,8 +697,7 @@ app.delete('/api/ticket/comments', (req, res) => {
   const token = req.headers['jwt-token'];
 
   let userID = req.query.userID;
-  let commentUserID = req.body.comment.userID;
-  let commentID = req.body.comment.commentID;
+  let commentID = req.query.commentID;
 
   if (token) {
     jwt.verify(token, jwt_secret_key, (err, decoded) => {
@@ -709,18 +708,26 @@ app.delete('/api/ticket/comments', (req, res) => {
 
           console.log('Token Validated! - DELETE /api/ticket/comments');
 
-          // Check if userID matches comment userID
-          if (userID === commentUserID.toString()) {
+          mysql.connection.query(db.queries.findCommentById(commentID), (err, results) => {
+            if (err) {
+              res.status(404).send({valid: false});
+            } else {
+              let comment = results[0];
 
-            mysql.connection.query(db.queries.removeCommentById(commentID), (err, results) => {
-              if (err) {
-                res.send({valid: false});
-              } else {
-                res.status(200).send({valid: true});
+              if (userID === comment.userID.toString()) {
+
+                mysql.connection.query(db.queries.removeCommentById(commentID), (err, results) => {
+                  if (err) {
+                    res.status(404).send({valid: false});
+                  } else {
+                    res.status(200).send({valid: true});
+                  }
+                });
+
               }
-            });
+            }
 
-          }
+          });
 
         } else {
           res.sendStatus(401);

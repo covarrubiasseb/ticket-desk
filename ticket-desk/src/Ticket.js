@@ -22,6 +22,8 @@ class Ticket extends React.Component {
     };
 
     this.getComments = this.getComments.bind(this);
+    this.editComment = this.editComment.bind(this);
+    this.deleteComment = this.deleteComment.bind(this);
     this.getTicketUser = this.getTicketUser.bind(this);
     this.getTicketProject = this.getTicketProject.bind(this);
     this.reloadTicketData = this.reloadTicketData.bind(this);
@@ -39,7 +41,13 @@ class Ticket extends React.Component {
 
           return (
 
-            <Comment comment={comment} userID={comment.userID} commentIndex={index} headersConfig={this.props.headersConfig}/>
+            <Comment comment={comment} 
+                     commentIndex={index} 
+                     userID={this.props.userID} 
+                     headersConfig={this.props.headersConfig} 
+                     editComment={this.editComment} 
+                     deleteComment={this.deleteComment}
+            />
 
           );
 
@@ -47,6 +55,36 @@ class Ticket extends React.Component {
 
       });
 
+    });
+
+  }
+
+  editComment() {
+
+    this.setState({
+      comments: []
+    }, () => { this.getComments() });
+
+  }
+
+  deleteComment(commentID) {
+
+    axios.delete(`/api/ticket/comments?userID=${this.props.userID}&commentID=${commentID}`,
+                  {
+                    headers: this.props.headersConfig.headers
+                  }
+    )
+    .then(response => {
+      if (response.data.valid) {
+
+        this.setState({
+          comments: []
+        }, () => { this.getComments() });
+        
+
+      } else {
+        console.log("Could Not Be Deleted");
+      }
     });
 
   }
