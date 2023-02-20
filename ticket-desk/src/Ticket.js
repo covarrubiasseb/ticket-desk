@@ -27,6 +27,7 @@ class Ticket extends React.Component {
     this.getTicketUser = this.getTicketUser.bind(this);
     this.getTicketProject = this.getTicketProject.bind(this);
     this.reloadTicketData = this.reloadTicketData.bind(this);
+    this.handleTicketDelete = this.handleTicketDelete.bind(this);
 
   }
 
@@ -69,11 +70,7 @@ class Ticket extends React.Component {
 
   deleteComment(commentID) {
 
-    axios.delete(`/api/ticket/comments?userID=${this.props.userID}&commentID=${commentID}`,
-                  {
-                    headers: this.props.headersConfig.headers
-                  }
-    )
+    axios.delete(`/api/ticket/comments?userID=${this.props.userID}&commentID=${commentID}`, this.props.headersConfig)
     .then(response => {
       if (response.data.valid) {
 
@@ -134,6 +131,24 @@ class Ticket extends React.Component {
     });
 
     $("#closeTicketEditModal").trigger("click");
+
+  }
+
+  handleTicketDelete() {
+
+    axios.delete(`/api/project/tickets?ticketID=${this.props.ticketID}`, this.props.headersConfig)
+    .then(response => {
+      if (response.data.valid) {
+
+        $("#closeTicketDeleteModal").trigger("click");
+        
+        this.props.setPageDashboard();
+
+      } else {
+        console.log("Could Not Be Deleted");
+      }
+
+    });
 
   }
 
@@ -202,12 +217,22 @@ class Ticket extends React.Component {
                         aria-hidden="true">
                       <div className="modal-dialog" role="document">
                         <div className="modal-content">
+
                           <div className="modal-header">
-                            <h5 className="modal-title" id="ticketDeleteModalLabel">(Delete Prompt Here)</h5>
-                            <button className="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <h5 className="modal-title" id="ticketDeleteModalLabel">Delete Ticket</h5>
+                            <button className="close" id="closeTicketDeleteModal" type="button" data-dismiss="modal" aria-label="Close">
                               <span aria-hidden="true">×</span>
                             </button>
                           </div>
+
+                          <div className="modal-body">
+                            Select "Delete" if you want to delete this ticket.
+                          </div>
+
+                          <div className="modal-footer">
+                            <a className="btn btn-danger float-right" onClick={this.handleTicketDelete}>Delete</a>
+                          </div>
+
                         </div>
                       </div>
                     </div>

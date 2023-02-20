@@ -95,13 +95,25 @@ class App extends React.Component {
       case 'Dashboard':
         return <Dashboard userID={this.state.userData.userID} />
       case 'Projects':
-        return <Projects headersConfig={this.state.config} userID={this.state.userData.userID} setPageProject={this.setPageProject} userData={this.state.userData}/>
+        return <Projects headersConfig={this.state.config} 
+                         userID={this.state.userData.userID} 
+                         setPageProject={this.setPageProject} 
+                         userData={this.state.userData}/>
       case 'Project':
-        return <Project headersConfig={this.state.config} userID={this.state.userData.userID} projectData={this.state.currentProjectData} setPageTicket={this.setPageTicket}/>
+        return <Project headersConfig={this.state.config} 
+                        userID={this.state.userData.userID} 
+                        projectData={this.state.currentProjectData} 
+                        setPageTicket={this.setPageTicket}/>
       case 'Ticket':
-        return <Ticket headersConfig={this.state.config} ticketData={this.state.currentTicketData} userID={this.state.userData.userID} ticketID={this.state.currentTicketData.ticketID}/>
+        return <Ticket headersConfig={this.state.config} 
+                       ticketData={this.state.currentTicketData} 
+                       userID={this.state.userData.userID} 
+                       ticketID={this.state.currentTicketData.ticketID}
+                       setPageDashboard={this.setPageDashboard} />
       case 'Tickets':
-        return <Tickets headersConfig={this.state.config} userID={this.state.userData.userID} setPageTicket={this.setPageTicket}/>
+        return <Tickets headersConfig={this.state.config} 
+                        userID={this.state.userData.userID} 
+                        setPageTicket={this.setPageTicket} />
     };
   }
 

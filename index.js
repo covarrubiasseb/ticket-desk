@@ -549,6 +549,13 @@ app.post('/api/project/tickets', (req, res) => {
 
 });
 
+// DELETE PROJECT TICKET ////////////////////
+app.delete('/api/project/tickets', (req, res) => {
+  const token = req.headers['jwt-token'];
+
+  let ticketID = req.query.ticketID;
+});
+
 // GET TICKET COMMENTS ////////////////////
 app.get('/api/ticket/comments', (req, res) => {
   const token = req.headers['jwt-token'];

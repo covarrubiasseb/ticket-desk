@@ -44,7 +44,7 @@ class Comment extends React.Component {
     $(`#closeCommentEditModal${this.props.commentIndex}`).trigger("click");
   }
 
-  handleDelete(event) {
+  handleDelete() {
     $(`#closeDeleteEditModal${this.props.commentIndex}`).trigger("click");
 
     this.props.deleteComment(this.props.comment.commentID);
