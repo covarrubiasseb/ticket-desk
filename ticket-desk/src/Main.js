@@ -44,7 +44,7 @@ class Main extends React.Component {
 
                 
                 <li className="nav-item">
-                    <a className="nav-link" href="#">
+                    <a className="nav-link" href="#" onClick={this.props.setPageAdminManageUsers}>
                         <i className="fas fa-fw fa-cog"></i>
                         <span>Manage Users</span>
                     </a>
@@ -72,14 +72,6 @@ class Main extends React.Component {
                         <i className="fas fa-fw fa-chart-area"></i>
                         <span>My Tickets</span></a>
                 </li>
-
-                
-                <li className="nav-item">
-                    <a className="nav-link" href="#">
-                        <i className="fas fa-fw fa-table"></i>
-                        <span>User Profile</span></a>
-                </li>
-
                 
                 <hr className="sidebar-divider d-none d-md-block"/>
 

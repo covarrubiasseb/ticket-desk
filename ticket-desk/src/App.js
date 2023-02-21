@@ -11,6 +11,7 @@ import Projects from './Projects';
 import Project from './Project';
 import Ticket from './Ticket';
 import Tickets from './Tickets';
+import AdminManageUsers from './AdminManageUsers';
 
 const config = {
   headers: {
@@ -43,6 +44,7 @@ class App extends React.Component {
     this.setPageProject = this.setPageProject.bind(this);
     this.setPageTicket = this.setPageTicket.bind(this);
     this.setPageUserTickets = this.setPageUserTickets.bind(this);
+    this.setPageAdminManageUsers = this.setPageAdminManageUsers.bind(this);
   }
 
   getUserData(data) {
@@ -78,6 +80,7 @@ class App extends React.Component {
             setPageProjects={this.setPageProjects} 
             setPageUserTickets={this.setPageUserTickets} 
             renderCurrentPage={this.renderCurrentPage}
+            setPageAdminManageUsers={this.setPageAdminManageUsers}
             userName={
               {
                 firstName: this.state.userData.name.firstName,
@@ -115,6 +118,8 @@ class App extends React.Component {
         return <Tickets headersConfig={this.state.config} 
                         userID={this.state.userData.userID} 
                         setPageTicket={this.setPageTicket} />
+      case 'AdminManageUsers':
+        return <AdminManageUsers />
     };
   }
 
@@ -162,6 +167,10 @@ class App extends React.Component {
 
   setPageUserTickets() {
     this.setState({ currentPage: 'Tickets' });
+  }
+
+  setPageAdminManageUsers() {
+    this.setState({ currentPage: 'AdminManageUsers' });
   }
 
   render() {
