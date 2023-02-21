@@ -103,7 +103,8 @@ class App extends React.Component {
         return <Project headersConfig={this.state.config} 
                         userID={this.state.userData.userID} 
                         projectData={this.state.currentProjectData} 
-                        setPageTicket={this.setPageTicket}/>
+                        setPageTicket={this.setPageTicket}
+                        setPageDashboard={this.setPageDashboard}/>
       case 'Ticket':
         return <Ticket headersConfig={this.state.config} 
                        ticketData={this.state.currentTicketData} 

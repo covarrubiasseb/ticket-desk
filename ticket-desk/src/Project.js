@@ -17,6 +17,7 @@ class Project extends React.Component {
 
     this.getTickets = this.getTickets.bind(this);
     this.updateProject = this.updateProject.bind(this);
+    this.handleProjectDelete = this.handleProjectDelete.bind(this);
   }
 
   getTickets() {    
@@ -63,6 +64,17 @@ class Project extends React.Component {
 
     });
 
+  }
+
+  handleProjectDelete() {
+    axios.delete(`/api/projects?userID=${this.props.userID}&projectID=${this.props.projectData.projectID}`, this.props.headersConfig)
+    .then(response => {
+      if (response.data.valid) {
+        this.props.setPageDashboard();
+      } else {
+        console.log("Could Not Be Deleted");
+      }
+    });
   }
 
   componentDidMount() {
@@ -158,7 +170,7 @@ class Project extends React.Component {
                           </div>
 
                           <div className="modal-footer">
-                            <a className="btn btn-danger float-right">Delete</a>
+                            <a className="btn btn-danger float-right" onClick={this.handleProjectDelete}>Delete</a>
                           </div>
 
                         </div>
