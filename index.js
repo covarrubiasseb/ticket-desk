@@ -249,7 +249,7 @@ app.put('/api/projects', (req, res) => {
       } else {
         if (decoded) {
 
-          console.log('Token Validated! - POST /api/projects');
+          console.log('Token Validated! - PUT /api/projects');
 
           // Check if User is Admin, Get UserID
           mysql.connection.query(db.queries.findUser(email), (err, results) => {
@@ -285,6 +285,60 @@ app.put('/api/projects', (req, res) => {
             } else {
               // Cannot Create Project
               res.send({valid : false});
+            }
+          });
+
+        } else {
+          res.sendStatus(401);
+        }
+      }
+    });
+  } else {
+    res.sendStatus(401);
+  }
+
+});
+
+// UPDATE PROJECT ////////////////////
+app.post('/api/projects', (req, res) => {
+  const token = req.headers['jwt-token'];
+
+  let userID = req.query.userID;
+  let projectID = req.query.projectID;
+  let projectData = req.body;
+
+  if (token) {
+    jwt.verify(token, jwt_secret_key, (err, decoded) => {
+      if (err) {
+        res.sendStatus(401);
+      } else {
+        if (decoded) {
+
+          console.log('Token Validated! - POST /api/projects');
+
+          mysql.connection.query(db.queries.findUserById(userID), (err, results) => {
+            if (err) {
+              res.sendStatus(401);
+            } else {
+              let user = results[0];
+
+              if (user.role === 'Admin') {
+
+                console.log('User is Admin');
+
+                mysql.connection.query(db.queries.updateProject(projectID, projectData), (err, results) => {
+                  if (err) {
+                    res.sendStatus(401);
+                  } else {
+                    res.status(200).send({valid: true});
+                  }
+
+                });
+
+              } else {
+                res.sendStatus(401);
+              }
+
             }
           });
 

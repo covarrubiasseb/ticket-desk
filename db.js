@@ -91,6 +91,10 @@ const queries = {
     return `INSERT INTO projects (name, description) VALUES ('${projectName}','${projectDescription}');`
   },
 
+  updateProject: function(projectID, data) {
+    return `UPDATE projects SET name='${data.name}', description='${data.description}' WHERE projectID='${projectID}';`
+  },
+ 
   findProject: function(projectID) {
     return `SELECT * FROM projects where projectID='${projectID}';`
   },

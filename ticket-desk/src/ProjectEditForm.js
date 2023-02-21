@@ -18,10 +18,10 @@ class ProjectEditForm extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    axios.post(`/api/projects?projectID=${this.props.projectData.projectID}`, 
+    axios.post(`/api/projects?userID=${this.props.userID}&projectID=${this.props.projectData.projectID}`, 
                {
                  name: this.state.projectEditName,
-                 desc: this.state.projectEditDesc
+                 description: this.state.projectEditDesc
                },
                {
                 headers: this.props.headersConfig.headers

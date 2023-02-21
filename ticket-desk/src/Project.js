@@ -118,7 +118,7 @@ class Project extends React.Component {
                           </div>
 
                           <div className="modal-body">
-                            <ProjectEditForm headersConfig={this.props.headersConfig} projectData={this.props.projectData}/>
+                            <ProjectEditForm userID={this.props.userID} headersConfig={this.props.headersConfig} projectData={this.props.projectData}/>
                           </div>
 
                         </div>
