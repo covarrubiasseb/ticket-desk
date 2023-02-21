@@ -83,6 +83,10 @@ const queries = {
     return `SELECT * FROM users WHERE userID='${userID}';`
   },
 
+  getAllUsers: function() {
+    return `SELECT (userID, firstName, lastName, email, role) FROM users;`
+  },
+
   createUser: function(firstName, lastName, userEmail, hash) {
     return `INSERT INTO users (firstName, lastName, email, role, hash) VALUES ('${firstName}','${lastName}','${userEmail}','Unassigned','${hash}');`
   },
