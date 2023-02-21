@@ -174,6 +174,31 @@ app.get('/api/users', (req, res) => {
 
 });
 
+// UPDATE USER ROLE ////////////////////
+app.post('api/users', (req, res) => {
+  const token = req.headers['jwt-token'];
+
+  if (token) {
+    jwt.verify(token, jwt_secret_key, (err, decoded) => {
+      if (err) {
+        res.sendStatus(401);
+      } else {
+        if (decoded) {
+
+          console.log('Token Validated! - POST /api/users');
+          res.end();
+
+        } else {
+          res.sendStatus(401);
+        }
+      }
+    });
+  } else {
+    res.sendStatus(401);
+  }
+
+});
+
 // GET TICKET CREATOR/ASSIGNED DEV ////////////////////
 app.get('/api/ticket/dev', (req, res) => {
   const token = req.headers['jwt-token'];
