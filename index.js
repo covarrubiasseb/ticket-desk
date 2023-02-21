@@ -200,12 +200,6 @@ app.get('/api/project', (req, res) => {
 
 });
 
-// UPDATE PROJECT ////////////////////
-app.post('/api/project', (req, res) => {
-  const token = req.headers['jwt-token'];
-  // mysql.connection.query(db.queries.findProject)
-});
-
 // GET USER PROJECTS ////////////////////
 app.get('/api/projects', (req, res) => {
   const token = req.headers['jwt-token'];
@@ -335,6 +329,54 @@ app.post('/api/projects', (req, res) => {
 
               } else {
                 res.sendStatus(401);
+              }
+
+            }
+          });
+
+        } else {
+          res.sendStatus(401);
+        }
+      }
+    });
+  } else {
+    res.sendStatus(401);
+  }
+
+});
+
+// DELETE PROJECT ////////////////////
+app.delete('/api/projects', (req, res) => {
+  const token = req.headers['jwt-token'];
+
+  let userID = req.query.userID;
+  let projectID = req.query.projectID;
+
+  if (token) {
+    jwt.verify(token, jwt_secret_key, (err, decoded) => {
+      if (err) {
+        res.sendStatus(401);
+      } else {
+        if (decoded) {
+
+          console.log('Token Validated! - DELETE /api/projects');
+
+          mysql.connection.query(db.queries.findUserById(userID), (err, results) => {
+            if (err) {
+              res.sendStatus(401);
+            } else {
+
+              let user = results[0];
+
+              if (user.role === 'Admin') {
+
+                // Begin deletion
+                
+                res.sendStatus(200);
+
+
+              } else {
+                res.status(401).send({valid: false});
               }
 
             }
