@@ -324,8 +324,6 @@ app.post('/api/projects', (req, res) => {
 
               if (user.role === 'Admin') {
 
-                console.log('User is Admin');
-
                 mysql.connection.query(db.queries.updateProject(projectID, projectData), (err, results) => {
                   if (err) {
                     res.sendStatus(401);

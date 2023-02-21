@@ -73,7 +73,7 @@ class Projects extends React.Component {
 
           <div className="collapse col-xl-9" id="collapseExample">
             <div className="card card-body mt-2">
-              <ProjectForm className="mb-2" getProjects={this.getProjects} userEmail={this.props.userData.email} headersConfig={this.props.headersConfig}/>
+              <ProjectForm className="mb-2" getProjects={this.getProjects} userEmail={this.props.userData.email} headersConfig={this.props.headersConfig} />
             </div>
           </div>
 

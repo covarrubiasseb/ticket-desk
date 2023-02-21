@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import $ from 'jquery';
 import TicketForm from'./TicketForm';
 import ProjectEditForm from './ProjectEditForm';
 
@@ -9,10 +10,13 @@ class Project extends React.Component {
 
     this.state = {
       users: [],
-      tickets: []
+      tickets: [],
+      name: this.props.projectData.name,
+      desc: this.props.projectData.desc
     };
 
     this.getTickets = this.getTickets.bind(this);
+    this.updateProject = this.updateProject.bind(this);
   }
 
   getTickets() {    
@@ -47,6 +51,18 @@ class Project extends React.Component {
           })
         });
     });
+  }
+
+  updateProject(data) {
+    $("#closeProjectEditModal").trigger("click");
+
+    this.setState({
+
+      name: data.name,
+      desc: data.desc
+
+    });
+
   }
 
   componentDidMount() {
@@ -89,7 +105,7 @@ class Project extends React.Component {
 
                   <div className="col">
 
-                    <h6 className="m-0 font-weight-bold text-primary">{this.props.projectData.name}</h6>
+                    <h6 className="m-0 font-weight-bold text-primary">{this.state.name}</h6>
 
                   </div>
 
@@ -118,7 +134,7 @@ class Project extends React.Component {
                           </div>
 
                           <div className="modal-body">
-                            <ProjectEditForm userID={this.props.userID} headersConfig={this.props.headersConfig} projectData={this.props.projectData}/>
+                            <ProjectEditForm userID={this.props.userID} headersConfig={this.props.headersConfig} projectData={this.props.projectData} updateProject={this.updateProject}/>
                           </div>
 
                         </div>
@@ -156,7 +172,7 @@ class Project extends React.Component {
               </div>
 
               <div className="card-body">
-                {this.props.projectData.desc}
+                {this.state.desc}
               </div>
 
               <div className="card-footer">

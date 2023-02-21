@@ -28,7 +28,16 @@ class ProjectEditForm extends React.Component {
                }
     )
     .then(response => {
-      console.log('Request Sent');
+      if (response.data.valid) {
+        this.props.updateProject(
+        {
+          name: this.state.projectEditName,
+          desc: this.state.projectEditDesc,
+        }
+        );
+      } else {
+        console.log("Could Not Be Updated");
+      }
     });
   }
 
