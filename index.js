@@ -371,7 +371,7 @@ app.delete('/api/projects', (req, res) => {
               if (user.role === 'Admin') {
 
                 // Begin deletion
-                
+
                 res.sendStatus(200);
 
 
@@ -830,19 +830,28 @@ app.post('/api/ticket/comments', (req, res) => {
 
           console.log('Token Validated! - POST /api/ticket/comments');
 
-          if (userID === commentUserID.toString()) {
-            // Validated as user submitted comment
-            mysql.connection.query(db.queries.updateComment(commentID, data), (err, results) => {
-              if (err) {
-                res.send({valid: false});
-              } else {
-                res.status(200).send({valid: true});
-              }
-            });
+          mysql.connection.query(db.queries.findUserById(userID), (err, results) => {
+            if (err) {
+              res.sendStatus(401);
+            } else {
+              let user = results[0];
 
-          } else {
-            res.sendStatus(401);
-          }
+              if ( (userID === commentUserID.toString()) || user.role === 'Admin') {
+                // Validated as user submitted comment
+                mysql.connection.query(db.queries.updateComment(commentID, data), (err, results) => {
+                  if (err) {
+                    res.send({valid: false});
+                  } else {
+                    res.status(200).send({valid: true});
+                  }
+                });
+
+              } else {
+                res.sendStatus(401);
+              }
+
+            }
+          });
 
         } else {
           res.sendStatus(401);
