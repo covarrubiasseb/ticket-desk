@@ -553,6 +553,7 @@ app.post('/api/project/tickets', (req, res) => {
 app.delete('/api/project/tickets', (req, res) => {
   const token = req.headers['jwt-token'];
 
+  let userID = req.query.userID;
   let ticketID = req.query.ticketID;
 
   if (token) {
@@ -564,30 +565,44 @@ app.delete('/api/project/tickets', (req, res) => {
 
           console.log('Token Validated! - DELETE /api/project/tickets');
 
-          mysql.connection.query(db.queries.removeTicketById(ticketID).removeComments, (err, results) => {
+          mysql.connection.query(db.queries.findTicketById(ticketID), (err, results) => {
             if (err) {
               res.sendStatus(401);
             } else {
 
-              mysql.connection.query(db.queries.removeTicketById(ticketID).removeUsersTickets, (err, results) => {
-                if (err) {
-                  res.sendStatus(401);
-                } else {
+              let ticket = results[0];
 
-                  mysql.connection.query(db.queries.removeTicketById(ticketID).removeTicket, (err, results) => {
-                    if (err) {
-                      res.sendStatus(401);
-                    } else {
-                      res.status(200).send({valid: true});
-                    }
+              if (userID === ticket.userID.toString()) {
+                // Validated as user submitted ticket
+                mysql.connection.query(db.queries.removeTicketById(ticketID).removeComments, (err, results) => {
+                  if (err) {
+                    res.sendStatus(401);
+                  } else {
 
-                  });
+                    mysql.connection.query(db.queries.removeTicketById(ticketID).removeUsersTickets, (err, results) => {
+                      if (err) {
+                        res.sendStatus(401);
+                      } else {
 
-                }
-              });
+                        mysql.connection.query(db.queries.removeTicketById(ticketID).removeTicket, (err, results) => {
+                          if (err) {
+                            res.sendStatus(401);
+                          } else {
+                            res.status(200).send({valid: true});
+                          }
+
+                        });
+
+                      }
+                    });
+
+                  }
+
+                });
+
+              }
 
             }
-
           });
 
         } else {

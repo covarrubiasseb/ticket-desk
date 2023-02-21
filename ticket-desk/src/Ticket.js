@@ -136,9 +136,9 @@ class Ticket extends React.Component {
 
   handleTicketDelete() {
 
-    axios.delete(`/api/project/tickets?ticketID=${this.props.ticketID}`, this.props.headersConfig)
+    axios.delete(`/api/project/tickets?userID=${this.props.userID}&ticketID=${this.props.ticketID}`, this.props.headersConfig)
     .then(response => {
-      
+
       if (response.data.valid) {
 
         $("#closeTicketDeleteModal").trigger("click");
