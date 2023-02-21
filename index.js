@@ -659,42 +659,50 @@ app.delete('/api/project/tickets', (req, res) => {
 
           console.log('Token Validated! - DELETE /api/project/tickets');
 
-          mysql.connection.query(db.queries.findTicketById(ticketID), (err, results) => {
+          mysql.connection.query(db.queries.findUserById(userID), (err, results) => {
             if (err) {
               res.sendStatus(401);
             } else {
 
-              let ticket = results[0];
+              mysql.connection.query(db.queries.findTicketById(ticketID), (err, results) => {
+                if (err) {
+                  res.sendStatus(401);
+                } else {
 
-              if (userID === ticket.userID.toString()) {
-                // Validated as user submitted ticket
-                mysql.connection.query(db.queries.removeTicketById(ticketID).removeComments, (err, results) => {
-                  if (err) {
-                    res.sendStatus(401);
-                  } else {
+                  let ticket = results[0];
 
-                    mysql.connection.query(db.queries.removeTicketById(ticketID).removeUsersTickets, (err, results) => {
+                  if ( (userID === ticket.userID.toString()) || (user.role === 'Admin') ) {
+                    // Validated as user submitted ticket
+                    mysql.connection.query(db.queries.removeTicketById(ticketID).removeComments, (err, results) => {
                       if (err) {
                         res.sendStatus(401);
                       } else {
 
-                        mysql.connection.query(db.queries.removeTicketById(ticketID).removeTicket, (err, results) => {
+                        mysql.connection.query(db.queries.removeTicketById(ticketID).removeUsersTickets, (err, results) => {
                           if (err) {
                             res.sendStatus(401);
                           } else {
-                            res.status(200).send({valid: true});
-                          }
 
+                            mysql.connection.query(db.queries.removeTicketById(ticketID).removeTicket, (err, results) => {
+                              if (err) {
+                                res.sendStatus(401);
+                              } else {
+                                res.status(200).send({valid: true});
+                              }
+
+                            });
+
+                          }
                         });
 
                       }
+
                     });
 
                   }
 
-                });
-
-              }
+                }
+              });
 
             }
           });
