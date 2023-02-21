@@ -878,26 +878,38 @@ app.delete('/api/ticket/comments', (req, res) => {
 
           console.log('Token Validated! - DELETE /api/ticket/comments');
 
-          mysql.connection.query(db.queries.findCommentById(commentID), (err, results) => {
+          mysql.connection.query(db.queries.findUserById(userID), (err, results) => {
             if (err) {
-              res.status(404).send({valid: false});
+              res.sendStatus(401);
             } else {
-              let comment = results[0];
+              let user = results[0];
 
-              if (userID === comment.userID.toString()) {
+              mysql.connection.query(db.queries.findCommentById(commentID), (err, results) => {
+                if (err) {
+                  res.status(404).send({valid: false});
+                } else {
+                  let comment = results[0];
 
-                mysql.connection.query(db.queries.removeCommentById(commentID), (err, results) => {
-                  if (err) {
-                    res.status(404).send({valid: false});
-                  } else {
-                    res.status(200).send({valid: true});
+                  if ( (userID === comment.userID.toString()) || (user.role === 'Admin') ) {
+
+                    mysql.connection.query(db.queries.removeCommentById(commentID), (err, results) => {
+                      if (err) {
+                        res.status(404).send({valid: false});
+                      } else {
+                        res.status(200).send({valid: true});
+                      }
+                    });
+
                   }
-                });
+                }
 
-              }
+              });
+
+
             }
-
           });
+
+
 
         } else {
           res.sendStatus(401);
