@@ -614,7 +614,6 @@ app.delete('/api/project/tickets', (req, res) => {
     res.sendStatus(401);
   }
 
-
 });
 
 // GET TICKET COMMENTS ////////////////////
