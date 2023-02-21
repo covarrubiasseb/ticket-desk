@@ -235,7 +235,7 @@ app.get('/api/projects', (req, res) => {
 });
 
 // CREATE NEW PROJECT ////////////////////
-app.post('/api/projects', (req, res) => {
+app.put('/api/projects', (req, res) => {
   const token = req.headers['jwt-token'];
 
   let email = req.body.userEmail;

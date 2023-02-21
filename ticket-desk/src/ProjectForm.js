@@ -35,7 +35,7 @@ class ProjectForm extends React.Component {
     
     if (this.state.projectName && this.state.projectDesc) {
 
-      axios.post('/api/projects', 
+      axios.put('/api/projects', 
               { 
                 userEmail: this.props.userEmail,
                 projectName: this.state.projectName,
@@ -83,11 +83,13 @@ class ProjectForm extends React.Component {
         className="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 container-fluid">
 
         <div className="row mb-2">
+          <h6 className="col-12 font-weight-bold text-dark">Name</h6>
           <input type="text" className="form-control bg-light border-1 small col-12" placeholder="Project Name..."
               aria-describedby="basic-addon2" onChange={this.handleNameChange} value={this.state.projectName} />
         </div>
 
-        <div className="row mb-2">    
+        <div className="row mb-2">
+          <h6 className="col-12 font-weight-bold text-dark">Description</h6>    
           <textarea className="form-control bg-light border-1 col-12" placeholder="Project Description..."
               aria-describedby="basic-addon2" onChange={this.handleDescChange} value={this.state.projectDesc} />
         </div>
