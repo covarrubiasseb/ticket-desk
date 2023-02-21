@@ -119,7 +119,7 @@ class App extends React.Component {
                         userID={this.state.userData.userID} 
                         setPageTicket={this.setPageTicket} />
       case 'AdminManageUsers':
-        return <AdminManageUsers />
+        return <AdminManageUsers headersConfig={this.state.config}/>
     };
   }
 

@@ -84,7 +84,7 @@ const queries = {
   },
 
   getAllUsers: function() {
-    return `SELECT (userID, firstName, lastName, email, role) FROM users;`
+    return `SELECT userID, firstName, lastName, email, role FROM users;`
   },
 
   createUser: function(firstName, lastName, userEmail, hash) {

@@ -154,7 +154,11 @@ app.get('/api/users', (req, res) => {
               res.sendStatus(401);
             } else {
 
-              res.status(200).send(results);
+
+              res.status(200).send({
+                valid: true,
+                results: results
+              });
 
             }
           });

@@ -1,11 +1,13 @@
 import React from 'react';
+import axios from 'axios';
 
 class AdminManageUsers extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      selectedOption: ''
+      selectedOption: '',
+      users: []
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -15,15 +17,55 @@ class AdminManageUsers extends React.Component {
   handleSubmit(event) {
     this.setState({
       selectedOption: event.target.value
+    }, () => {
+      console.log(this.state.selectedOption);
     });
   }
 
   getUsers() {
+    axios.get(`/api/users`, this.props.headersConfig)
+    .then(response => {
+      if (response.data.valid) {
 
+        let users = response.data.results;
+
+        this.setState({
+
+          users: users.map(user => {
+
+            return (
+            
+              <tr>
+                <td>{user.firstName}</td>
+                <td>{user.lastName}</td>
+                <td>{user.email}</td>
+                <td>{user.role}</td>
+                <td>
+                  <form>
+                    <select className="form-select" value={this.state.selectedOption} onChange={this.handleSubmit}>
+                      <option value="Admin">Admin</option>
+                      <option value="Manager">Project Manager</option>
+                      <option value="Developer">Developer</option>
+                      <option value="User">User</option>
+                    </select>
+                  </form>
+                </td>
+              </tr>
+
+            );
+
+          })
+
+        });
+
+      } else {
+        console.log("Could Not Get Users");
+      }
+    });
   }
 
   componentDidMount() {
-    this.getUsers()
+    this.getUsers();
   }
 
   render() {
@@ -36,17 +78,29 @@ class AdminManageUsers extends React.Component {
           <h1 className="h3 mb-0 text-gray-800">Manage Users</h1>
         </div>
 
-        <form className>
-          <label>
-            Select an option:
-            <select className="form-select" value={this.state.selectedOption} onChange={this.handleSubmit}>
-              <option value="Admin">Admin</option>
-              <option value="Manager">Project Manager</option>
-              <option value="Developer">Developer</option>
-              <option value="User">User</option>
-            </select>
-          </label>
-        </form>
+        <div className="row">
+          <div className="col-xl-9">
+            <div className="card shadow mb-4">
+              <div className="card-body">
+
+                <table className="table table-hover">
+                  <thead className="table-light text-dark">
+                    <tr>
+                      <th scope="col">First Name</th>
+                      <th scope="col">Last Name</th>
+                      <th scope="col">email</th>
+                      <th scope="col">Role</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.state.users}
+                  </tbody>
+                </table>
+
+              </div>
+            </div>
+          </div>
+        </div>
 
       </div>
 
