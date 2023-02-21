@@ -83,7 +83,75 @@ class Project extends React.Component {
             <div className="card shadow mb-4">
 
               <div className="card-header py-3">
-                <h6 className="m-0 font-weight-bold text-primary">{this.props.projectData.name}</h6>
+
+                <div className="row">
+
+                  <div className="col">
+
+                    <h6 className="m-0 font-weight-bold text-primary">{this.props.projectData.name}</h6>
+
+                  </div>
+
+                  <div className="col">
+
+                    <div className="dropdown no-arrow float-right">
+                      <a className="dropdown-toggle" href="#" role="button" id="dropdownMenuProjectEdit" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i className="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                      </a>
+                      <div className="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuProjectEdit">
+                        <a className="dropdown-item" href="#" data-toggle="modal" data-target="#projectEditModal">Edit</a>
+                        <div className="dropdown-divider"></div>
+                        <a className="dropdown-item" href="#" data-toggle="modal" data-target="#projectDeleteModal" onClick={this.reloadTicketData}><span className="text-danger">Delete</span></a>
+                      </div>
+                    </div>
+
+                    <div className="modal fade" id="projectEditModal" tabIndex="-1" role="dialog" aria-labelledby="projectEditModalLabel"
+                        aria-hidden="true">
+                      <div className="modal-dialog" role="document">
+                        <div className="modal-content">
+                          <div className="modal-header">
+                            <h5 className="modal-title" id="projectEditModalLabel">Edit Project</h5>
+                            <button className="close" id="closeProjectEditModal" type="button" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                          </div>
+
+                          <div className="modal-body">
+                            Hello World
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="modal fade" id="projectDeleteModal" tabIndex="-1" role="dialog" aria-labelledby="projectDeleteModalLabel"
+                        aria-hidden="true">
+                      <div className="modal-dialog" role="document">
+                        <div className="modal-content">
+
+                          <div className="modal-header">
+                            <h5 className="modal-title" id="projectDeleteModalLabel">Delete Project</h5>
+                            <button className="close" id="closeProjectDeleteModal" type="button" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                          </div>
+
+                          <div className="modal-body">
+                            Select "Delete" if you want to delete this project.
+                          </div>
+
+                          <div className="modal-footer">
+                            <a className="btn btn-danger float-right">Delete</a>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+                
               </div>
 
               <div className="card-body">
