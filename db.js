@@ -121,6 +121,14 @@ const queries = {
               description='${data.description}', priority='${data.priority}' WHERE ticketID='${ticketID}';`
   },
 
+  removeTicketById: function(ticketID) {
+    return {
+            removeComments: `DELETE FROM comments WHERE ticketID='${ticketID}';`,
+            removeUsersTickets: `DELETE FROM usersTickets WHERE ticketID='${ticketID}';`,
+            removeTicket: `DELETE FROM tickets WHERE ticketID='${ticketID}';`
+          }
+  },
+
   findTicketById: function(ticketID) {
     return `SELECT * FROM tickets WHERE ticketID='${ticketID}';`
   },

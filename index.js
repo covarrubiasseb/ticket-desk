@@ -554,6 +554,52 @@ app.delete('/api/project/tickets', (req, res) => {
   const token = req.headers['jwt-token'];
 
   let ticketID = req.query.ticketID;
+
+  if (token) {
+    jwt.verify(token, jwt_secret_key, (err, decoded) => {
+      if (err) {
+        res.sendStatus(401);
+      } else {
+        if (decoded) {
+
+          console.log('Token Validated! - DELETE /api/project/tickets');
+
+          mysql.connection.query(db.queries.removeTicketById(ticketID).removeComments, (err, results) => {
+            if (err) {
+              res.sendStatus(401);
+            } else {
+
+              mysql.connection.query(db.queries.removeTicketById(ticketID).removeUsersTickets, (err, results) => {
+                if (err) {
+                  res.sendStatus(401);
+                } else {
+
+                  mysql.connection.query(db.queries.removeTicketById(ticketID).removeTicket, (err, results) => {
+                    if (err) {
+                      res.sendStatus(401);
+                    } else {
+                      res.status(200).send({valid: true});
+                    }
+
+                  });
+
+                }
+              });
+
+            }
+
+          });
+
+        } else {
+          res.sendStatus(401);
+        }
+      }
+    });
+  } else {
+    res.sendStatus(401);
+  }
+
+
 });
 
 // GET TICKET COMMENTS ////////////////////
