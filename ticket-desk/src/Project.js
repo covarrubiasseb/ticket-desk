@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import TicketForm from'./TicketForm';
+import ProjectEditForm from './ProjectEditForm';
 
 class Project extends React.Component {
   constructor(props) {
@@ -117,7 +118,7 @@ class Project extends React.Component {
                           </div>
 
                           <div className="modal-body">
-                            Hello World
+                            <ProjectEditForm />
                           </div>
 
                         </div>
