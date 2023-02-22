@@ -13,12 +13,6 @@ import Ticket from './Ticket';
 import Tickets from './Tickets';
 import AdminManageUsers from './AdminManageUsers';
 
-const config = {
-  headers: {
-
-  }
-};
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -56,6 +50,7 @@ class App extends React.Component {
           lastName: data.name.lastName
         },
         email: data.email,
+        role: data.role,
         token: data.token
       },
       config: {
@@ -75,7 +70,7 @@ class App extends React.Component {
       case 'Main':
         return (
 
-          <Main 
+          <Main
             setPageDashboard={this.setPageDashboard} 
             setPageProjects={this.setPageProjects} 
             setPageUserTickets={this.setPageUserTickets} 
@@ -119,7 +114,7 @@ class App extends React.Component {
                         userID={this.state.userData.userID} 
                         setPageTicket={this.setPageTicket} />
       case 'AdminManageUsers':
-        return <AdminManageUsers headersConfig={this.state.config}/>
+        return <AdminManageUsers headersConfig={this.state.config} />
     };
   }
 
@@ -170,7 +165,9 @@ class App extends React.Component {
   }
 
   setPageAdminManageUsers() {
-    this.setState({ currentPage: 'AdminManageUsers' });
+    if (this.state.userData.role === 'Admin') {
+      this.setState({ currentPage: 'AdminManageUsers' });
+    }
   }
 
   render() {
