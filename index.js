@@ -507,9 +507,6 @@ app.put('/api/project/users', (req, res) => {
   let projectID = '';
   let userID = '';
 
-  mysql.connection.query(db.queries.addUserToProject(userID, projectID), (err), (err, results) => {
-    res.end();
-  });
 });
 
 app.delete('/api/project/users', (req, res) => {

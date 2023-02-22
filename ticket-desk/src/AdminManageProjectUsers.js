@@ -33,10 +33,10 @@ class AdminManageProjectUsers extends React.Component {
                 <td>{user.email}</td>
                 <td>{user.role}</td>
                 <td>
-                  <a href="#" onClick={e => this.addUser(e, userID, this.props.projectID)}>Add</a>
+                  <a href="#" onClick={e => this.addUser(e, user.userID, this.props.projectID)}>Add</a>
                 </td>
                 <td>
-                  <a href="#" onClick={e => this.removeUser(e, userID, this.props.projectID)}>Delete</a>
+                  <a href="#" onClick={e => this.removeUser(e, user.userID, this.props.projectID)}>Delete</a>
                 </td>
                   
               </tr>
