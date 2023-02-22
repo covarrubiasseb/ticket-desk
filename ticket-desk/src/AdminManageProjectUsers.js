@@ -10,6 +10,8 @@ class AdminManageProjectUsers extends React.Component {
     }
 
     this.getAllUsers = this.getAllUsers.bind(this);
+    this.addUser = this.addUser.bind(this);
+    this.removeUser = this.removeUser.bind(this);
   }
 
   getAllUsers() {
@@ -30,6 +32,13 @@ class AdminManageProjectUsers extends React.Component {
                 <td>{user.lastName}</td>
                 <td>{user.email}</td>
                 <td>{user.role}</td>
+                <td>
+                  <a href="#" onClick={e => this.addUser(e, userID, this.props.projectID)}>Add</a>
+                </td>
+                <td>
+                  <a href="#" onClick={e => this.removeUser(e, userID, this.props.projectID)}>Delete</a>
+                </td>
+                  
               </tr>
 
             );
@@ -42,6 +51,38 @@ class AdminManageProjectUsers extends React.Component {
         console.log("Could Not Get Users");
       }
     });
+  }
+
+  addUser(event, userID, projectID) {
+    event.preventDefault();
+
+    axios.put(`/api/project/users?userID=${userID}&projectID=${projectID}`, this.props.headersConfig)
+    .then(response => {
+      if (response.data.valid) {
+        // User Added
+        // Refresh Page Data
+
+      } else {
+        console.log("Could Not Add User To Project")
+      }
+    });
+
+  }
+
+  removeUser(event, userID, projectID) {
+    event.preventDefault();
+
+    axios.delete(`/api/project/users?userID=${userID}&projectID=${projectID}`, this.props.headersConfig)
+    .then(response => {
+      if (response.data.valid) {
+        // User Deleted
+        // Refresh Page Data
+
+      } else {
+        console.log("Could Not Remove User From Project")
+      }
+    });
+
   }
 
   componentDidMount() {

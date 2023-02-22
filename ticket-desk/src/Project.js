@@ -277,7 +277,7 @@ class Project extends React.Component {
         <div className="row">
           <div className="col-xl-9">
 
-            <AdminManageProjectUsers headersConfig={this.props.headersConfig}/>
+            <AdminManageProjectUsers headersConfig={this.props.headersConfig} projectID={this.props.projectData.projectID}/>
 
           </div>
         </div>
