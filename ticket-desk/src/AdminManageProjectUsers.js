@@ -61,6 +61,7 @@ class AdminManageProjectUsers extends React.Component {
       if (response.data.valid) {
         // User Added
         // Refresh Page Data
+        this.props.getUsers();
 
       } else {
         console.log("Could Not Add User To Project")

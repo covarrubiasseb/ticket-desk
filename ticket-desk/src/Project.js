@@ -16,9 +16,32 @@ class Project extends React.Component {
       desc: this.props.projectData.desc
     };
 
+    this.getUsers = this.getUsers.bind(this);
     this.getTickets = this.getTickets.bind(this);
     this.updateProject = this.updateProject.bind(this);
     this.handleProjectDelete = this.handleProjectDelete.bind(this);
+  }
+
+  getUsers() {
+    axios.get(`/api/project/users?projectID=${this.props.projectData.projectID}`, this.props.headersConfig)
+      .then(response => {
+        
+        this.setState({
+          users: response.data.map(user => {
+            
+            return (
+
+              <tr>
+                <td>{`${user.firstName} ${user.lastName}`}</td>
+                <td>{user.email}</td>
+                <td>{user.role}</td>
+              </tr>
+
+            );
+
+          })
+        });
+    });
   }
 
   getTickets() {    
@@ -80,25 +103,7 @@ class Project extends React.Component {
 
   componentDidMount() {
     // GET Project Users
-    axios.get(`/api/project/users?projectID=${this.props.projectData.projectID}`, this.props.headersConfig)
-      .then(response => {
-        
-        this.setState({
-          users: response.data.map(user => {
-            
-            return (
-
-              <tr>
-                <td>{`${user.firstName} ${user.lastName}`}</td>
-                <td>{user.email}</td>
-                <td>{user.role}</td>
-              </tr>
-
-            );
-
-          })
-        });
-    });
+    this.getUsers();
 
     // GET Project Tickets
     this.getTickets();
@@ -277,7 +282,7 @@ class Project extends React.Component {
         <div className="row">
           <div className="col-xl-9">
 
-            <AdminManageProjectUsers headersConfig={this.props.headersConfig} projectID={this.props.projectData.projectID}/>
+            <AdminManageProjectUsers headersConfig={this.props.headersConfig} projectID={this.props.projectData.projectID} getUsers={this.getUsers}/>
 
           </div>
         </div>

@@ -515,7 +515,28 @@ app.post('/api/project/users', (req, res) => {
         if (decoded) {
 
           console.log('Token Validated! - POST /api/project/users');
-          res.sendStatus(200);    
+
+          mysql.connection.query(db.queries.findProjectUser(userID, projectID), (err, results) => {
+            if (err) {
+              res.sendStatus(401);
+            } else {
+              
+              if (results.length === 0) {
+
+                mysql.connection.query(db.queries.addUserToProject(userID, projectID), (err, results) => {
+                  if (err) {
+                    res.sendStatus(401);
+                  } else {
+                    res.status(200).send({valid: true});
+                  }
+                });  
+
+              } else {
+                res.sendStatus(200);
+              }
+
+            }            
+          });  
 
         } else {
           res.sendStatus(401);
