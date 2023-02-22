@@ -64,7 +64,7 @@ class AdminManageProjectUsers extends React.Component {
         this.props.getUsers();
 
       } else {
-        console.log("Could Not Add User To Project")
+        console.log("Could Not Add User To Project");
       }
     });
 
@@ -78,9 +78,9 @@ class AdminManageProjectUsers extends React.Component {
       if (response.data.valid) {
         // User Deleted
         // Refresh Page Data
-
+        this.props.getUsers();
       } else {
-        console.log("Could Not Remove User From Project")
+        console.log("Could Not Remove User From Project");
       }
     });
 
