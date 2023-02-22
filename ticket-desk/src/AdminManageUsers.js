@@ -6,7 +6,6 @@ class AdminManageUsers extends React.Component {
     super(props);
 
     this.state = {
-      selectedOption: '',
       users: []
     }
 
@@ -14,11 +13,30 @@ class AdminManageUsers extends React.Component {
     this.getUsers = this.getUsers.bind(this);
   }
 
-  handleSubmit(event) {
-    this.setState({
-      selectedOption: event.target.value
-    }, () => {
-      console.log(this.state.selectedOption);
+  handleSubmit(event, userID) {
+
+    axios.post(`/api/users?userID=${userID}`,
+               {
+                role: event.target.value
+               },
+               {
+                headers: this.props.headersConfig.headers
+               }
+    )
+    .then(response =>{
+
+      if (response.data.valid) {
+
+        this.setState({
+          users: []
+        }, () => {
+          this.getUsers();
+        });
+
+      } else {
+        console.log("Could Not Update User Role");
+      }
+
     });
   }
 
@@ -39,10 +57,10 @@ class AdminManageUsers extends React.Component {
                 <td>{user.firstName}</td>
                 <td>{user.lastName}</td>
                 <td>{user.email}</td>
-                <td>{user.role}</td>
                 <td>
                   <form>
-                    <select className="form-select" value={this.state.selectedOption} onChange={this.handleSubmit}>
+                    <select className="form-select" value={user.role} onChange={e => this.handleSubmit(e, user.userID)}>
+                      <option value="Unassigned">Unassigned</option>
                       <option value="Admin">Admin</option>
                       <option value="Manager">Project Manager</option>
                       <option value="Developer">Developer</option>

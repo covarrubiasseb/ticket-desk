@@ -175,8 +175,11 @@ app.get('/api/users', (req, res) => {
 });
 
 // UPDATE USER ROLE ////////////////////
-app.post('api/users', (req, res) => {
+app.post('/api/users', (req, res) => {
   const token = req.headers['jwt-token'];
+
+  let userID = req.query.userID;
+  let newRole = req.body.role;
 
   if (token) {
     jwt.verify(token, jwt_secret_key, (err, decoded) => {
@@ -186,7 +189,14 @@ app.post('api/users', (req, res) => {
         if (decoded) {
 
           console.log('Token Validated! - POST /api/users');
-          res.end();
+          
+          mysql.connection.query(db.queries.updateUserRole(userID, newRole), (err, results) => {
+            if (err) {
+              res.status(401).send({valid: false});
+            } else {
+              res.status(200).send({valid: true});
+            }
+          });
 
         } else {
           res.sendStatus(401);
