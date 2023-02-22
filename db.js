@@ -117,6 +117,10 @@ const queries = {
     return `INSERT INTO usersProjects (userID, projectID) VALUES ('${userID}','${projectID}');`
   },
 
+  removeUserFromProject: function(userID, projectID) {
+    return `DELETE FROM usersProjects WHERE userID='${userID}' AND projectID='${projectID}';`
+  },
+
   findProjectUser: function(userID, projectID) {
     return `SELECT * FROM usersProjects WHERE userID='${userID}' AND projectID='${projectID}';`
   },

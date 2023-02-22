@@ -564,7 +564,28 @@ app.delete('/api/project/users', (req, res) => {
         if (decoded) {
 
           console.log('Token Validated! - DELETE /api/project/users');
-          res.sendStatus(200);    
+
+          mysql.connection.query(db.queries.findProjectUser(userID, projectID), (err, results) => {
+            if (err) {
+              res.sendStatus(401);
+            } else {
+              
+              if (results.length === 1) {
+
+                mysql.connection.query(db.queries.removeUserFromProject(userID, projectID), (err, results) => {
+                  if (err) {
+                    res.sendStatus(401);
+                  } else {
+                    res.status(200).send({valid: true});
+                  }
+                });  
+
+              } else {
+                res.sendStatus(200);
+              }
+
+            }            
+          }); 
 
         } else {
           res.sendStatus(401);
