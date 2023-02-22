@@ -501,7 +501,7 @@ app.get('/api/project/users', (req, res) => {
 });
 
 // UPDATE PROJECT USERS ////////////////////
-app.post('/api/project/users', (req, res) => {
+app.put('/api/project/users', (req, res) => {
   const token = req.headers['jwt-token'];
 
   let projectID = '';
@@ -510,6 +510,10 @@ app.post('/api/project/users', (req, res) => {
   mysql.connection.query(db.queries.addUserToProject(userID, projectID), (err), (err, results) => {
     res.end();
   });
+});
+
+app.delete('/api/project/users', (req, res) => {
+
 });
 
 // GET TICKET BY ID (ONE) ////////////////////
