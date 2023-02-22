@@ -504,8 +504,10 @@ app.get('/api/project/users', (req, res) => {
 app.post('/api/project/users', (req, res) => {
   const token = req.headers['jwt-token'];
 
-  let projectID = req.query.projectID;
-  let userID = req.query.userID;
+  let userID = req.body.userID;
+  let projectID = req.body.projectID;
+  let projectUserID = req.body.projectUserID;
+
 
   if (token) {
     jwt.verify(token, jwt_secret_key, (err, decoded) => {
@@ -516,27 +518,43 @@ app.post('/api/project/users', (req, res) => {
 
           console.log('Token Validated! - POST /api/project/users');
 
-          mysql.connection.query(db.queries.findProjectUser(userID, projectID), (err, results) => {
+          mysql.connection.query(db.queries.findUserById(userID), (err, results) => {
             if (err) {
               res.sendStatus(401);
             } else {
-              
-              if (results.length === 0) {
 
-                mysql.connection.query(db.queries.addUserToProject(userID, projectID), (err, results) => {
+              let user = results[0];
+
+              if (user.role === 'Admin') {
+
+                mysql.connection.query(db.queries.findProjectUser(projectUserID, projectID), (err, results) => {
                   if (err) {
                     res.sendStatus(401);
                   } else {
-                    res.status(200).send({valid: true});
-                  }
+                    
+                    if (results.length === 0) {
+
+                      mysql.connection.query(db.queries.addUserToProject(projectUserID, projectID), (err, results) => {
+                        if (err) {
+                          res.sendStatus(401);
+                        } else {
+                          res.status(200).send({valid: true});
+                        }
+                      });  
+
+                    } else {
+                      res.sendStatus(200);
+                    }
+
+                  }            
                 });  
 
-              } else {
-                res.sendStatus(200);
-              }
+                    } else {
+                      res.sendStatus(401);
+                    }
 
-            }            
-          });  
+                  }
+                });
 
         } else {
           res.sendStatus(401);

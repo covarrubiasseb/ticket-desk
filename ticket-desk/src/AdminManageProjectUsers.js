@@ -56,7 +56,13 @@ class AdminManageProjectUsers extends React.Component {
   addUser(event, userID, projectID) {
     event.preventDefault();
 
-    axios.post(`/api/project/users?userID=${userID}&projectID=${projectID}`, {}, this.props.headersConfig)
+    axios.post(`/api/project/users`,
+               {
+                 userID: this.props.userID,
+                 projectID: projectID,
+                 projectUserID: userID
+               }, 
+               this.props.headersConfig)
     .then(response => {
       if (response.data.valid) {
         // User Added
