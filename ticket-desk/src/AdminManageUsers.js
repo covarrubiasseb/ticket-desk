@@ -23,7 +23,7 @@ class AdminManageUsers extends React.Component {
                 headers: this.props.headersConfig.headers
                }
     )
-    .then(response =>{
+    .then(response => {
 
       if (response.data.valid) {
 

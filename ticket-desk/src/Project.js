@@ -3,6 +3,7 @@ import axios from 'axios';
 import $ from 'jquery';
 import TicketForm from'./TicketForm';
 import ProjectEditForm from './ProjectEditForm';
+import AdminManageProjectUsers from './AdminManageProjectUsers';
 
 class Project extends React.Component {
   constructor(props) {
@@ -270,6 +271,14 @@ class Project extends React.Component {
               </div>
 
             </div>
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-xl-9">
+
+            <AdminManageProjectUsers headersConfig={this.props.headersConfig}/>
+
           </div>
         </div>
 
