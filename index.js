@@ -549,12 +549,12 @@ app.post('/api/project/users', (req, res) => {
                   }            
                 });  
 
-                    } else {
-                      res.sendStatus(401);
-                    }
+              } else {
+                res.sendStatus(401);
+              }
 
-                  }
-                });
+            }
+          });
 
         } else {
           res.sendStatus(401);
@@ -572,6 +572,7 @@ app.delete('/api/project/users', (req, res) => {
   const token = req.headers['jwt-token'];
 
   let projectID = req.query.projectID;
+  let projectUserID = req.query.projectUserID;
   let userID = req.query.userID;
 
   if (token) {
@@ -583,26 +584,42 @@ app.delete('/api/project/users', (req, res) => {
 
           console.log('Token Validated! - DELETE /api/project/users');
 
-          mysql.connection.query(db.queries.findProjectUser(userID, projectID), (err, results) => {
+          mysql.connection.query(db.queries.findUserById(userID), (err, results) => {
             if (err) {
               res.sendStatus(401);
             } else {
-              
-              if (results.length === 1) {
 
-                mysql.connection.query(db.queries.removeUserFromProject(userID, projectID), (err, results) => {
+              let user = results[0];
+
+              if (user.role === 'Admin') {
+
+                mysql.connection.query(db.queries.findProjectUser(projectUserID, projectID), (err, results) => {
                   if (err) {
                     res.sendStatus(401);
                   } else {
-                    res.status(200).send({valid: true});
-                  }
-                });  
+                    
+                    if (results.length === 1) {
+
+                      mysql.connection.query(db.queries.removeUserFromProject(projectUserID, projectID), (err, results) => {
+                        if (err) {
+                          res.sendStatus(401);
+                        } else {
+                          res.status(200).send({valid: true});
+                        }
+                      });  
+
+                    } else {
+                      res.sendStatus(200);
+                    }
+
+                  }            
+                }); 
 
               } else {
-                res.sendStatus(200);
+                res.sendStatus(401);
               }
 
-            }            
+            }
           }); 
 
         } else {
