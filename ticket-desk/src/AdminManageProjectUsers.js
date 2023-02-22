@@ -53,14 +53,14 @@ class AdminManageProjectUsers extends React.Component {
     });
   }
 
-  addUser(event, userID, projectID) {
+  addUser(event, projectUserID, projectID) {
     event.preventDefault();
 
     axios.post(`/api/project/users`,
                {
                  userID: this.props.userID,
                  projectID: projectID,
-                 projectUserID: userID
+                 projectUserID: projectUserID
                }, 
                this.props.headersConfig)
     .then(response => {
@@ -76,10 +76,10 @@ class AdminManageProjectUsers extends React.Component {
 
   }
 
-  removeUser(event, userID, projectID) {
+  removeUser(event, projectUserID, projectID) {
     event.preventDefault();
 
-    axios.delete(`/api/project/users?userID=${userID}&projectID=${projectID}`, this.props.headersConfig)
+    axios.delete(`/api/project/users?userID=${this.props.userID}&projectUserID=${projectUserID}&projectID=${projectID}`, this.props.headersConfig)
     .then(response => {
       if (response.data.valid) {
         // User Deleted
