@@ -500,16 +500,59 @@ app.get('/api/project/users', (req, res) => {
 
 });
 
-// UPDATE PROJECT USERS ////////////////////
-app.put('/api/project/users', (req, res) => {
+// UPDATE (ADD) PROJECT USERS ////////////////////
+app.post('/api/project/users', (req, res) => {
   const token = req.headers['jwt-token'];
 
-  let projectID = '';
-  let userID = '';
+  let projectID = req.query.projectID;
+  let userID = req.query.userID;
+
+  if (token) {
+    jwt.verify(token, jwt_secret_key, (err, decoded) => {
+      if (err) {
+        res.sendStatus(401);
+      } else {
+        if (decoded) {
+
+          console.log('Token Validated! - POST /api/project/users');
+          res.sendStatus(200);    
+
+        } else {
+          res.sendStatus(401);
+        }
+      }
+    });
+  } else {
+    res.sendStatus(401);
+  }
 
 });
 
+// DELETE PROJECT USER ////////////////////
 app.delete('/api/project/users', (req, res) => {
+  const token = req.headers['jwt-token'];
+
+  let projectID = req.query.projectID;
+  let userID = req.query.userID;
+
+  if (token) {
+    jwt.verify(token, jwt_secret_key, (err, decoded) => {
+      if (err) {
+        res.sendStatus(401);
+      } else {
+        if (decoded) {
+
+          console.log('Token Validated! - DELETE /api/project/users');
+          res.sendStatus(200);    
+
+        } else {
+          res.sendStatus(401);
+        }
+      }
+    });
+  } else {
+    res.sendStatus(401);
+  }
 
 });
 
