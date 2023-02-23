@@ -5,6 +5,9 @@ const jwt = require('jsonwebtoken');
 const db = require('./db');
 const mysql = require('./mysql');
 const bcrypt = require('bcrypt');
+const test = require('./test/test');
+
+console.log(test);
 
 const app = express();
 

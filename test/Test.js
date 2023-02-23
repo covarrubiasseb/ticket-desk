@@ -1,16 +1,26 @@
-const {  parse  } = require("csv-parse");
+const fs = require('fs');
+const bcrypt = require('bcrypt');
+const mysql = require('../mysql');
+const db = require('./DB_Test');
 
-const records = [];
+const saltRounds = 10;
 
-const parser = parse({
-  delimiter: ','
-});
+// Insert Users
+fs.readFile('./test/data/MOCK_DATA_USERS.json', 'utf-8', (err, stringified) => {
+  if (err) { console.log(err); }
+  else {
+    let data = JSON.parse(stringified);
+    data.forEach(user => {
 
-parser.on('readable', () => {
-  let record;
-  while ( (record = parser.read()) !== null) {
-    records.push(record);  
+      bcrypt.hash(user.password, saltRounds, (err, hash) => {
+
+        mysql.connection.query(db.queries.createUser(user.firstName, user.lastName, user.email, hash), (err, results) => {
+          console.log(`User Added: ${hash}`);
+        });
+
+      });
+
+    });
+
   }
 });
-
-module.exports = {  parser  }
