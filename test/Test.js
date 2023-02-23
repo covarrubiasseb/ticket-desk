@@ -49,3 +49,22 @@ if (process.env.DB_TEST_HAS_PROJECTS === 'false') {
   });
 
 }
+
+if (process.env.DB_TEST_HAS_PROJECTS_ADMIN === 'false') {
+
+  fs.readFile('./test/data/MOCK_DATA_PROJECTS.json', 'utf-8', (err, stringified) => {
+    if (err) { console.log(err); }
+    else {
+      let data = JSON.parse(stringified);
+      data.forEach( (project, index) => {
+
+        mysql.connection.query(db.queries.addUserToProject(1, index + 1), (err, results) => {
+          console.log(`userID: 1 Added to projectID: ${index + 1}`)
+        });
+
+      });
+
+    }
+  });
+
+}

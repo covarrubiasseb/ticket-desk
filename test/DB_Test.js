@@ -5,6 +5,14 @@ const queries = {
 
   createProject: function(projectName, projectDescription) {
     return `INSERT INTO projects (name, description) VALUES ('${projectName}','${projectDescription}');`
+  },
+
+  findProject: function(projectID) {
+    return `SELECT * FROM projects where projectID='${projectID}';`
+  },
+
+  addUserToProject: function(userID, projectID) {
+    return `INSERT INTO usersProjects (userID, projectID) VALUES ('${userID}','${projectID}');`
   }
 }
 
