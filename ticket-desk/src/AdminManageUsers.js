@@ -54,8 +54,7 @@ class AdminManageUsers extends React.Component {
             return (
             
               <tr>
-                <td>{user.firstName}</td>
-                <td>{user.lastName}</td>
+                <td>{`${user.firstName} ${user.lastName}`}</td>
                 <td>{user.email}</td>
                 <td>
                   <form>
@@ -104,8 +103,7 @@ class AdminManageUsers extends React.Component {
                 <table className="table table-hover">
                   <thead className="table-light text-dark">
                     <tr>
-                      <th scope="col">First Name</th>
-                      <th scope="col">Last Name</th>
+                      <th scope="col">Name</th>
                       <th scope="col">email</th>
                       <th scope="col">Role</th>
                     </tr>

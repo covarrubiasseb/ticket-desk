@@ -28,17 +28,13 @@ class AdminManageProjectUsers extends React.Component {
             return (
             
               <tr>
-                <td>{user.firstName}</td>
-                <td>{user.lastName}</td>
+                <td>{`${user.firstName} ${user.lastName}`}</td>
                 <td>{user.email}</td>
                 <td>{user.role}</td>
                 <td>
-                  <a href="#" onClick={e => this.addUser(e, user.userID, this.props.projectID)}>Add</a>
+                  <div><a href="#" onClick={e => this.addUser(e, user.userID, this.props.projectID)}>Add</a></div>
+                  <div><a href="#" onClick={e => this.removeUser(e, user.userID, this.props.projectID)}>Delete</a></div>
                 </td>
-                <td>
-                  <a href="#" onClick={e => this.removeUser(e, user.userID, this.props.projectID)}>Delete</a>
-                </td>
-                  
               </tr>
 
             );
