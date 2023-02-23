@@ -7,8 +7,6 @@ const mysql = require('./mysql');
 const bcrypt = require('bcrypt');
 const test = require('./test/test');
 
-console.log(test);
-
 const app = express();
 
 app.use(express.json());

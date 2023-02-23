@@ -1,15 +1,14 @@
 const fs = require('fs');
 const bcrypt = require('bcrypt');
 const mysql = require('../mysql');
-const db = require('./DB_Test');
+const db = require('./db_test');
+const process = require('process');
+const { config } = require('dotenv').config();
 
 const saltRounds = 10;
 
-const hasUsers = true;
-
 // Insert Users
-
-if (!hasUsers) {
+if (process.env.DB_TEST_HAS_USERS === 'false') {
 
   fs.readFile('./test/data/MOCK_DATA_USERS.json', 'utf-8', (err, stringified) => {
     if (err) { console.log(err); }
@@ -27,10 +26,26 @@ if (!hasUsers) {
 
       });
 
-      hasUsers = true;
-
     }
   });
 
 }
 
+if (process.env.DB_TEST_HAS_PROJECTS === 'false') {
+  
+  fs.readFile('./test/data/MOCK_DATA_PROJECTS.json', 'utf-8', (err, stringified) => {
+    if (err) { console.log(err); }
+    else {
+      let data = JSON.parse(stringified);
+      data.forEach(project => {
+
+        mysql.connection.query(db.queries.createProject(project.name, project.description), (err, results) => {
+          console.log(`Project Added: ${project.name}`);
+        });
+
+      });
+
+    }
+  });
+
+}
