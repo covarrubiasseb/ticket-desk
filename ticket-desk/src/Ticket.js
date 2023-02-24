@@ -294,7 +294,52 @@ class Ticket extends React.Component {
 
                             <tr>
                               <td className="font-weight-bold font-italic text-dark">Priority</td>
-                              <td>{this.state.priority}</td>
+                              <td>
+
+                                <div className="row">
+
+                                  <div className="col-4 pr-0">
+                                    {
+                                      this.state.priority === 'Low' ? <div className="progress">
+                                                                        <div className="progress-bar-striped bg-success" role="progressbar" 
+                                                                             style={{ width: "33%"}} aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                      </div>
+                                                                    : null
+                                    }
+
+                                    {
+                                      this.state.priority === 'Medium' ? <div className="progress">
+                                                                           <div className="progress-bar-striped bg-success" role="progressbar" 
+                                                                             style={{ width: "33%"}} aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+
+                                                                           <div className="progress-bar-striped bg-warning" role="progressbar" 
+                                                                             style={{ width: "33%"}} aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                         </div>
+                                                                       : null
+                                    }
+
+                                    {
+                                      this.state.priority === 'High' ? <div className="progress">
+                                                                        <div className="progress-bar-striped bg-success" role="progressbar" 
+                                                                          style={{ width: "33%"}} aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+
+                                                                        <div className="progress-bar-striped bg-warning" role="progressbar" 
+                                                                          style={{ width: "33%"}} aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+
+                                                                        <div className="progress-bar-striped bg-danger" role="progressbar" 
+                                                                             style={{ width: "33%"}} aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                      </div>
+                                                                    : null
+                                    }
+                                  </div>
+
+                                  <div className="col-8">
+                                    {this.state.priority}
+                                  </div>
+
+                                </div>
+
+                              </td>
                             </tr>
 
                             <tr>
