@@ -7,10 +7,10 @@ class TicketEditForm extends React.Component {
 
     this.state = {
       ticketTitle: this.props.ticketData.title,
-      ticketStatus: this.props.ticketData.status || 'open',
-      ticketType: this.props.ticketData.type || 'client',
+      ticketStatus: this.props.ticketData.status || 'Open',
+      ticketType: this.props.ticketData.type || 'Client Side',
       ticketDesc: this.props.ticketData.description,
-      ticketPriority: this.props.ticketData.priority || 'medium'
+      ticketPriority: this.props.ticketData.priority || 'Medium'
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -120,8 +120,8 @@ class TicketEditForm extends React.Component {
             <h6 className="font-weight-bold text-dark">Status</h6>
 
             <select className="form-select" value={this.state.ticketStatus} onChange={this.setTicketStatus}>
-              <option value="open" selected>Open</option>
-              <option value="closed">Closed</option>
+              <option value="Open" selected>Open</option>
+              <option value="Closed">Closed</option>
             </select>
 
           </div>
@@ -131,9 +131,9 @@ class TicketEditForm extends React.Component {
             <h6 className="font-weight-bold text-dark">Priority</h6>
 
             <select className="form-select" value={this.state.ticketPriority} onChange={this.setTicketPriority}>
-              <option value="high">High</option>
-              <option value="medium" selected>Medium</option>
-              <option value="low">Low</option>
+              <option value="High">High</option>
+              <option value="Medium" selected>Medium</option>
+              <option value="Low">Low</option>
             </select>
 
           </div>
@@ -143,9 +143,9 @@ class TicketEditForm extends React.Component {
             <h6 className="font-weight-bold text-dark">Type</h6>
 
             <select className="form-select" value={this.state.ticketType} onChange={this.setTicketType}>
-              <option value="client" selected>Client Side</option>
-              <option value="server">Server Side</option>
-              <option value="dev">Dev Ops</option>
+              <option value="Client Side" selected>Client Side</option>
+              <option value="Server Side">Server Side</option>
+              <option value="Dev Ops">Dev Ops</option>
             </select>
 
           </div>

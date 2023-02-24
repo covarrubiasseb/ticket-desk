@@ -7,10 +7,10 @@ class TicketForm extends React.Component {
 
     this.state = {
       ticketTitle: '',
-      ticketStatus: 'open',
-      ticketType: 'client',
+      ticketStatus: 'Open',
+      ticketType: 'Client Side',
       ticketDesc: '',
-      ticketPriority: 'medium',
+      ticketPriority: 'Medium',
       submitModalText: ''
     };
 
@@ -123,9 +123,9 @@ class TicketForm extends React.Component {
             <h6 className="font-weight-bold text-dark">Priority</h6>
 
             <select className="form-select" value={this.state.ticketPriority} onChange={this.setTicketPriority}>
-              <option value="high">High</option>
-              <option value="medium" selected>Medium</option>
-              <option value="low">Low</option>
+              <option value="High">High</option>
+              <option value="Medium" selected>Medium</option>
+              <option value="Low">Low</option>
             </select>
 
           </div>
@@ -135,9 +135,9 @@ class TicketForm extends React.Component {
             <h6 className="font-weight-bold text-dark">Type</h6>
 
             <select className="form-select" value={this.state.ticketType} onChange={this.setTicketType}>
-              <option value="client" selected>Client Side</option>
-              <option value="server">Server Side</option>
-              <option value="dev">Dev Ops</option>
+              <option value="Client Side" selected>Client Side</option>
+              <option value="Server Side">Server Side</option>
+              <option value="Dev Ops">Dev Ops</option>
             </select>
 
           </div>
