@@ -9,6 +9,7 @@ const test = require('./test/test');
 
 const userAuthRouter = require('./api/userAuth');
 const usersRouter = require('./api/users');
+const projectsRouter = require('./api/projects');
 
 const app = express();
 
@@ -18,11 +19,13 @@ const saltRounds = 10;
 const port = process.env.PORT;
 const jwt_secret_key = process.env.JWT_SECRET_KEY;
 
+// Static Page
 app.use(express.static(`${__dirname}/ticket-desk/build`));
 
+// API Routes
 app.use(userAuthRouter);
-
 app.use(usersRouter);
+app.use(projectsRouter);
 
 // GET TICKET CREATOR/ASSIGNED DEV ////////////////////
 app.get('/api/ticket/dev', (req, res) => {
@@ -44,231 +47,6 @@ app.get('/api/ticket/dev', (req, res) => {
               res.status(200).send(results);
             }
           });          
-
-        } else {
-          res.sendStatus(401);
-        }
-      }
-    });
-  } else {
-    res.sendStatus(401);
-  }
-
-});
-
-// GET TICKET PROJECT ////////////////////
-app.get('/api/project', (req, res) => {
-  const token = req.headers['jwt-token'];
-
-  if (token) {
-    jwt.verify(token, jwt_secret_key, (err, decoded) => {
-      if (err) {
-        res.sendStatus(401);
-      } else {
-        if (decoded) {
-
-          console.log('Token Validated! - GET /api/project');
-
-          mysql.connection.query(db.queries.findProject(req.query.projectID), (err, results) => {
-            if (err) {
-              res.sendStatus(404);
-            } else {
-              res.status(200).send(results);
-            }
-          });
-
-        } else {
-          res.sendStatus(401);
-        }
-      }
-    });
-  } else {
-    res.sendStatus(401);
-  }
-
-});
-
-// GET USER PROJECTS ////////////////////
-app.get('/api/projects', (req, res) => {
-  const token = req.headers['jwt-token'];
-
-  if (token) {
-    jwt.verify(token, jwt_secret_key, (err, decoded) => {
-      if (err) {
-        res.sendStatus(401);
-      } else {
-        if (decoded) {
-
-          console.log('Token Validated! - GET /api/projects');
-
-          mysql.connection.query(db.queries.findProjects(req.query.userID), (err, results) => {
-            res.status(200).send(results);
-          });
-
-        } else {
-          res.sendStatus(401);
-        }
-      }
-    });
-  } else {
-    res.sendStatus(401);
-  }
-
-});
-
-// CREATE NEW PROJECT ////////////////////
-app.put('/api/projects', (req, res) => {
-  const token = req.headers['jwt-token'];
-
-  let email = req.body.userEmail;
-  let projectName = req.body.projectName;
-  let projectDesc = req.body.projectDesc;
-
-  if (token) {
-    jwt.verify(token, jwt_secret_key, (err, decoded) => {
-      if (err) {
-        res.sendStatus(401);
-      } else {
-        if (decoded) {
-
-          console.log('Token Validated! - PUT /api/projects');
-
-          // Check if User is Admin, Get UserID
-          mysql.connection.query(db.queries.findUser(email), (err, results) => {
-            let userResults = results[0];
-
-            if (userResults.role === 'Admin') {
-              // Create Project
-              mysql.connection.query(db.queries.createProject(projectName, projectDesc), (err, results) => {
-                if (err) {
-                  res.send({valid : false});
-                }
-                else {
-                  let projectID = results.insertId;
-                  // Get ProjectID
-                  mysql.connection.query(db.queries.findProject(projectID), (err, results) => {
-                    if (err) {
-                      res.send({valid : false});
-                    } else {
-                      let projectResults = results[0];
-                      // Add Admin to UsersProjects Table
-                      mysql.connection.query(db.queries.addUserToProject(userResults.userID, projectResults.projectID), (err, results) => {
-                        if (err) {
-                          res.send({valid : false});
-                        } else {
-                          res.send({valid : true});
-                        }
-                      });
-                    }
-                  });
-                }
-              });
-
-            } else {
-              // Cannot Create Project
-              res.send({valid : false});
-            }
-          });
-
-        } else {
-          res.sendStatus(401);
-        }
-      }
-    });
-  } else {
-    res.sendStatus(401);
-  }
-
-});
-
-// UPDATE PROJECT ////////////////////
-app.post('/api/projects', (req, res) => {
-  const token = req.headers['jwt-token'];
-
-  let userID = req.query.userID;
-  let projectID = req.query.projectID;
-  let projectData = req.body;
-
-  if (token) {
-    jwt.verify(token, jwt_secret_key, (err, decoded) => {
-      if (err) {
-        res.sendStatus(401);
-      } else {
-        if (decoded) {
-
-          console.log('Token Validated! - POST /api/projects');
-
-          mysql.connection.query(db.queries.findUserById(userID), (err, results) => {
-            if (err) {
-              res.sendStatus(401);
-            } else {
-              let user = results[0];
-
-              if (user.role === 'Admin') {
-
-                mysql.connection.query(db.queries.updateProject(projectID, projectData), (err, results) => {
-                  if (err) {
-                    res.sendStatus(401);
-                  } else {
-                    res.status(200).send({valid: true});
-                  }
-
-                });
-
-              } else {
-                res.sendStatus(401);
-              }
-
-            }
-          });
-
-        } else {
-          res.sendStatus(401);
-        }
-      }
-    });
-  } else {
-    res.sendStatus(401);
-  }
-
-});
-
-// DELETE PROJECT ////////////////////
-app.delete('/api/projects', (req, res) => {
-  const token = req.headers['jwt-token'];
-
-  let userID = req.query.userID;
-  let projectID = req.query.projectID;
-
-  if (token) {
-    jwt.verify(token, jwt_secret_key, (err, decoded) => {
-      if (err) {
-        res.sendStatus(401);
-      } else {
-        if (decoded) {
-
-          console.log('Token Validated! - DELETE /api/projects');
-
-          mysql.connection.query(db.queries.findUserById(userID), (err, results) => {
-            if (err) {
-              res.sendStatus(401);
-            } else {
-
-              let user = results[0];
-
-              if (user.role === 'Admin') {
-
-                // Begin deletion
-
-                res.sendStatus(200);
-
-
-              } else {
-                res.status(401).send({valid: false});
-              }
-
-            }
-          });
 
         } else {
           res.sendStatus(401);
