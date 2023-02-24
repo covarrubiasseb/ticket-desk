@@ -277,28 +277,38 @@ class Ticket extends React.Component {
                         <table className="table table-hover">
 
                           <tbody>
+
                             <tr>
-                              <td className="font-weight-bold text-dark">Status</td>
-                              <td>{this.state.status}</td>
+                              <td className="font-weight-bold font-italic text-dark">Status</td>
+                              <td>
+
+                                <span className={this.state.status === "Open" ? "text-success mr-2" : "text-danger mr-2"}>
+                                  <i className="fa fa-circle"></i>
+                                </span>
+
+
+                                {this.state.status}
+                              
+                              </td>
                             </tr>
 
                             <tr>
-                              <td className="font-weight-bold text-dark">Priority</td>
+                              <td className="font-weight-bold font-italic text-dark">Priority</td>
                               <td>{this.state.priority}</td>
                             </tr>
 
                             <tr>
-                              <td className="font-weight-bold text-dark">Type</td>
+                              <td className="font-weight-bold font-italic text-dark">Type</td>
                               <td>{this.state.type}</td>
                             </tr>
 
                             <tr>
-                              <td className="font-weight-bold text-dark">Project</td>
+                              <td className="font-weight-bold font-italic text-dark">Project</td>
                               <td>{this.state.project}</td>
                             </tr>
 
                             <tr>
-                              <td className="font-weight-bold text-dark">Creator</td>
+                              <td className="font-weight-bold font-italic text-dark">Creator</td>
                               <td>{this.state.dev}</td>
                             </tr>
 
