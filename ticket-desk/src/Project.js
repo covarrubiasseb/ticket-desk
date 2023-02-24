@@ -66,7 +66,7 @@ class Project extends React.Component {
                 </td>
 
                 <td>
-                  <span className="float-right">{ticket.submit_date.slice(0,10)}</span>
+                  {ticket.submit_date.slice(0,10)}
                 </td>
 
               </tr>
@@ -216,7 +216,7 @@ class Project extends React.Component {
                   <thead className="table-light">
                     <tr className="text-dark">
                       <th scope="col">Title</th>
-                      <th className="float-right" scope="col">Submit Date</th>
+                      <th scope="col">Submit Date</th>
                     </tr>
                   </thead>
 

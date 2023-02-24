@@ -38,7 +38,7 @@ class Projects extends React.Component {
                 </h6>
               </a></td>
 
-              <td className="float-right">
+              <td>
                 {project.submit_date.slice(0,10)}
               </td>
             </tr>
@@ -86,9 +86,9 @@ class Projects extends React.Component {
 
                 <table className="table table-hover">
                   <thead className="table-light">
-                    <tr>
-                      <th className="text-dark" scope="col">Project Name</th>
-                      <th className="float-right text-dark" scope="col">Submit Date</th>
+                    <tr className="text-dark">
+                      <th scope="col">Project Name</th>
+                      <th scope="col">Submit Date</th>
                     </tr>
                   </thead>
                   <tbody>
