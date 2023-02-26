@@ -11,9 +11,30 @@ let router = express.Router();
 
 const jwt_secret_key = process.env.JWT_SECRET_KEY;
 
+async function getTicketsAuthor(tickets, resolve) {
+
+  let data = [];
+
+  for (const ticket of tickets) {
+
+    let user = await mysql.connection.promise().query(db.queries.findUserById(ticket.userID))
+    .then(rows => {
+      return rows[0];
+    });
+
+    data.push(user);
+
+  }
+
+  resolve(data);
+
+};
+
 // GET TICKET CREATOR/ASSIGNED DEV ////////////////////
 router.get('/api/ticket/dev', (req, res) => {
   const token = req.headers['jwt-token'];
+
+  let userID = req.query.userID;
 
   if (token) {
     jwt.verify(token, jwt_secret_key, (err, decoded) => {
@@ -24,7 +45,7 @@ router.get('/api/ticket/dev', (req, res) => {
 
           console.log('Token Validated! - GET /api/ticket/dev');
 
-          mysql.connection.query(db.queries.findUserById(req.query.userID), (err, results) => {
+          mysql.connection.query(db.queries.findUserById(userID), (err, results) => {
             if (err) {
               res.sendStatus(404);
             } else {
@@ -96,7 +117,20 @@ router.get('/api/project/tickets', (req, res) => {
             if (err) {
               res.sendStatus(404);
             } else {
-              res.status(200).send(results);
+
+              getTicketsAuthor(results, data => {
+
+                let newData = results.map((ticket, index) => {
+                  return {
+                    ticket,
+                    user: data[index]
+                  }
+                });
+
+                res.status(200).send(newData);
+
+              });
+
             }
           });
 

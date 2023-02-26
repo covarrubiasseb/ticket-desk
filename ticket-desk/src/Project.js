@@ -49,8 +49,8 @@ class Project extends React.Component {
       .then(response => {
 
         this.setState({
-          tickets: response.data.map(ticket => {
-            
+          tickets: response.data.map( (data, index) => {
+
             return (
 
               <tr>
@@ -59,14 +59,18 @@ class Project extends React.Component {
 
                   <a href="#" onClick={e =>
 
-                    this.props.setPageTicket(ticket)
+                    this.props.setPageTicket(data.ticket)
 
-                  }>{ticket.title}</a>
+                  }>{data.ticket.title}</a>
 
                 </td>
 
                 <td>
-                  {ticket.submit_date.slice(0,10)}
+                  {`${data.user[0].firstName} ${data.user[0].lastName}`}
+                </td>
+
+                <td>
+                  {data.ticket.submit_date.slice(0,10)}
                 </td>
 
               </tr>
@@ -216,6 +220,7 @@ class Project extends React.Component {
                   <thead className="table-light">
                     <tr className="text-dark">
                       <th scope="col">Title</th>
+                      <th scope="col">Creator</th>
                       <th scope="col">Submit Date</th>
                     </tr>
                   </thead>

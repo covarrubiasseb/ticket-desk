@@ -59,7 +59,7 @@ if (process.env.DB_TEST_HAS_PROJECTS_ADMIN === 'false') {
       data.forEach( (project, index) => {
 
         mysql.connection.query(db.queries.addUserToProject(1, index + 1), (err, results) => {
-          console.log(`userID: 1 Added to projectID: ${index + 1}`)
+          console.log(`userID: 1 Added to projectID: ${index + 1}`);
         });
 
       });
