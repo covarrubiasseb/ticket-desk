@@ -18,7 +18,8 @@ class Projects extends React.Component {
     .then(response => {
 
       this.setState({
-        projects: response.data.map(project => {
+        projects: response.data.map(data => {
+          console.log(data);
 
           return (
             
@@ -26,20 +27,24 @@ class Projects extends React.Component {
               <td><a href="#" onClick={e =>
 
                   this.props.setPageProject({
-                    name: project.name,
-                    desc: project.description,
-                    submit_date: project.submit_date,
-                    projectID: project.projectID 
+                    name: data.project.name,
+                    desc: data.project.description,
+                    submit_date: data.project.submit_date,
+                    projectID: data.project.projectID 
                   })
                 
               }>
                 <h6 className="m-0 font-weight-bold text-primary">
-                  {project.name}
+                  {data.project.name}
                 </h6>
               </a></td>
 
               <td>
-                {project.submit_date.slice(0,10)}
+                {`${data.user[0].firstName} ${data.user[0].lastName}`}
+              </td>
+
+              <td>
+                {data.project.submit_date.slice(0,10)}
               </td>
             </tr>
             
@@ -73,7 +78,7 @@ class Projects extends React.Component {
 
           <div className="collapse col-xl-9" id="collapseExample">
             <div className="card card-body mt-2">
-              <ProjectForm className="mb-2" getProjects={this.getProjects} userEmail={this.props.userData.email} headersConfig={this.props.headersConfig} />
+              <ProjectForm className="mb-2" getProjects={this.getProjects} userID={this.props.userID} userEmail={this.props.userData.email} headersConfig={this.props.headersConfig} />
             </div>
           </div>
 
@@ -88,6 +93,7 @@ class Projects extends React.Component {
                   <thead className="table-light">
                     <tr className="text-dark">
                       <th scope="col">Project Name</th>
+                      <th scope="col">Creator</th>
                       <th scope="col">Submit Date</th>
                     </tr>
                   </thead>

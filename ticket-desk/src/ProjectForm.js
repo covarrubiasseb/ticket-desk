@@ -35,7 +35,7 @@ class ProjectForm extends React.Component {
     
     if (this.state.projectName && this.state.projectDesc) {
 
-      axios.put('/api/projects', 
+      axios.put(`/api/projects?userID=${this.props.userID}`, 
               { 
                 userEmail: this.props.userEmail,
                 projectName: this.state.projectName,
