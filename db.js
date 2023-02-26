@@ -16,8 +16,9 @@ const queries = {
 
   createTableProjects: `CREATE TABLE IF NOT EXISTS projects (
     projectID int NOT NULL AUTO_INCREMENT,
+    userID int,
     name varchar(255) NOT NULL,
-    description varchar(255) NOT NULL,
+    description varchar(1024) NOT NULL,
     submit_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (projectID)
   );`,
@@ -76,11 +77,11 @@ const queries = {
   );`,
 
   findUser: function(userEmail) {
-    return `SELECT * FROM users WHERE email='${userEmail}';`
+    return `SELECT * FROM users WHERE email="${userEmail}";`
   },
 
   findUserById: function(userID) {
-    return `SELECT * FROM users WHERE userID='${userID}';`
+    return `SELECT * FROM users WHERE userID="${userID}";`
   },
 
   getAllUsers: function() {
@@ -88,99 +89,99 @@ const queries = {
   },
 
   createUser: function(firstName, lastName, userEmail, hash) {
-    return `INSERT INTO users (firstName, lastName, email, role, hash) VALUES ('${firstName}','${lastName}','${userEmail}','Unassigned','${hash}');`
+    return `INSERT INTO users (firstName, lastName, email, role, hash) VALUES ("${firstName}","${lastName}","${userEmail}","Unassigned","${hash}");`
   },
 
   updateUserRole: function(userID, newRole) {
-    return `UPDATE users SET role='${newRole}' WHERE userID='${userID}';`
+    return `UPDATE users SET role="${newRole}" WHERE userID="${userID}";`
   },
 
-  createProject: function(projectName, projectDescription) {
-    return `INSERT INTO projects (name, description) VALUES ('${projectName}','${projectDescription}');`
+  createProject: function(projectName, projectDescription, userID) {
+    return `INSERT INTO projects (name, description, userID) VALUES ("${projectName}","${projectDescription}", "${userID}");`
   },
 
   updateProject: function(projectID, data) {
-    return `UPDATE projects SET name='${data.name}', description='${data.description}' WHERE projectID='${projectID}';`
+    return `UPDATE projects SET name="${data.name}", description="${data.description}" WHERE projectID="${projectID}";`
   },
  
   findProject: function(projectID) {
-    return `SELECT * FROM projects where projectID='${projectID}';`
+    return `SELECT * FROM projects where projectID="${projectID}";`
   },
 
   findProjects: function(userID) {
     return `SELECT projects.projectID, projects.name, projects.description, projects.submit_date FROM projects 
-      INNER JOIN (SELECT projectID FROM usersProjects WHERE userID='${userID}') AS userProjects 
+      INNER JOIN (SELECT projectID FROM usersProjects WHERE userID="${userID}") AS userProjects 
         ON projects.projectID = userProjects.projectID;`
   },
 
   addUserToProject: function(userID, projectID) {
-    return `INSERT INTO usersProjects (userID, projectID) VALUES ('${userID}','${projectID}');`
+    return `INSERT INTO usersProjects (userID, projectID) VALUES ("${userID}","${projectID}");`
   },
 
   removeUserFromProject: function(userID, projectID) {
-    return `DELETE FROM usersProjects WHERE userID='${userID}' AND projectID='${projectID}';`
+    return `DELETE FROM usersProjects WHERE userID="${userID}" AND projectID="${projectID}";`
   },
 
   findProjectUser: function(userID, projectID) {
-    return `SELECT * FROM usersProjects WHERE userID='${userID}' AND projectID='${projectID}';`
+    return `SELECT * FROM usersProjects WHERE userID="${userID}" AND projectID="${projectID}";`
   },
 
   findProjectUsers: function(projectID) {
     return `SELECT users.userID, users.firstName, users.lastName, users.email, users.role FROM users
-      INNER JOIN (SELECT userID FROM usersProjects WHERE projectID='${projectID}') As projectUsers
+      INNER JOIN (SELECT userID FROM usersProjects WHERE projectID="${projectID}") As projectUsers
         ON users.userID = projectUsers.userID;`
   },
 
   createTicket: function(data) {
     return `INSERT INTO tickets (projectID, userID, title, status, type, description, priority) 
-      VALUES ('${data.projectID}','${data.userID}','${data.title}','${data.status}','${data.type}','${data.description}','${data.priority}');`
+      VALUES ("${data.projectID}","${data.userID}","${data.title}","${data.status}","${data.type}","${data.description}","${data.priority}");`
   },
 
   updateTicket: function(ticketID, data) {
     return `UPDATE tickets 
-              SET projectID='${data.projectID}', userID='${data.userID}', title='${data.title}', status='${data.status}', type='${data.type}',
-              description='${data.description}', priority='${data.priority}' WHERE ticketID='${ticketID}';`
+              SET projectID="${data.projectID}", userID="${data.userID}", title="${data.title}", status="${data.status}", type="${data.type}",
+              description="${data.description}", priority="${data.priority}" WHERE ticketID="${ticketID}";`
   },
 
   removeTicketById: function(ticketID) {
     return {
-            removeComments: `DELETE FROM comments WHERE ticketID='${ticketID}';`,
-            removeUsersTickets: `DELETE FROM usersTickets WHERE ticketID='${ticketID}';`,
-            removeTicket: `DELETE FROM tickets WHERE ticketID='${ticketID}';`
+            removeComments: `DELETE FROM comments WHERE ticketID="${ticketID}";`,
+            removeUsersTickets: `DELETE FROM usersTickets WHERE ticketID="${ticketID}";`,
+            removeTicket: `DELETE FROM tickets WHERE ticketID="${ticketID}";`
           }
   },
 
   findTicketById: function(ticketID) {
-    return `SELECT * FROM tickets WHERE ticketID='${ticketID}';`
+    return `SELECT * FROM tickets WHERE ticketID="${ticketID}";`
   },
 
   findProjectTickets: function(projectID) {
-    return `SELECT * FROM tickets WHERE projectID='${projectID}';`
+    return `SELECT * FROM tickets WHERE projectID="${projectID}";`
   },
 
   findUserTickets: function(userID) {
-    return `SELECT * FROM tickets WHERE userID='${userID}';`;
+    return `SELECT * FROM tickets WHERE userID="${userID}";`;
   },
 
   createComment: function(data) {
     return `INSERT INTO comments (userID, ticketID, content)
-      VALUES ('${data.userID}', '${data.ticketID}', '${data.content}');`
+      VALUES ("${data.userID}", "${data.ticketID}", "${data.content}");`
   },
 
   findComments: function (ticketID) {
-    return `SELECT * FROM comments WHERE ticketID='${ticketID}';`
+    return `SELECT * FROM comments WHERE ticketID="${ticketID}";`
   },
 
   findCommentById: function(commentID) {
-    return `SELECT * FROM comments WHERE commentID='${commentID}';`
+    return `SELECT * FROM comments WHERE commentID="${commentID}";`
   },
 
   updateComment: function(commentID, data) {
-    return `UPDATE comments SET content='${data.content}' WHERE commentID='${commentID}';`
+    return `UPDATE comments SET content="${data.content}" WHERE commentID="${commentID}";`
   },
 
   removeCommentById: function (commentID) {
-    return `DELETE FROM comments WHERE commentID='${commentID}';`
+    return `DELETE FROM comments WHERE commentID="${commentID}";`
   }
 }
 
