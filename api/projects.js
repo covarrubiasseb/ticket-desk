@@ -17,8 +17,6 @@ async function getProjectsAuthor(projects, resolve) {
 
   for (const project of projects) {
 
-    console.log(project);
-
     let user = await mysql.connection.promise().query(db.queries.findUserById(project.userID))
     .then(rows => {
       return rows[0];

@@ -198,7 +198,12 @@ class Project extends React.Component {
               </div>
 
               <div className="card-footer">
-                <span className="float-right"><span className="font-weight-bold text-dark">Submit Date: </span>{this.props.projectData.submit_date.slice(0,10)}</span>
+                <span className="float-right">
+                  <span className="font-italic font-weight-bold text-dark">Created By: </span>
+                  <span className="pr-4">{`${this.props.projectData.user.firstName} ${this.props.projectData.user.lastName}`}</span>
+
+                  <span className="font-weight-bold text-dark">Submit Date: </span>{this.props.projectData.submit_date.slice(0,10)}
+                </span>
               </div>
 
             </div>

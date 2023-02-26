@@ -28,6 +28,7 @@ class Projects extends React.Component {
 
                   this.props.setPageProject({
                     name: data.project.name,
+                    user: data.user[0],
                     desc: data.project.description,
                     submit_date: data.project.submit_date,
                     projectID: data.project.projectID 
