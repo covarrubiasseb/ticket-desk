@@ -9,6 +9,8 @@ const test = require('../test/test');
 
 let router = express.Router();
 
+const saltRounds = 10;
+
 const jwt_secret_key = process.env.JWT_SECRET_KEY;
 
 // LOGIN ////////////////////

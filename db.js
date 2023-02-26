@@ -20,7 +20,8 @@ const queries = {
     name varchar(255) NOT NULL,
     description varchar(1024) NOT NULL,
     submit_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (projectID)
+    PRIMARY KEY (projectID),
+    FOREIGN KEY (userID) REFERENCES users(userID)
   );`,
 
   createTableUsersProjects: `CREATE TABLE IF NOT EXISTS usersProjects (
@@ -109,7 +110,7 @@ const queries = {
   },
 
   findProjects: function(userID) {
-    return `SELECT projects.projectID, projects.name, projects.description, projects.submit_date FROM projects 
+    return `SELECT projects.projectID, projects.userID, projects.name, projects.description, projects.submit_date FROM projects 
       INNER JOIN (SELECT projectID FROM usersProjects WHERE userID="${userID}") AS userProjects 
         ON projects.projectID = userProjects.projectID;`
   },

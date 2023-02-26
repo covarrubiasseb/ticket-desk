@@ -10,13 +10,11 @@ const projectUsersRouter = require('./api/projectUsers');
 const ticketsRouter = require('./api/tickets');
 const commentsRouter = require('./api/comments');
 
+const port = process.env.PORT;
+
 const app = express();
 
 app.use(express.json());
-
-const saltRounds = 10;
-const port = process.env.PORT;
-const jwt_secret_key = process.env.JWT_SECRET_KEY;
 
 // Static Page
 app.use(express.static(`${__dirname}/ticket-desk/build`));

@@ -11,6 +11,27 @@ let router = express.Router();
 
 const jwt_secret_key = process.env.JWT_SECRET_KEY;
 
+async function getProjectsAuthor(projects, resolve) {
+
+  let data = [];
+
+  for (const project of projects) {
+
+    console.log(project);
+
+    let user = await mysql.connection.promise().query(db.queries.findUserById(project.userID))
+    .then(rows => {
+      return rows[0];
+    });
+
+    data.push(user);
+
+  }
+
+  resolve(data);
+
+}
+
 // GET TICKET PROJECT ////////////////////
 router.get('/api/project', (req, res) => {
   const token = req.headers['jwt-token'];
@@ -47,6 +68,8 @@ router.get('/api/project', (req, res) => {
 router.get('/api/projects', (req, res) => {
   const token = req.headers['jwt-token'];
 
+  let userID = req.query.userID;
+
   if (token) {
     jwt.verify(token, jwt_secret_key, (err, decoded) => {
       if (err) {
@@ -56,8 +79,26 @@ router.get('/api/projects', (req, res) => {
 
           console.log('Token Validated! - GET /api/projects');
 
-          mysql.connection.query(db.queries.findProjects(req.query.userID), (err, results) => {
-            res.status(200).send(results);
+          mysql.connection.query(db.queries.findProjects(userID), (err, results) => {
+            if (err) {
+              res.sendStatus(404);
+            } else {
+
+              getProjectsAuthor(results, data => {
+
+                let newData = results.map((project, index) => {
+                  return {
+                    project,
+                    user: data[index]
+                  }
+                });
+
+                res.status(200).send(newData);
+
+              });
+
+            }
+
           });
 
         } else {
@@ -75,6 +116,7 @@ router.get('/api/projects', (req, res) => {
 router.put('/api/projects', (req, res) => {
   const token = req.headers['jwt-token'];
 
+  let userID = req.query.userID;
   let email = req.body.userEmail;
   let projectName = req.body.projectName;
   let projectDesc = req.body.projectDesc;
@@ -94,7 +136,7 @@ router.put('/api/projects', (req, res) => {
 
             if (userResults.role === 'Admin') {
               // Create Project
-              mysql.connection.query(db.queries.createProject(projectName, projectDesc), (err, results) => {
+              mysql.connection.query(db.queries.createProject(projectName, projectDesc, userID), (err, results) => {
                 if (err) {
                   res.send({valid : false});
                 }
