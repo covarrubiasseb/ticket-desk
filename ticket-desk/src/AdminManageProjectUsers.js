@@ -99,17 +99,26 @@ class AdminManageProjectUsers extends React.Component {
       <div className="card shadow">
 
         <div className="card-header py-3">
-          <h6 className="m-0 font-weight-bold text-primary">All Users (Add/Delete)</h6>
+          <h6 className="m-0 font-weight-bold text-primary">Manage Users</h6>
         </div>
 
         <div className="card-body">
+
+          <div className="row justify-content-end">
+
+            <div class="col-4">
+
+              <input className="form-control bg-light" type="text" placeholder="Search for users..."/>
+
+            </div>
+
+          </div>
 
           <table className="table table-hover">
 
             <thead className="table-light text-dark">
               <tr>
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
+                <th scope="col">Name</th>
                 <th scope="col">email</th>
                 <th scope="col">Role</th>
               </tr>

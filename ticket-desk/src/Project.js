@@ -1,9 +1,14 @@
 import React from 'react';
 import axios from 'axios';
 import $ from 'jquery';
+
 import TicketForm from'./TicketForm';
 import ProjectEditForm from './ProjectEditForm';
 import AdminManageProjectUsers from './AdminManageProjectUsers';
+
+import TableFilter from './utils/tableFilter';
+
+
 
 class Project extends React.Component {
   constructor(props) {
@@ -21,6 +26,7 @@ class Project extends React.Component {
     this.getTickets = this.getTickets.bind(this);
     this.updateProject = this.updateProject.bind(this);
     this.handleProjectDelete = this.handleProjectDelete.bind(this);
+    this.handleSearchUsers = this.handleSearchUsers.bind(this);
   }
 
   closeTicketModal() {
@@ -159,6 +165,12 @@ class Project extends React.Component {
         console.log("Could Not Be Deleted");
       }
     });
+  }
+
+  handleSearchUsers(e) {
+
+    TableFilter("tableUsers", "searchFormTableUsers");
+
   }
 
   componentDidMount() {
@@ -339,7 +351,17 @@ class Project extends React.Component {
 
               <div className="card-body">
 
-                <table className="table table-hover">
+                <div className="row justify-content-end">
+
+                  <div class="col-4">
+
+                    <input className="form-control bg-light" id="searchFormTableUsers" type="text" placeholder="Search for users..." onChange={this.handleSearchUsers} />
+
+                  </div>
+
+                </div>                
+
+                <table className="table table-hover" id="tableUsers">
 
                   <thead className="table-light">
                     <tr className="text-dark">
