@@ -66,6 +66,19 @@ class Project extends React.Component {
                 </td>
 
                 <td>
+                  <span className={data.ticket.status === "Open" ? "text-success mr-2" : "text-danger mr-2"}>
+                    <i className="fa fa-circle"></i>
+                  </span>
+
+                  {data.ticket.status}
+                </td>
+
+
+                <td>
+                  {data.ticket.priority}
+                </td>
+
+                <td>
                   {`${data.user[0].firstName} ${data.user[0].lastName}`}
                 </td>
 
@@ -225,6 +238,8 @@ class Project extends React.Component {
                   <thead className="table-light">
                     <tr className="text-dark">
                       <th scope="col">Title</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Priority</th>
                       <th scope="col">Creator</th>
                       <th scope="col">Submit Date</th>
                     </tr>

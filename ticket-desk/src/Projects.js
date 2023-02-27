@@ -19,7 +19,6 @@ class Projects extends React.Component {
 
       this.setState({
         projects: response.data.map(data => {
-          console.log(data);
 
           return (
             
