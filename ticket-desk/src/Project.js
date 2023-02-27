@@ -16,10 +16,15 @@ class Project extends React.Component {
       desc: this.props.projectData.desc
     };
 
+    this.closeTicketModal = this.closeTicketModal.bind(this);
     this.getUsers = this.getUsers.bind(this);
     this.getTickets = this.getTickets.bind(this);
     this.updateProject = this.updateProject.bind(this);
     this.handleProjectDelete = this.handleProjectDelete.bind(this);
+  }
+
+  closeTicketModal() {
+    $("#closeCreateTicketModal").trigger("click");
   }
 
   getUsers() {
@@ -271,6 +276,33 @@ class Project extends React.Component {
 
               <div className="card-body">
 
+                <button className="btn btn-primary" type="button" data-toggle="modal" data-target="#createTicketModal" aria-expanded="false" aria-controls="createTicketModal">
+                  Create New Ticket
+                </button>
+
+                <div className="modal fade" id="createTicketModal" tabIndex="-1" role="dialog" aria-labelledby="createTicketModalLabel"
+                    aria-hidden="true">
+                  <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h5 className="modal-title" id="createTicketModalLabel">Create New Ticket</h5>
+                        <button className="close" id="closeCreateTicketModal" type="button" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">×</span>
+                        </button>
+                      </div>
+
+                      <div className="modal-body">
+                        <TicketForm headersConfig={this.props.headersConfig}
+                                    userID={this.props.userID} 
+                                    projectID={this.props.projectData.projectID}
+                                    closeTicketModal={this.closeTicketModal} 
+                                    getTickets={this.getTickets} />
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
                 <table className="table table-hover">
 
                   <thead className="table-light">
@@ -287,40 +319,10 @@ class Project extends React.Component {
 
                     {this.state.tickets}
 
-                    <button className="btn btn-primary mb-2" type="button" data-toggle="collapse" data-target="#collapseNewTicketForm" aria-expanded="false" aria-controls="collapseNewTicketForm">
-                      Create New Ticket
-                    </button>
-
-                    <div className="row">
-
-                      <div className="collapse col-xl-9" id="collapseNewTicketForm">
-                        <div className="card card-body mt-2">
-                          <h1>New Ticket Form</h1>
-                        </div>
-                      </div>
-
-                    </div>
-
                   </tbody>
 
                 </table>
 
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="col-xl-9">
-            <div className="card shadow mb-4">
-
-              <div className="card-header py-3">
-                <h6 className="m-0 font-weight-bold text-primary">Send a New Ticket</h6>
-              </div>
-
-              <div className="card-body">
-                <TicketForm userID={this.props.userID} projectID={this.props.projectData.projectID} getTickets={this.getTickets} headersConfig={this.props.headersConfig}/>
               </div>
 
             </div>
