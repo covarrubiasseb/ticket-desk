@@ -1,4 +1,4 @@
-function TableFilter(tableID, searchFormID) {
+function TableFilterByName(tableID, searchFormID) {
   let input = document.getElementById(searchFormID);
   let filter = input.value.toUpperCase();
   let table = document.getElementById(tableID);
@@ -32,4 +32,4 @@ function TableFilter(tableID, searchFormID) {
   }
 }
 
-export default TableFilter;
+export default TableFilterByName;

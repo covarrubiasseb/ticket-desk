@@ -6,7 +6,7 @@ import TicketForm from'./TicketForm';
 import ProjectEditForm from './ProjectEditForm';
 import AdminManageProjectUsers from './AdminManageProjectUsers';
 
-import TableFilter from './utils/tableFilter';
+import TableFilterByName from './utils/tableFilterByName';
 
 
 
@@ -169,7 +169,7 @@ class Project extends React.Component {
 
   handleSearchUsers(e) {
 
-    TableFilter("tableUsers", "searchFormTableUsers");
+    TableFilterByName("tableUsers", "searchFormTableUsers");
 
   }
 
