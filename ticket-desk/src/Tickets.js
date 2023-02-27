@@ -28,6 +28,18 @@ class Tickets extends React.Component {
               </td>
 
               <td>
+                <span className={ticket.status === "Open" ? "text-success mr-2" : "text-danger mr-2"}>
+                  <i className="fa fa-circle"></i>
+                </span>
+
+                {ticket.status}
+              </td>
+
+              <td>
+                {ticket.priority}
+              </td>
+
+              <td>
                 {ticket.submit_date.slice(0,10)}
               </td>
 
@@ -68,6 +80,8 @@ class Tickets extends React.Component {
                   <thead className="table-light">
                     <tr className="text-dark">
                       <th scope="col">Title</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Priority</th>
                       <th scope="col">Submit Date</th>
                     </tr>
                   </thead>
