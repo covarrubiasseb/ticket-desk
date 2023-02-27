@@ -77,7 +77,7 @@ class Project extends React.Component {
                   
                   <div className="row">
 
-                    <div className="col-4 pr-0">
+                    <div className="col-8 pr-0">
                       {
                         data.ticket.priority === 'Low' ? <div className="progress">
                                                       <div className="progress-bar-striped bg-success" role="progressbar" 
@@ -110,10 +110,6 @@ class Project extends React.Component {
                                                       </div>
                                                     : null
                       }
-                    </div>
-
-                    <div className="col-8">
-                      {data.ticket.priority}
                     </div>
 
                   </div>
@@ -288,7 +284,23 @@ class Project extends React.Component {
                   </thead>
 
                   <tbody>
+
                     {this.state.tickets}
+
+                    <button className="btn btn-primary mb-2" type="button" data-toggle="collapse" data-target="#collapseNewTicketForm" aria-expanded="false" aria-controls="collapseNewTicketForm">
+                      Create New Ticket
+                    </button>
+
+                    <div className="row">
+
+                      <div className="collapse col-xl-9" id="collapseNewTicketForm">
+                        <div className="card card-body mt-2">
+                          <h1>New Ticket Form</h1>
+                        </div>
+                      </div>
+
+                    </div>
+
                   </tbody>
 
                 </table>

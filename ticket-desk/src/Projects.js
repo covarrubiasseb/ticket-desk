@@ -70,13 +70,13 @@ class Projects extends React.Component {
           <h1 className="h3 mb-0 text-gray-800">Projects</h1>
         </div>
 
-        <button className="btn btn-primary mb-2" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        <button className="btn btn-primary mb-2" type="button" data-toggle="collapse" data-target="#collapseNewProjectForm" aria-expanded="false" aria-controls="collapseNewProjectForm">
           Create New Project (Admin only)
         </button>
 
         <div className="row">
 
-          <div className="collapse col-xl-9" id="collapseExample">
+          <div className="collapse col-xl-9" id="collapseNewProjectForm">
             <div className="card card-body mt-2">
               <ProjectForm className="mb-2" getProjects={this.getProjects} userID={this.props.userID} userEmail={this.props.userData.email} headersConfig={this.props.headersConfig} />
             </div>
