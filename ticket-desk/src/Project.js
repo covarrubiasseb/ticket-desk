@@ -73,9 +73,51 @@ class Project extends React.Component {
                   {data.ticket.status}
                 </td>
 
-
                 <td>
-                  {data.ticket.priority}
+                  
+                  <div className="row">
+
+                    <div className="col-4 pr-0">
+                      {
+                        data.ticket.priority === 'Low' ? <div className="progress">
+                                                      <div className="progress-bar-striped bg-success" role="progressbar" 
+                                                           style={{ width: "33%"}} aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                  : null
+                      }
+
+                      {
+                        data.ticket.priority === 'Medium' ? <div className="progress">
+                                                         <div className="progress-bar-striped bg-success" role="progressbar" 
+                                                           style={{ width: "33%"}} aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+
+                                                         <div className="progress-bar-striped bg-warning" role="progressbar" 
+                                                           style={{ width: "33%"}} aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+                                                       </div>
+                                                      : null
+                      }
+
+                      {
+                        data.ticket.priority === 'High' ? <div className="progress">
+                                                        <div className="progress-bar-striped bg-success" role="progressbar" 
+                                                          style={{ width: "33%"}} aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+
+                                                        <div className="progress-bar-striped bg-warning" role="progressbar" 
+                                                          style={{ width: "33%"}} aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+
+                                                        <div className="progress-bar-striped bg-danger" role="progressbar" 
+                                                             style={{ width: "33%"}} aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+                                                      </div>
+                                                    : null
+                      }
+                    </div>
+
+                    <div className="col-8">
+                      {data.ticket.priority}
+                    </div>
+
+                  </div>
+
                 </td>
 
                 <td>
