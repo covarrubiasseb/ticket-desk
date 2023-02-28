@@ -391,6 +391,7 @@ class Project extends React.Component {
                   <tbody>
                     {this.state.users}
                   </tbody>
+                  
                 </table>
 
               </div>

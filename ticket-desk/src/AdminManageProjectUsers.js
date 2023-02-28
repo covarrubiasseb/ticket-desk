@@ -2,13 +2,18 @@ import React from 'react';
 import axios from 'axios';
 
 import TableFilterByName from './utils/TableFilterByName';
+import TableClear from './utils/TableClear';
+import CountPages from './utils/CountPages';
 
 class AdminManageProjectUsers extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      users: []
+      users: [],
+      currentTableUsers: [],
+      pagination: [],
+      entriesLength: 100
     }
 
     this.getAllUsers = this.getAllUsers.bind(this);
@@ -16,6 +21,8 @@ class AdminManageProjectUsers extends React.Component {
     this.removeUser = this.removeUser.bind(this);
 
     this.handleChange = this.handleChange.bind(this);
+    this.handlePagination = this.handlePagination.bind(this);
+    this.renderPagination = this.renderPagination.bind(this);
   }
 
   getAllUsers() {
@@ -31,7 +38,7 @@ class AdminManageProjectUsers extends React.Component {
 
             return (
             
-              <tr>
+              <tr style={{display: "none"}}>
                 <td>{`${user.firstName} ${user.lastName}`}</td>
                 <td>{user.email}</td>
                 <td>{user.role}</td>
@@ -44,6 +51,14 @@ class AdminManageProjectUsers extends React.Component {
             );
 
           })
+
+        }, () => {
+
+          this.setState({
+            currentTableUsers: this.state.users.slice(0, this.state.entriesLength)
+          }, () => {
+            this.renderPagination();
+          });
 
         });
 
@@ -94,8 +109,51 @@ class AdminManageProjectUsers extends React.Component {
 
   handleChange(event) {
 
-    TableFilterByName("tableAdminManageProjectUsers", event.target.value);
+    if (!event.target.value) {
 
+      TableClear("tableAdminManageProjectUsers");
+
+    } else {
+
+      TableFilterByName("tableAdminManageProjectUsers", event.target.value);
+
+    }
+
+  }
+
+  handlePagination(event, pageIndex) {
+    event.preventDefault();
+
+    let start = 0;
+    let end = this.state.entriesLength;
+
+    for (let i = 0; i < pageIndex; i++) {
+      start += this.state.entriesLength;
+      end += this.state.entriesLength;
+    }
+
+    this.setState({
+      currentTableUsers: this.state.users.slice(start, end)
+    });
+
+  }
+
+  renderPagination() {
+    let totalPages = CountPages(this.state.users.length, this.state.entriesLength);
+
+    let list = [];
+
+    for (let i = 0; i < totalPages; i++) {
+
+      list.push(
+        <li className="page-item"><a className="page-link" href="#" onClick={e => this.handlePagination(e, i)}>{i + 1}</a></li>
+      );
+
+    }
+
+    this.setState({
+      pagination: list
+    });
   }
 
   componentDidMount() {
@@ -106,7 +164,7 @@ class AdminManageProjectUsers extends React.Component {
 
     return (
 
-      <div className="card shadow">
+      <div className="card">
 
         <div className="card-header py-3">
           <h6 className="m-0 font-weight-bold text-primary">Manage Users</h6>
@@ -135,10 +193,14 @@ class AdminManageProjectUsers extends React.Component {
             </thead>
 
             <tbody>
-              {this.state.users}
+              {this.state.currentTableUsers}
             </tbody>
 
           </table>
+
+          <ul className="pagination">
+            {this.state.pagination}
+          </ul>
 
         </div>
 
