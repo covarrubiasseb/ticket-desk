@@ -38,6 +38,9 @@ class Project extends React.Component {
 
     this.handleUsersPagination = this.handleUsersPagination.bind(this);
     this.renderUsersPagination = this.renderUsersPagination.bind(this);
+
+    this.handleTicketsPagination = this.handleTicketsPagination.bind(this);
+    this.renderTicketsPagination = this.renderTicketsPagination.bind(this);
   }
 
   closeTicketModal() {
@@ -163,6 +166,18 @@ class Project extends React.Component {
             );
 
           })
+        }, () => {
+
+          this.setState({
+
+            currentTableTickets: this.state.tickets.slice(0, this.state.ticketsEntriesLength)
+
+          }, () => {
+
+            this.renderTicketsPagination();
+
+          });
+
         });
     });
   }
@@ -234,6 +249,42 @@ class Project extends React.Component {
 
     this.setState({
       usersPagination: list
+    });
+
+  }
+
+  handleTicketsPagination(event, pageIndex) {
+    event.preventDefault();
+
+    let start = 0;
+    let end = this.state.ticketsEntriesLength;
+
+    for (let i = 0; i < pageIndex; i++) {
+      start += this.state.ticketsEntriesLength;
+      end += this.state.ticketsEntriesLength;
+    }
+
+    this.setState({
+      currentTableTickets: this.state.tickets.slice(start, end)
+    });
+
+  }
+
+  renderTicketsPagination() {
+    let totalPages = CountPages(this.state.tickets.length, this.state.ticketsEntriesLength);
+
+    let list = [];
+
+    for (let i = 0; i < totalPages; i++) {
+
+      list.push(
+        <li className="page-item"><a className="page-link" href="#" onClick={e => this.handleTicketsPagination(e, i)}>{i + 1}</a></li>
+      );
+
+    }
+
+    this.setState({
+      ticketsPagination: list
     });
 
   }
@@ -404,11 +455,15 @@ class Project extends React.Component {
 
                   <tbody>
 
-                    {this.state.tickets}
+                    {this.state.currentTableTickets}
 
                   </tbody>
 
                 </table>
+
+                <ul className="pagination">
+                  {this.state.ticketsPagination}
+                </ul>
 
               </div>
 
