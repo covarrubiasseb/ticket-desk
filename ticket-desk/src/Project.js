@@ -7,6 +7,7 @@ import ProjectEditForm from './ProjectEditForm';
 import AdminManageProjectUsers from './AdminManageProjectUsers';
 
 import TableFilterByName from './utils/tableFilterByName';
+import CountPages from './utils/countPages';
 
 
 
@@ -18,7 +19,13 @@ class Project extends React.Component {
       users: [],
       tickets: [],
       name: this.props.projectData.name,
-      desc: this.props.projectData.desc
+      desc: this.props.projectData.desc,
+      currentTableUsers: [],
+      usersPagination: [],
+      usersEntriesLength: 10,
+      currentTableTickets: [],
+      ticketsPagination: [],
+      ticketsEntriesLength: 10
     };
 
     this.closeTicketModal = this.closeTicketModal.bind(this);
@@ -28,6 +35,9 @@ class Project extends React.Component {
     this.handleProjectDelete = this.handleProjectDelete.bind(this);
     this.handleSearchUsers = this.handleSearchUsers.bind(this);
     this.handleSearchTickets = this.handleSearchTickets.bind(this);
+
+    this.handleUsersPagination = this.handleUsersPagination.bind(this);
+    this.renderUsersPagination = this.renderUsersPagination.bind(this);
   }
 
   closeTicketModal() {
@@ -52,6 +62,18 @@ class Project extends React.Component {
             );
 
           })
+        }, () => {
+
+          this.setState({
+
+            currentTableUsers: this.state.users.slice(0, this.state.usersEntriesLength)
+
+          }, () => {
+
+            this.renderUsersPagination();
+
+          });
+
         });
     });
   }
@@ -177,6 +199,42 @@ class Project extends React.Component {
   handleSearchTickets(event) {
 
     TableFilterByName("tableProjectTickets", event.target.value);
+
+  }
+
+  handleUsersPagination(event, pageIndex) {
+    event.preventDefault();
+
+    let start = 0;
+    let end = this.state.usersEntriesLength;
+
+    for (let i = 0; i < pageIndex; i++) {
+      start += this.state.usersEntriesLength;
+      end += this.state.usersEntriesLength;
+    }
+
+    this.setState({
+      currentTableUsers: this.state.users.slice(start, end)
+    });
+
+  }
+
+  renderUsersPagination() {
+    let totalPages = CountPages(this.state.users.length, this.state.usersEntriesLength);
+
+    let list = [];
+
+    for (let i = 0; i < totalPages; i++) {
+
+      list.push(
+        <li className="page-item"><a className="page-link" href="#" onClick={e => this.handleUsersPagination(e, i)}>{i + 1}</a></li>
+      );
+
+    }
+
+    this.setState({
+      usersPagination: list
+    });
 
   }
 
@@ -389,10 +447,14 @@ class Project extends React.Component {
                   </thead>
 
                   <tbody>
-                    {this.state.users}
+                    {this.state.currentTableUsers}
                   </tbody>
-                  
+
                 </table>
+
+                <ul className="pagination">
+                  {this.state.usersPagination}
+                </ul>
 
               </div>
 
