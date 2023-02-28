@@ -10,11 +10,16 @@ class Projects extends React.Component {
     super(props);
 
     this.state = {
-      projects: []
+      projects: [],
+      currentPageProjects: [],
+      pagination: []
     };
 
     this.getProjects = this.getProjects.bind(this);
     this.handleChange = this.handleChange.bind(this);
+
+    this.handlePagination = this.handlePagination.bind(this);
+    this.renderPagination = this.renderPagination.bind(this);
   }
 
   getProjects() {
@@ -55,6 +60,14 @@ class Projects extends React.Component {
           );
 
         })
+      }, () => {
+
+        this.setState({
+          currentPageProjects: this.state.projects.slice(0, 10)
+        }, () => {
+          this.renderPagination();
+        });
+
       });
     }).catch(error => {
       console.log(error);
@@ -66,6 +79,47 @@ class Projects extends React.Component {
 
     TableFilterByName("tableProjects", event.target.value);
 
+  }
+
+  handlePagination(e, pageIndex) {
+
+    let start = 0;
+    let end = 10;
+
+    for (let i = 0; i < pageIndex; i++) {
+      start += 10;
+      end += 10;
+    }
+
+    this.setState({
+      currentPageProjects: this.state.projects.slice(start, end)
+    });
+
+  }
+
+  renderPagination() {
+    let totalProjects = this.state.projects.length;
+    let totalPages;
+
+    let list = [];
+
+    if (totalProjects.length < 10) {
+      totalPages = 1;
+    } else {
+      totalPages = ( totalProjects - (totalProjects % 10) ) / ( 10 );
+    }
+
+    for (let i = 0; i < totalPages; i++) {
+
+      list.push(
+        <li className="page-item"><a className="page-link" href="#" onClick={e => this.handlePagination(e, i)}>{i + 1}</a></li>
+      );
+
+    }
+
+    this.setState({
+      pagination: list
+    });
   }
 
   componentDidMount() {
@@ -118,8 +172,14 @@ class Projects extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.projects}
+                    {this.state.currentPageProjects}
+
+                    <ul className="pagination">
+                      {this.state.pagination}
+                    </ul>
+
                   </tbody>
+
                 </table>
 
               </div>
