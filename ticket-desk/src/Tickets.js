@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 
 import TableFilterByName from './utils/tableFilterByName';
+import CountPages from './utils/countPages';
 
 class Tickets extends React.Component {
   constructor(props) {
@@ -10,7 +11,8 @@ class Tickets extends React.Component {
     this.state = {
       tickets: [],
       currentTableTickets: [],
-      pagination: []
+      pagination: [],
+      entriesLength: 10
     };
 
     this.getUserTickets = this.getUserTickets.bind(this);
@@ -90,7 +92,7 @@ class Tickets extends React.Component {
               </td>
 
               <td>
-                {ticket.submit_date.slice(0,10)}
+                {ticket.submit_date.slice(0,this.state.entriesLength)}
               </td>
 
             </tr>
@@ -102,9 +104,13 @@ class Tickets extends React.Component {
       }, () => {
 
         this.setState({
-          currentTableTickets: this.state.tickets.slice(0, 10)
+
+          currentTableTickets: this.state.tickets.slice(0, this.state.entriesLength)
+
         }, () => {
+
           this.renderPagination();
+
         });
 
       });
@@ -119,13 +125,14 @@ class Tickets extends React.Component {
   }
 
   handlePagination(event, pageIndex) {
+    event.preventDefault();
 
     let start = 0;
-    let end = 10;
+    let end = this.state.entriesLength;
 
     for (let i = 0; i < pageIndex; i++) {
-      start += 10;
-      end += 10;
+      start += this.state.entriesLength;
+      end += this.state.entriesLength;
     }
 
     this.setState({
@@ -135,20 +142,9 @@ class Tickets extends React.Component {
   }
 
   renderPagination() {
-    let totalTickets = this.state.tickets.length;
-    let totalPages;
+    let totalPages = CountPages(this.state.tickets.length, this.state.entriesLength);
 
     let list = [];
-
-    if (totalTickets.length <= 10) {
-      totalPages = 1;
-    } else {
-      totalPages = ( totalTickets - (totalTickets % 10) ) / ( 10 );
-
-      if (totalPages % 10) {
-        totalPages += 1;
-      }
-    }
 
     for (let i = 0; i < totalPages; i++) {
 
@@ -208,14 +204,13 @@ class Tickets extends React.Component {
 
                   <tbody>
                     {this.state.currentTableTickets}
-
-                    <ul className="pagination">
-                      {this.state.pagination}
-                    </ul>
-
                   </tbody>
 
                 </table>
+
+                <ul className="pagination">
+                  {this.state.pagination}
+                </ul>
 
               </div>
 

@@ -2,7 +2,9 @@ import React from 'react';
 import axios from 'axios';
 
 import ProjectForm from './ProjectForm';
+
 import TableFilterByName from './utils/tableFilterByName';
+import CountPages from './utils/countPages';
 
 
 class Projects extends React.Component {
@@ -12,7 +14,8 @@ class Projects extends React.Component {
     this.state = {
       projects: [],
       currentTableProjects: [],
-      pagination: []
+      pagination: [],
+      entriesLength: 10
     };
 
     this.getProjects = this.getProjects.bind(this);
@@ -53,7 +56,7 @@ class Projects extends React.Component {
               </td>
 
               <td>
-                {data.project.submit_date.slice(0,10)}
+                {data.project.submit_date.slice(0,this.state.entriesLength)}
               </td>
             </tr>
             
@@ -63,9 +66,13 @@ class Projects extends React.Component {
       }, () => {
 
         this.setState({
-          currentTableProjects: this.state.projects.slice(0, 10)
+
+          currentTableProjects: this.state.projects.slice(0, this.state.entriesLength)
+
         }, () => {
+
           this.renderPagination();
+
         });
 
       });
@@ -81,14 +88,15 @@ class Projects extends React.Component {
 
   }
 
-  handlePagination(e, pageIndex) {
+  handlePagination(event, pageIndex) {
+    event.preventDefault();
 
     let start = 0;
-    let end = 10;
+    let end = this.state.entriesLength;
 
     for (let i = 0; i < pageIndex; i++) {
-      start += 10;
-      end += 10;
+      start += this.state.entriesLength;
+      end += this.state.entriesLength;
     }
 
     this.setState({
@@ -98,20 +106,9 @@ class Projects extends React.Component {
   }
 
   renderPagination() {
-    let totalProjects = this.state.projects.length;
-    let totalPages;
+    let totalPages = CountPages(this.state.projects.length, this.state.entriesLength);
 
     let list = [];
-
-    if (totalProjects.length <= 10) {
-      totalPages = 1;
-    } else {
-      totalPages = ( totalProjects - (totalProjects % 10) ) / ( 10 );
-
-      if (totalProjects % 10) {
-        totalPages += 1;
-      }
-    }
 
     for (let i = 0; i < totalPages; i++) {
 
@@ -177,14 +174,13 @@ class Projects extends React.Component {
                   </thead>
                   <tbody>
                     {this.state.currentTableProjects}
-
-                    <ul className="pagination">
-                      {this.state.pagination}
-                    </ul>
-
                   </tbody>
 
                 </table>
+
+                <ul className="pagination">
+                  {this.state.pagination}
+                </ul>
 
               </div>
             </div>

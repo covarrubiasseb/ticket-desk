@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 
 import TableFilterByName from './utils/tableFilterByName';
+import CountPages from './utils/countPages';
 
 class AdminManageUsers extends React.Component {
   constructor(props) {
@@ -10,13 +11,15 @@ class AdminManageUsers extends React.Component {
     this.state = {
       users: [],
       currentTableUsers: [],
-      pagination: []
+      pagination: [],
+      entriesLength: 100
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getUsers = this.getUsers.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handlePagination = this.handlePagination.bind(this);
+    this.renderPagination = this.renderPagination.bind(this);
   }
 
   handleSubmit(event, userID) {
@@ -79,6 +82,18 @@ class AdminManageUsers extends React.Component {
 
           })
 
+        }, () => {
+
+          this.setState({
+
+            currentTableUsers: this.state.users.slice(0, this.state.entriesLength)
+
+          }, () => {
+
+            this.renderPagination();
+
+          });
+
         });
 
       } else {
@@ -94,11 +109,38 @@ class AdminManageUsers extends React.Component {
   }
 
   handlePagination(event, pageIndex) {
+    event.preventDefault();
+
+    let start = 0;
+    let end = this.state.entriesLength;
+
+    for (let i = 0; i < pageIndex; i++) {
+      start += this.state.entriesLength;
+      end += this.state.entriesLength;
+    }
+
+    this.setState({
+      currentTableUsers: this.state.users.slice(start, end)
+    });
 
   }
 
   renderPagination() {
+    let totalPages = CountPages(this.state.users.length, this.state.entriesLength);
 
+    let list = [];
+
+    for (let i = 0; i < totalPages; i++) {
+
+      list.push(
+        <li className="page-item"><a className="page-link" href="#" onClick={e => this.handlePagination(e, i)}>{i + 1}</a></li>
+      );
+
+    }
+
+    this.setState({
+      pagination: list
+    });
   }
 
   componentDidMount() {
@@ -141,10 +183,14 @@ class AdminManageUsers extends React.Component {
                   </thead>
 
                   <tbody>
-                    {this.state.users}
+                    {this.state.currentTableUsers}
                   </tbody>
 
                 </table>
+
+                <ul className="pagination">
+                  {this.state.pagination}
+                </ul>
 
               </div>
             </div>
