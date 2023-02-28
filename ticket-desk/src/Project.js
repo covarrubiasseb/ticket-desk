@@ -27,6 +27,7 @@ class Project extends React.Component {
     this.updateProject = this.updateProject.bind(this);
     this.handleProjectDelete = this.handleProjectDelete.bind(this);
     this.handleSearchUsers = this.handleSearchUsers.bind(this);
+    this.handleSearchTickets = this.handleSearchTickets.bind(this);
   }
 
   closeTicketModal() {
@@ -167,9 +168,15 @@ class Project extends React.Component {
     });
   }
 
-  handleSearchUsers(e) {
+  handleSearchUsers() {
 
-    TableFilterByName("tableUsers", "searchFormTableUsers");
+    TableFilterByName("tableProjectUsers", "searchFormTableProjectUsers");
+
+  }
+
+  handleSearchTickets() {
+
+    TableFilterByName("tableProjectTickets", "searchFormTableProjectTickets");
 
   }
 
@@ -315,7 +322,17 @@ class Project extends React.Component {
                   </div>
                 </div>
 
-                <table className="table table-hover">
+                <div className="row justify-content-end">
+
+                  <div class="col-4">
+
+                    <input className="form-control bg-light" id="searchFormTableProjectTickets" type="text" placeholder="Search for tickets..." onChange={this.handleSearchTickets} />
+
+                  </div>
+
+                </div> 
+
+                <table className="table table-hover" id="tableProjectTickets">
 
                   <thead className="table-light">
                     <tr className="text-dark">
@@ -355,13 +372,13 @@ class Project extends React.Component {
 
                   <div class="col-4">
 
-                    <input className="form-control bg-light" id="searchFormTableUsers" type="text" placeholder="Search for users..." onChange={this.handleSearchUsers} />
+                    <input className="form-control bg-light" id="searchFormTableProjectUsers" type="text" placeholder="Search for users..." onChange={this.handleSearchUsers} />
 
                   </div>
 
                 </div>                
 
-                <table className="table table-hover" id="tableUsers">
+                <table className="table table-hover" id="tableProjectUsers">
 
                   <thead className="table-light">
                     <tr className="text-dark">
