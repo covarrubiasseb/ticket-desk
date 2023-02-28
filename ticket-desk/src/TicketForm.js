@@ -24,10 +24,10 @@ class TicketForm extends React.Component {
   clearForm() {
     this.setState({
       ticketTitle: '',
-      ticketStatus: '',
-      ticketType: '',
+      ticketStatus: 'Open',
+      ticketType: 'Client Side',
       ticketDesc: '',
-      ticketPriority: ''
+      ticketPriority: 'Medium'
     });
   }
 
