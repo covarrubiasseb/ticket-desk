@@ -168,15 +168,15 @@ class Project extends React.Component {
     });
   }
 
-  handleSearchUsers() {
+  handleSearchUsers(event) {
 
-    TableFilterByName("tableProjectUsers", "searchFormTableProjectUsers");
+    TableFilterByName("tableProjectUsers", event.target.value);
 
   }
 
-  handleSearchTickets() {
+  handleSearchTickets(event) {
 
-    TableFilterByName("tableProjectTickets", "searchFormTableProjectTickets");
+    TableFilterByName("tableProjectTickets", event.target.value);
 
   }
 
@@ -326,7 +326,7 @@ class Project extends React.Component {
 
                   <div class="col-4">
 
-                    <input className="form-control bg-light" id="searchFormTableProjectTickets" type="text" placeholder="Search for tickets..." onChange={this.handleSearchTickets} />
+                    <input className="form-control bg-light" type="text" placeholder="Search for tickets..." onChange={this.handleSearchTickets} />
 
                   </div>
 
@@ -372,7 +372,7 @@ class Project extends React.Component {
 
                   <div class="col-4">
 
-                    <input className="form-control bg-light" id="searchFormTableProjectUsers" type="text" placeholder="Search for users..." onChange={this.handleSearchUsers} />
+                    <input className="form-control bg-light" type="text" placeholder="Search for users..." onChange={this.handleSearchUsers} />
 
                   </div>
 

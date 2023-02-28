@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 
+import TableFilterByName from './utils/TableFilterByName';
+
 class AdminManageProjectUsers extends React.Component {
   constructor(props) {
     super(props);
@@ -12,6 +14,8 @@ class AdminManageProjectUsers extends React.Component {
     this.getAllUsers = this.getAllUsers.bind(this);
     this.addUser = this.addUser.bind(this);
     this.removeUser = this.removeUser.bind(this);
+
+    this.handleChange = this.handleChange.bind(this);
   }
 
   getAllUsers() {
@@ -88,6 +92,12 @@ class AdminManageProjectUsers extends React.Component {
 
   }
 
+  handleChange(event) {
+
+    TableFilterByName("tableAdminManageProjectUsers", event.target.value);
+
+  }
+
   componentDidMount() {
     this.getAllUsers();
   }
@@ -108,13 +118,13 @@ class AdminManageProjectUsers extends React.Component {
 
             <div class="col-4">
 
-              <input className="form-control bg-light" type="text" placeholder="Search for users..."/>
+              <input className="form-control bg-light" type="text" placeholder="Search for users..." onChange={this.handleChange}/>
 
             </div>
 
           </div>
 
-          <table className="table table-hover">
+          <table className="table table-hover" id="tableAdminManageProjectUsers">
 
             <thead className="table-light text-dark">
               <tr>

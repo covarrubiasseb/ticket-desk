@@ -1,6 +1,5 @@
-function TableFilterByName(tableID, searchFormID) {
-  let input = document.getElementById(searchFormID);
-  let filter = input.value.toUpperCase();
+function TableFilterByName(tableID, value) {
+  let filter = value.toUpperCase();
   let table = document.getElementById(tableID);
   let tr = table.getElementsByTagName("tr");
 
