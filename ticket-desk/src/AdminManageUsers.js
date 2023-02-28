@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 
+import TableFilterByName from './utils/tableFilterByName';
+
 class AdminManageUsers extends React.Component {
   constructor(props) {
     super(props);
@@ -11,6 +13,7 @@ class AdminManageUsers extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getUsers = this.getUsers.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   handleSubmit(event, userID) {
@@ -81,6 +84,12 @@ class AdminManageUsers extends React.Component {
     });
   }
 
+  handleChange(event) {
+
+    TableFilterByName("tableAdminManageUsers", event.target.value);
+
+  }
+
   componentDidMount() {
     this.getUsers();
   }
@@ -100,7 +109,18 @@ class AdminManageUsers extends React.Component {
             <div className="card shadow mb-4">
               <div className="card-body">
 
-                <table className="table table-hover">
+                <div className="row justify-content-end">
+
+                  <div class="col-4">
+
+                    <input className="form-control bg-light" type="text" placeholder="Search for users..." onChange={this.handleChange} />
+
+                  </div>
+
+                </div> 
+
+                <table className="table table-hover" id="tableAdminManageUsers">
+
                   <thead className="table-light text-dark">
                     <tr>
                       <th scope="col">Name</th>
@@ -108,9 +128,11 @@ class AdminManageUsers extends React.Component {
                       <th scope="col">Role</th>
                     </tr>
                   </thead>
+
                   <tbody>
                     {this.state.users}
                   </tbody>
+
                 </table>
 
               </div>
