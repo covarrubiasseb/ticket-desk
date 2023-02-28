@@ -8,12 +8,15 @@ class AdminManageUsers extends React.Component {
     super(props);
 
     this.state = {
-      users: []
+      users: [],
+      currentTableUsers: [],
+      pagination: []
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getUsers = this.getUsers.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handlePagination = this.handlePagination.bind(this);
   }
 
   handleSubmit(event, userID) {
@@ -87,6 +90,14 @@ class AdminManageUsers extends React.Component {
   handleChange(event) {
 
     TableFilterByName("tableAdminManageUsers", event.target.value);
+
+  }
+
+  handlePagination(event, pageIndex) {
+
+  }
+
+  renderPagination() {
 
   }
 

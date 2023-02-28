@@ -9,7 +9,7 @@ class Tickets extends React.Component {
 
     this.state = {
       tickets: [],
-      currentPageTickets: [],
+      currentTableTickets: [],
       pagination: []
     };
 
@@ -102,7 +102,7 @@ class Tickets extends React.Component {
       }, () => {
 
         this.setState({
-          currentPageTickets: this.state.tickets.slice(0, 10)
+          currentTableTickets: this.state.tickets.slice(0, 10)
         }, () => {
           this.renderPagination();
         });
@@ -129,7 +129,7 @@ class Tickets extends React.Component {
     }
 
     this.setState({
-      currentPageTickets: this.state.tickets.slice(start, end)
+      currentTableTickets: this.state.tickets.slice(start, end)
     });
 
   }
@@ -207,7 +207,7 @@ class Tickets extends React.Component {
                   </thead>
 
                   <tbody>
-                    {this.state.currentPageTickets}
+                    {this.state.currentTableTickets}
 
                     <ul className="pagination">
                       {this.state.pagination}

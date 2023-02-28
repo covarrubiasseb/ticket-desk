@@ -11,7 +11,7 @@ class Projects extends React.Component {
 
     this.state = {
       projects: [],
-      currentPageProjects: [],
+      currentTableProjects: [],
       pagination: []
     };
 
@@ -63,7 +63,7 @@ class Projects extends React.Component {
       }, () => {
 
         this.setState({
-          currentPageProjects: this.state.projects.slice(0, 10)
+          currentTableProjects: this.state.projects.slice(0, 10)
         }, () => {
           this.renderPagination();
         });
@@ -92,7 +92,7 @@ class Projects extends React.Component {
     }
 
     this.setState({
-      currentPageProjects: this.state.projects.slice(start, end)
+      currentTableProjects: this.state.projects.slice(start, end)
     });
 
   }
@@ -176,7 +176,7 @@ class Projects extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.currentPageProjects}
+                    {this.state.currentTableProjects}
 
                     <ul className="pagination">
                       {this.state.pagination}
