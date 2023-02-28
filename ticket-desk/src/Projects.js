@@ -103,10 +103,14 @@ class Projects extends React.Component {
 
     let list = [];
 
-    if (totalProjects.length < 10) {
+    if (totalProjects.length <= 10) {
       totalPages = 1;
     } else {
       totalPages = ( totalProjects - (totalProjects % 10) ) / ( 10 );
+
+      if (totalProjects % 10) {
+        totalPages += 1;
+      }
     }
 
     for (let i = 0; i < totalPages; i++) {

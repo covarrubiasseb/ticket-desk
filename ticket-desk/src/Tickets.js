@@ -8,11 +8,15 @@ class Tickets extends React.Component {
     super(props);
 
     this.state = {
-      tickets: []
+      tickets: [],
+      currentPageTickets: [],
+      pagination: []
     };
 
     this.getUserTickets = this.getUserTickets.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handlePagination = this.handlePagination.bind(this);
+    this.renderPagination = this.renderPagination.bind(this);
   }
 
   getUserTickets() {
@@ -95,6 +99,14 @@ class Tickets extends React.Component {
 
         })
 
+      }, () => {
+
+        this.setState({
+          currentPageTickets: this.state.tickets.slice(0, 10)
+        }, () => {
+          this.renderPagination();
+        });
+
       });
 
     });
@@ -103,6 +115,52 @@ class Tickets extends React.Component {
   handleChange(event) {
 
     TableFilterByName("tableTickets", event.target.value);
+
+  }
+
+  handlePagination(event, pageIndex) {
+
+    let start = 0;
+    let end = 10;
+
+    for (let i = 0; i < pageIndex; i++) {
+      start += 10;
+      end += 10;
+    }
+
+    this.setState({
+      currentPageTickets: this.state.tickets.slice(start, end)
+    });
+
+  }
+
+  renderPagination() {
+    let totalTickets = this.state.tickets.length;
+    let totalPages;
+
+    let list = [];
+
+    if (totalTickets.length <= 10) {
+      totalPages = 1;
+    } else {
+      totalPages = ( totalTickets - (totalTickets % 10) ) / ( 10 );
+
+      if (totalPages % 10) {
+        totalPages += 1;
+      }
+    }
+
+    for (let i = 0; i < totalPages; i++) {
+
+      list.push(
+        <li className="page-item"><a className="page-link" href="#" onClick={e => this.handlePagination(e, i)}>{i + 1}</a></li>
+      );
+
+    }
+
+    this.setState({
+      pagination: list
+    });
 
   }
 
@@ -149,7 +207,12 @@ class Tickets extends React.Component {
                   </thead>
 
                   <tbody>
-                    {this.state.tickets}
+                    {this.state.currentPageTickets}
+
+                    <ul className="pagination">
+                      {this.state.pagination}
+                    </ul>
+
                   </tbody>
 
                 </table>
