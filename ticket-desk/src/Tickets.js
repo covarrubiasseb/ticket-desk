@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 
+import TableFilterByName from './utils/tableFilterByName';
+
 class Tickets extends React.Component {
   constructor(props) {
     super(props);
@@ -10,6 +12,7 @@ class Tickets extends React.Component {
     };
 
     this.getUserTickets = this.getUserTickets.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   getUserTickets() {
@@ -97,6 +100,12 @@ class Tickets extends React.Component {
     });
   }
 
+  handleChange(event) {
+
+    TableFilterByName("tableTickets", event.target.value);
+
+  }
+
   componentDidMount() {
     this.getUserTickets();
   }
@@ -118,7 +127,17 @@ class Tickets extends React.Component {
 
               <div className="card-body">
 
-                <table className="table table-hover">
+                <div className="row justify-content-end">
+
+                  <div class="col-4">
+
+                    <input className="form-control bg-light" type="text" placeholder="Search for tickets..." onChange={this.handleChange} />
+
+                  </div>
+
+                </div> 
+
+                <table className="table table-hover" id="tableTickets">
 
                   <thead className="table-light">
                     <tr className="text-dark">
