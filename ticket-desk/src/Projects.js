@@ -15,7 +15,8 @@ class Projects extends React.Component {
       projects: [],
       currentTableProjects: [],
       pagination: [],
-      entriesLength: 10
+      entriesLength: 10,
+      maxPageTableProjects: 10
     };
 
     this.getProjects = this.getProjects.bind(this);
@@ -113,12 +114,12 @@ class Projects extends React.Component {
     let list = [];
 
 
-    if (totalPages > 10) {
+    if (totalPages > this.state.maxPageTableProjects) {
       // Add Previous button
-      list.push(<li className="page-item"><a className="page-link" href="#" onClick={this.paginationPrevious}>Previous</a></li>)
+      list.push(<li className="page-item"><a className="page-link" href="#" onClick={this.paginationPrevious}>Previous</a></li>);
 
       // Add first 10 pages
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < this.state.maxPageTableProjects; i++) {
 
         list.push(
           <li className="page-item"><a className="page-link" href="#" onClick={e => this.handlePagination(e, i)}>{i + 1}</a></li>
@@ -127,7 +128,7 @@ class Projects extends React.Component {
       }
 
       // Add Next button
-      list.push(<li className="page-item"><a className="page-link" href="#" onClick={this.paginationNext}>Next</a></li>)
+      list.push(<li className="page-item"><a className="page-link" href="#" onClick={this.paginationNext}>Next</a></li>);
 
 
     } else {
@@ -147,12 +148,66 @@ class Projects extends React.Component {
     });
   }
 
-  paginationPrevious() {
+  paginationPrevious(event) {
+    event.preventDefault();
+
 
   }
 
-  paginationNext() {
-    
+  paginationNext(event) {
+    event.preventDefault();
+
+    let totalPages = CountPages(this.state.projects.length, this.state.entriesLength);
+    let currentMaxPage = this.state.maxPageTableProjects;
+
+    let list = [];
+
+    if (currentMaxPage < totalPages) {
+
+      // if there's still 10 more pages to scroll thru, render the next 10 pagination tabs
+      if ((totalPages - currentMaxPage) >= 10) {
+
+        // Add Previous button
+        list.push(<li className="page-item"><a className="page-link" href="#" onClick={this.paginationPrevious}>Previous</a></li>);
+
+        for (let i = currentMaxPage; i < (currentMaxPage + 10); i++) {
+
+          list.push(
+            <li className="page-item"><a className="page-link" href="#" onClick={e => this.handlePagination(e, i)}>{i + 1}</a></li>
+          );
+
+        }
+
+        // Add Next button
+        list.push(<li className="page-item"><a className="page-link" href="#" onClick={this.paginationNext}>Next</a></li>);
+
+        this.setState({
+          pagination: list,
+          maxPageTableProjects: currentMaxPage + 10
+        });
+
+      } else {
+
+        // Add Previous button
+        list.push(<li className="page-item"><a className="page-link" href="#" onClick={this.paginationPrevious}>Previous</a></li>);
+
+        // render remaining pagination tabs
+        for (let i = currentMaxPage; i < totalPages; i++) {
+
+          list.push(
+            <li className="page-item"><a className="page-link" href="#" onClick={e => this.handlePagination(e, i)}>{i + 1}</a></li>
+          );
+
+        }
+
+        this.setState({
+          pagination: list,
+          maxPageTableProjects: totalPages
+        });
+
+      }
+
+    }
   }
 
   componentDidMount() {
