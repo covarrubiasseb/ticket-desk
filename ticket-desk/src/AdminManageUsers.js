@@ -12,7 +12,9 @@ class AdminManageUsers extends React.Component {
       users: [],
       currentTableUsers: [],
       pagination: [],
-      entriesLength: 100
+      entriesLength: 20,
+      maxPageTableUsers: 10,
+      maxTotalPageTabs: 10
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -20,6 +22,9 @@ class AdminManageUsers extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handlePagination = this.handlePagination.bind(this);
     this.renderPagination = this.renderPagination.bind(this);
+
+    this.paginationPrevious = this.paginationPrevious.bind(this);
+    this.paginationNext = this.paginationNext.bind(this);
   }
 
   handleSubmit(event, userID) {
@@ -130,17 +135,47 @@ class AdminManageUsers extends React.Component {
 
     let list = [];
 
-    for (let i = 0; i < totalPages; i++) {
+    if (totalPages > this.state.maxPageTableUsers) {
+      // Add Previous button
+      list.push(<li className="page-item"><a className="page-link" href="#" onClick={this.paginationPrevious}>Previous</a></li>);
 
-      list.push(
-        <li className="page-item"><a className="page-link" href="#" onClick={e => this.handlePagination(e, i)}>{i + 1}</a></li>
-      );
+      // Add first 10 pages
+      for (let i = 0; i < this.state.maxPageTableUsers; i++) {
+
+        list.push(
+          <li className="page-item"><a className="page-link" href="#" onClick={e => this.handlePagination(e, i)}>{i + 1}</a></li>
+        );
+
+      }
+
+      // Add Next button
+      list.push(<li className="page-item"><a className="page-link" href="#" onClick={this.paginationNext}>Next</a></li>);
+
+    } else {
+
+
+      for (let i = 0; i < totalPages; i++) {
+
+        list.push(
+          <li className="page-item"><a className="page-link" href="#" onClick={e => this.handlePagination(e, i)}>{i + 1}</a></li>
+        );
+
+      }
 
     }
+
 
     this.setState({
       pagination: list
     });
+  }
+
+  paginationPrevious(event) {
+    event.preventDefault();
+  }
+
+  paginationNext(event) {
+    event.preventDefault();
   }
 
   componentDidMount() {
