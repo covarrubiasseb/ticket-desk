@@ -176,6 +176,58 @@ class AdminManageUsers extends React.Component {
 
   paginationNext(event) {
     event.preventDefault();
+
+    let totalPages = CountPages(this.state.users.length, this.state.entriesLength);
+    let currentMaxPage = this.state.maxPageTableUsers;
+
+    let list = [];
+
+    if (currentMaxPage < totalPages) {
+
+      // if there's still this.state.maxTotalPageTabs more pages to scroll thru, render the next this.state.maxTotalPageTabs pagination tabs
+      if ((totalPages - currentMaxPage) >= this.state.maxTotalPageTabs) {
+
+        // Add Previous button
+        list.push(<li className="page-item"><a className="page-link" href="#" onClick={this.paginationPrevious}>Previous</a></li>);
+
+        for (let i = currentMaxPage; i < (currentMaxPage + this.state.maxTotalPageTabs); i++) {
+
+          list.push(
+            <li className="page-item"><a className="page-link" href="#" onClick={e => this.handlePagination(e, i)}>{i + 1}</a></li>
+          );
+
+        }
+
+        // Add Next button
+        list.push(<li className="page-item"><a className="page-link" href="#" onClick={this.paginationNext}>Next</a></li>);
+
+        this.setState({
+          pagination: list,
+          maxPageTableUsers: currentMaxPage + this.state.maxTotalPageTabs
+        });
+
+      } else {
+
+        // Add Previous button
+        list.push(<li className="page-item"><a className="page-link" href="#" onClick={this.paginationPrevious}>Previous</a></li>);
+
+        // render remaining pagination tabs
+        for (let i = currentMaxPage; i < totalPages; i++) {
+
+          list.push(
+            <li className="page-item"><a className="page-link" href="#" onClick={e => this.handlePagination(e, i)}>{i + 1}</a></li>
+          );
+
+        }
+
+        this.setState({
+          pagination: list,
+          maxPageTableUsers: currentMaxPage + this.state.maxTotalPageTabs
+        });
+
+      }
+
+    }
   }
 
   componentDidMount() {
