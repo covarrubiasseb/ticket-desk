@@ -12,13 +12,18 @@ class Tickets extends React.Component {
       tickets: [],
       currentTableTickets: [],
       pagination: [],
-      entriesLength: 10
+      entriesLength: 10,
+      maxPageTableTickets: 10,
+      maxTotalPageTabs: 10
     };
 
     this.getUserTickets = this.getUserTickets.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handlePagination = this.handlePagination.bind(this);
     this.renderPagination = this.renderPagination.bind(this);
+
+    this.paginationPrevious = this.paginationPrevious.bind(this);
+    this.paginationNext = this.paginationNext.bind(this);
   }
 
   getUserTickets() {
@@ -146,18 +151,48 @@ class Tickets extends React.Component {
 
     let list = [];
 
-    for (let i = 0; i < totalPages; i++) {
+    if (totalPages > this.state.maxPageTableTickets) {
+      // Add Previous button
+      list.push(<li className="page-item"><a className="page-link" href="#" onClick={this.paginationPrevious}>Previous</a></li>);
 
-      list.push(
-        <li className="page-item"><a className="page-link" href="#" onClick={e => this.handlePagination(e, i)}>{i + 1}</a></li>
-      );
+      // Add first 10 pages
+      for (let i = 0; i < this.state.maxPageTableTickets; i++) {
+
+        list.push(
+          <li className="page-item"><a className="page-link" href="#" onClick={e => this.handlePagination(e, i)}>{i + 1}</a></li>
+        );
+
+      }
+
+      // Add Next button
+      list.push(<li className="page-item"><a className="page-link" href="#" onClick={this.paginationNext}>Next</a></li>);
+
+
+    } else {
+
+      for (let i = 0; i < totalPages; i++) {
+
+        list.push(
+          <li className="page-item"><a className="page-link" href="#" onClick={e => this.handlePagination(e, i)}>{i + 1}</a></li>
+        );
+
+      }
 
     }
+
 
     this.setState({
       pagination: list
     });
 
+  }
+
+  paginationPrevious(event) {
+    event.preventDefault();
+  }
+
+  paginationNext(event) {
+    event.preventDefault();s
   }
 
   componentDidMount() {
