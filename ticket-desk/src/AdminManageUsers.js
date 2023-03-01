@@ -172,6 +172,35 @@ class AdminManageUsers extends React.Component {
 
   paginationPrevious(event) {
     event.preventDefault();
+
+    // if there's still 10 more pages to scroll thru (previous), render the previous 10 pagination tabs
+    if (this.state.maxPageTableUsers > this.state.maxTotalPageTabs) {
+
+      let currentMaxPage = this.state.maxPageTableUsers;
+
+      let list = [];
+
+      // Add Previous button
+      list.push(<li className="page-item"><a className="page-link" href="#" onClick={this.paginationPrevious}>Previous</a></li>);
+
+      for (let i = (currentMaxPage - (this.state.maxTotalPageTabs * 2) ); i < (currentMaxPage - this.state.maxTotalPageTabs); i++) {
+
+        list.push(
+          <li className="page-item"><a className="page-link" href="#" onClick={e => this.handlePagination(e, i)}>{i + 1}</a></li>
+        );
+
+      }
+
+      // Add Next button
+      list.push(<li className="page-item"><a className="page-link" href="#" onClick={this.paginationNext}>Next</a></li>);
+
+      this.setState({
+        pagination: list,
+        maxPageTableUsers: currentMaxPage - this.state.maxTotalPageTabs
+      });
+
+    } 
+
   }
 
   paginationNext(event) {
