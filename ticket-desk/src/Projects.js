@@ -23,6 +23,8 @@ class Projects extends React.Component {
 
     this.handlePagination = this.handlePagination.bind(this);
     this.renderPagination = this.renderPagination.bind(this);
+    this.paginationPrevious = this.paginationPrevious.bind(this);
+    this.paginationNext = this.paginationNext.bind(this);
   }
 
   getProjects() {
@@ -110,17 +112,47 @@ class Projects extends React.Component {
 
     let list = [];
 
-    for (let i = 0; i < totalPages; i++) {
 
-      list.push(
-        <li className="page-item"><a className="page-link" href="#" onClick={e => this.handlePagination(e, i)}>{i + 1}</a></li>
-      );
+    if (totalPages > 10) {
+      // Add Previous button
+      list.push(<li className="page-item"><a className="page-link" href="#" onClick={this.paginationPrevious}>Previous</a></li>)
+
+      // Add first 10 pages
+      for (let i = 0; i < 10; i++) {
+
+        list.push(
+          <li className="page-item"><a className="page-link" href="#" onClick={e => this.handlePagination(e, i)}>{i + 1}</a></li>
+        );
+
+      }
+
+      // Add Next button
+      list.push(<li className="page-item"><a className="page-link" href="#" onClick={this.paginationNext}>Next</a></li>)
+
+
+    } else {
+
+      for (let i = 0; i < totalPages; i++) {
+
+        list.push(
+          <li className="page-item"><a className="page-link" href="#" onClick={e => this.handlePagination(e, i)}>{i + 1}</a></li>
+        );
+
+      }
 
     }
 
     this.setState({
       pagination: list
     });
+  }
+
+  paginationPrevious() {
+
+  }
+
+  paginationNext() {
+    
   }
 
   componentDidMount() {
