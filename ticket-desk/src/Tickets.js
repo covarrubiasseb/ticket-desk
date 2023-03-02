@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import $ from 'jquery';
 
 import TableFilterByName from './utils/tableFilterByName';
 import CountPages from './utils/countPages';
@@ -129,6 +130,24 @@ class Tickets extends React.Component {
   }
 
   handleChange(event) {
+    if (!event.target.value) {
+
+      $("#TicketsPagination").show();
+
+      TableFilterByName("tableTickets", event.target.value);
+
+      this.renderPagination();
+      this.handlePagination(event, 0);
+
+    } else {
+
+      $("#TicketsPagination").hide();
+
+      this.setState({
+        currentTableTickets: this.state.tickets
+      }, () => TableFilterByName("tableTickets", event.target.value));
+
+    }
 
     TableFilterByName("tableTickets", event.target.value);
 
@@ -247,7 +266,7 @@ class Tickets extends React.Component {
 
                 </table>
 
-                <ul className="pagination">
+                <ul className="pagination" id="TicketsPagination">
                   {this.state.pagination}
                 </ul>
 

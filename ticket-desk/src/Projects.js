@@ -111,8 +111,6 @@ class Projects extends React.Component {
 
     }
 
-    TableFilterByName("tableProjects", event.target.value);
-
   }
 
   handlePagination(event, pageIndex) {
