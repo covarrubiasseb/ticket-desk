@@ -4,6 +4,11 @@ import axios from 'axios';
 import TableFilterByName from './utils/tableFilterByName';
 import CountPages from './utils/countPages';
 
+import HandlePagination from './utils/HandlePagination';
+import RenderPagination from './utils/RenderPagination';
+import PaginationPrevious from './utils/PaginationPrevious';
+import PaginationNext from './utils/PaginationNext';
+
 class Tickets extends React.Component {
   constructor(props) {
     super(props);
@@ -132,13 +137,7 @@ class Tickets extends React.Component {
   handlePagination(event, pageIndex) {
     event.preventDefault();
 
-    let start = 0;
-    let end = this.state.entriesLength;
-
-    for (let i = 0; i < pageIndex; i++) {
-      start += this.state.entriesLength;
-      end += this.state.entriesLength;
-    }
+    let [start, end] = HandlePagination(pageIndex, this.state.entriesLength);
 
     this.setState({
       currentTableTickets: this.state.tickets.slice(start, end)
@@ -148,37 +147,11 @@ class Tickets extends React.Component {
 
   renderPagination() {
     let totalPages = CountPages(this.state.tickets.length, this.state.entriesLength);
+    
+    let list = RenderPagination(totalPages, this.state.maxPageTableTickets, this.paginationPrevious, 
+                                                                            this.paginationNext,
+                                                                            this.handlePagination);
 
-    let list = [];
-
-    if (totalPages > this.state.maxPageTableTickets) {
-      // Add Previous button
-      list.push(<li className="page-item"><a className="page-link" href="#" onClick={this.paginationPrevious}>Previous</a></li>);
-
-      // Add first 10 pages
-      for (let i = 0; i < this.state.maxPageTableTickets; i++) {
-
-        list.push(
-          <li className="page-item"><a className="page-link" href="#" onClick={e => this.handlePagination(e, i)}>{i + 1}</a></li>
-        );
-
-      }
-
-      // Add Next button
-      list.push(<li className="page-item"><a className="page-link" href="#" onClick={this.paginationNext}>Next</a></li>);
-
-
-    } else {
-
-      for (let i = 0; i < totalPages; i++) {
-
-        list.push(
-          <li className="page-item"><a className="page-link" href="#" onClick={e => this.handlePagination(e, i)}>{i + 1}</a></li>
-        );
-
-      }
-
-    }
 
 
     this.setState({
@@ -189,6 +162,20 @@ class Tickets extends React.Component {
 
   paginationPrevious(event) {
     event.preventDefault();
+
+    // if there's still 10 more pages to scroll thru (previous), render the previous 10 pagination tabs
+    if (this.state.maxPageTableUsers > this.state.maxTotalPageTabs) {
+
+      let list = PaginationPrevious(this.state.maxPageTableTickets, this.state.maxTotalPageTabs, this.paginationPrevious, 
+                                                                                                 this.paginationNext,
+                                                                                                 this.handlePagination);
+
+      this.setState({
+        pagination: list,
+        maxPageTableTickets: this.state.maxPageTableTickets - this.state.maxTotalPageTabs
+      });
+
+    } 
   }
 
   paginationNext(event) {
@@ -197,54 +184,19 @@ class Tickets extends React.Component {
     let totalPages = CountPages(this.state.tickets.length, this.state.entriesLength);
     let currentMaxPage = this.state.maxPageTableTickets;
 
-    let list = [];
-
     if (currentMaxPage < totalPages) {
 
-      // if there's still this.state.maxTotalPageTabs more pages to scroll thru, render the next this.state.maxTotalPageTabs pagination tabs
-      if ((totalPages - currentMaxPage) >= this.state.maxTotalPageTabs) {
+      let list = PaginationNext(totalPages, currentMaxPage, this.state.maxTotalPageTabs, this.paginationPrevious, 
+                                                                                         this.paginationNext,
+                                                                                         this.handlePagination);
 
-        // Add Previous button
-        list.push(<li className="page-item"><a className="page-link" href="#" onClick={this.paginationPrevious}>Previous</a></li>);
-
-        for (let i = currentMaxPage; i < (currentMaxPage + this.state.maxTotalPageTabs); i++) {
-
-          list.push(
-            <li className="page-item"><a className="page-link" href="#" onClick={e => this.handlePagination(e, i)}>{i + 1}</a></li>
-          );
-
-        }
-
-        // Add Next button
-        list.push(<li className="page-item"><a className="page-link" href="#" onClick={this.paginationNext}>Next</a></li>);
-
-        this.setState({
-          pagination: list,
-          maxPageTableTickets: currentMaxPage + this.state.maxTotalPageTabs
-        });
-
-      } else {
-
-        // Add Previous button
-        list.push(<li className="page-item"><a className="page-link" href="#" onClick={this.paginationPrevious}>Previous</a></li>);
-
-        // render remaining pagination tabs
-        for (let i = currentMaxPage; i < totalPages; i++) {
-
-          list.push(
-            <li className="page-item"><a className="page-link" href="#" onClick={e => this.handlePagination(e, i)}>{i + 1}</a></li>
-          );
-
-        }
-
-        this.setState({
-          pagination: list,
-          maxPageTableTickets: currentMaxPage + this.state.maxTotalPageTabs
-        });
-
-      }
+      this.setState({
+        pagination: list,
+        maxPageTableTickets: currentMaxPage + this.state.maxTotalPageTabs
+      });
 
     }
+
   }
 
   componentDidMount() {
