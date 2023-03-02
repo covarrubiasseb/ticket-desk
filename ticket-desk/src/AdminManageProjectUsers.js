@@ -51,14 +51,6 @@ class AdminManageProjectUsers extends React.Component {
 
           })
 
-        }, () => {
-
-          this.setState({
-            currentTableUsers: this.state.users.slice(0, this.state.entriesLength)
-          }, () => {
-            this.renderPagination();
-          });
-
         });
 
       } else {
