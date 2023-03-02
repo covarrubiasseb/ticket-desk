@@ -5,6 +5,11 @@ import TableFilterByName from './utils/TableFilterByName';
 import TableClear from './utils/TableClear';
 import CountPages from './utils/CountPages';
 
+import HandlePagination from './utils/HandlePagination';
+import RenderPagination from './utils/RenderPagination';
+import PaginationPrevious from './utils/PaginationPrevious';
+import PaginationNext from './utils/PaginationNext';
+
 class AdminManageProjectUsers extends React.Component {
   constructor(props) {
     super(props);
@@ -13,7 +18,9 @@ class AdminManageProjectUsers extends React.Component {
       users: [],
       currentTableUsers: [],
       pagination: [],
-      entriesLength: 100
+      entriesLength: 20,
+      maxPageTableUsers: 10,
+      maxTotalPageTabs: 10
     }
 
     this.getAllUsers = this.getAllUsers.bind(this);
@@ -23,6 +30,9 @@ class AdminManageProjectUsers extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handlePagination = this.handlePagination.bind(this);
     this.renderPagination = this.renderPagination.bind(this);
+
+    this.paginationPrevious = this.paginationPrevious.bind(this);
+    this.paginationNext = this.paginationNext.bind(this);
   }
 
   getAllUsers() {
@@ -124,13 +134,7 @@ class AdminManageProjectUsers extends React.Component {
   handlePagination(event, pageIndex) {
     event.preventDefault();
 
-    let start = 0;
-    let end = this.state.entriesLength;
-
-    for (let i = 0; i < pageIndex; i++) {
-      start += this.state.entriesLength;
-      end += this.state.entriesLength;
-    }
+    let [start, end] = HandlePagination(pageIndex, this.state.entriesLength);
 
     this.setState({
       currentTableUsers: this.state.users.slice(start, end)
@@ -141,19 +145,53 @@ class AdminManageProjectUsers extends React.Component {
   renderPagination() {
     let totalPages = CountPages(this.state.users.length, this.state.entriesLength);
 
-    let list = [];
-
-    for (let i = 0; i < totalPages; i++) {
-
-      list.push(
-        <li className="page-item"><a className="page-link" href="#" onClick={e => this.handlePagination(e, i)}>{i + 1}</a></li>
-      );
-
-    }
+    let list = RenderPagination(totalPages, this.state.maxPageTableUsers, this.paginationPrevious, 
+                                                                          this.paginationNext,
+                                                                          this.handlePagination);
 
     this.setState({
       pagination: list
     });
+  }
+
+  paginationPrevious(event) {
+    event.preventDefault();
+
+    // if there's still 10 more pages to scroll thru (previous), render the previous 10 pagination tabs
+    if (this.state.maxPageTableUsers > this.state.maxTotalPageTabs) {
+
+      let list = PaginationPrevious(this.state.maxPageTableUsers, this.state.maxTotalPageTabs, this.paginationPrevious, 
+                                                                                               this.paginationNext,
+                                                                                               this.handlePagination);
+
+      this.setState({
+        pagination: list,
+        maxPageTableUsers: this.state.maxPageTableUsers - this.state.maxTotalPageTabs
+      });
+
+    } 
+
+  }
+
+  paginationNext(event) {
+    event.preventDefault();
+
+    let totalPages = CountPages(this.state.users.length, this.state.entriesLength);
+    let currentMaxPage = this.state.maxPageTableUsers;
+
+    if (currentMaxPage < totalPages) {
+
+      let list = PaginationNext(totalPages, currentMaxPage, this.state.maxTotalPageTabs, this.paginationPrevious, 
+                                                                                         this.paginationNext,
+                                                                                         this.handlePagination);
+
+      this.setState({
+        pagination: list,
+        maxPageTableUsers: currentMaxPage + this.state.maxTotalPageTabs
+      });
+
+    }
+
   }
 
   componentDidMount() {
