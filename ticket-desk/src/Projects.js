@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import $ from 'jquery';
 
 import ProjectForm from './ProjectForm';
 
@@ -91,6 +92,24 @@ class Projects extends React.Component {
   }
 
   handleChange(event) {
+    if (!event.target.value) {
+
+      $("#ProjectsPagination").show();
+
+      TableFilterByName("tableProjects", event.target.value);
+
+      this.renderPagination();
+      this.handlePagination(event, 0);
+
+    } else {
+
+      $("#ProjectsPagination").hide();
+
+      this.setState({
+        currentTableProjects: this.state.projects
+      }, () => TableFilterByName("tableProjects", event.target.value));
+
+    }
 
     TableFilterByName("tableProjects", event.target.value);
 
@@ -213,7 +232,7 @@ class Projects extends React.Component {
 
                 </table>
 
-                <ul className="pagination">
+                <ul className="pagination" id="ProjectsPagination">
                   {this.state.pagination}
                 </ul>
 
