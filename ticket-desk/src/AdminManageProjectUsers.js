@@ -122,39 +122,47 @@ class AdminManageProjectUsers extends React.Component {
 
     return (
 
-      <div className="card">
+      <div className="row">
 
-        <div className="card-header py-3">
-          <h6 className="m-0 font-weight-bold text-primary">Manage Users</h6>
-        </div>
+        <div className="col-xl-9">
 
-        <div className="card-body">
+          <div className="card">
 
-          <div className="row justify-content-end">
+            <div className="card-header py-3">
+              <h6 className="m-0 font-weight-bold text-primary">Manage Users</h6>
+            </div>
 
-            <div class="col-4">
+            <div className="card-body">
 
-              <input className="form-control bg-light" type="text" placeholder="Search for users..." onChange={this.handleChange}/>
+              <div className="row justify-content-end">
+
+                <div class="col-4">
+
+                  <input className="form-control bg-light" type="text" placeholder="Search for users..." onChange={this.handleChange}/>
+
+                </div>
+
+              </div>
+
+              <table className="table table-hover" id="tableAdminManageProjectUsers">
+
+                <thead className="table-light text-dark">
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">email</th>
+                    <th scope="col">Role</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {this.state.users}
+                </tbody>
+
+              </table>
 
             </div>
 
           </div>
-
-          <table className="table table-hover" id="tableAdminManageProjectUsers">
-
-            <thead className="table-light text-dark">
-              <tr>
-                <th scope="col">Name</th>
-                <th scope="col">email</th>
-                <th scope="col">Role</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {this.state.users}
-            </tbody>
-
-          </table>
 
         </div>
 

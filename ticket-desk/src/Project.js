@@ -164,13 +164,10 @@ class Project extends React.Component {
                       userID={this.props.userID} 
                       projectID={this.props.projectData.projectID} />
 
-        <div className="row">
-          <div className="col-xl-9">
-
-            <AdminManageProjectUsers headersConfig={this.props.headersConfig} userID={this.props.userID} projectID={this.props.projectData.projectID} getUsers={this.getUsers}/>
-
-          </div>
-        </div>
+        <AdminManageProjectUsers headersConfig={this.props.headersConfig} 
+                                 userID={this.props.userID} 
+                                 projectID={this.props.projectData.projectID} 
+                                 getUsers={this.getUsers}/>
 
       </div>
     );
