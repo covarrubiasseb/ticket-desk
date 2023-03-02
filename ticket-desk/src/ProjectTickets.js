@@ -1,10 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import $ from 'jquery';
 
 import TicketForm from'./TicketForm';
-import ProjectEditForm from './ProjectEditForm';
-import AdminManageProjectUsers from './AdminManageProjectUsers';
 
 import TableFilterByName from './utils/tableFilterByName';
 import CountPages from './utils/countPages';
