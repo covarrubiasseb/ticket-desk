@@ -1,8 +1,14 @@
 import React from 'react';
 import axios from 'axios';
+import $ from 'jquery';
 
 import TableFilterByName from './utils/tableFilterByName';
 import CountPages from './utils/countPages';
+
+import HandlePagination from './utils/HandlePagination';
+import RenderPagination from './utils/RenderPagination';
+import PaginationPrevious from './utils/PaginationPrevious';
+import PaginationNext from './utils/PaginationNext';
 
 class ProjectUsers extends React.Component {
   constructor(props) {
@@ -12,7 +18,9 @@ class ProjectUsers extends React.Component {
       users: [],
       currentTableUsers: [],
       usersPagination: [],
-      usersEntriesLength: 10
+      usersEntriesLength: 10,
+      maxPageTableUsers: 10,
+      maxTotalPageTabs: 10
     }
 
     this.getUsers = this.getUsers.bind(this);
@@ -20,6 +28,9 @@ class ProjectUsers extends React.Component {
 
     this.handleUsersPagination = this.handleUsersPagination.bind(this);
     this.renderUsersPagination = this.renderUsersPagination.bind(this);
+
+    this.paginationPrevious = this.paginationPrevious.bind(this);
+    this.paginationNext = this.paginationNext.bind(this);
   }
 
   getUsers() {
@@ -62,20 +73,31 @@ class ProjectUsers extends React.Component {
 
   handleSearchUsers(event) {
 
-    TableFilterByName("tableProjectUsers", event.target.value);
+    if (!event.target.value) {
+
+      $("#UsersPagination").show();
+
+      TableFilterByName("tableeUsers", event.target.value);
+
+      this.renderPagination();
+      this.handlePagination(event, 0);
+
+    } else {
+
+      $("#UsersPagination").hide();
+
+      this.setState({
+        currentTableUsers: this.state.users
+      }, () => TableFilterByName("tableUsers", event.target.value));
+
+    }
 
   }
 
   handleUsersPagination(event, pageIndex) {
     event.preventDefault();
 
-    let start = 0;
-    let end = this.state.usersEntriesLength;
-
-    for (let i = 0; i < pageIndex; i++) {
-      start += this.state.usersEntriesLength;
-      end += this.state.usersEntriesLength;
-    }
+    let [start, end] = HandlePagination(pageIndex, this.state.entriesLength);
 
     this.setState({
       currentTableUsers: this.state.users.slice(start, end)
@@ -86,19 +108,53 @@ class ProjectUsers extends React.Component {
   renderUsersPagination() {
     let totalPages = CountPages(this.state.users.length, this.state.usersEntriesLength);
 
-    let list = [];
-
-    for (let i = 0; i < totalPages; i++) {
-
-      list.push(
-        <li className="page-item"><a className="page-link" href="#" onClick={e => this.handleUsersPagination(e, i)}>{i + 1}</a></li>
-      );
-
-    }
+    let list = RenderPagination(totalPages, this.state.maxPageTableUsers, this.paginationPrevious, 
+                                                                          this.paginationNext,
+                                                                          this.handlePagination);
 
     this.setState({
       usersPagination: list
     });
+
+  }
+
+  paginationPrevious(event) {
+    event.preventDefault();
+
+    // if there's still 10 more pages to scroll thru (previous), render the previous 10 pagination tabs
+    if (this.state.maxPageTableUsers > this.state.maxTotalPageTabs) {
+
+      let list = PaginationPrevious(this.state.maxPageTableUsers, this.state.maxTotalPageTabs, this.paginationPrevious, 
+                                                                                               this.paginationNext,
+                                                                                               this.handlePagination);
+
+      this.setState({
+        pagination: list,
+        maxPageTableUsers: this.state.maxPageTableUsers - this.state.maxTotalPageTabs
+      });
+
+    } 
+
+  }
+
+  paginationNext(event) {
+    event.preventDefault();
+
+    let totalPages = CountPages(this.state.users.length, this.state.entriesLength);
+    let currentMaxPage = this.state.maxPageTableUsers;
+
+    if (currentMaxPage < totalPages) {
+
+      let list = PaginationNext(totalPages, currentMaxPage, this.state.maxTotalPageTabs, this.paginationPrevious, 
+                                                                                         this.paginationNext,
+                                                                                         this.handlePagination);
+
+      this.setState({
+        pagination: list,
+        maxPageTableUsers: currentMaxPage + this.state.maxTotalPageTabs
+      });
+
+    }
 
   }
 
@@ -149,7 +205,7 @@ class ProjectUsers extends React.Component {
 
               </table>
 
-              <ul className="pagination">
+              <ul className="pagination" id ="UsersPagination">
                 {this.state.usersPagination}
               </ul>
 
