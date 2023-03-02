@@ -75,20 +75,20 @@ class ProjectUsers extends React.Component {
 
     if (!event.target.value) {
 
-      $("#UsersPagination").show();
+      $("#ProjectUsersPagination").show();
 
-      TableFilterByName("tableeUsers", event.target.value);
+      TableFilterByName("tableProjectUsers", event.target.value);
 
-      this.renderPagination();
-      this.handlePagination(event, 0);
+      this.renderUsersPagination();
+      this.handleUsersPagination(event, 0);
 
     } else {
 
-      $("#UsersPagination").hide();
+      $("#ProjectUsersPagination").hide();
 
       this.setState({
         currentTableUsers: this.state.users
-      }, () => TableFilterByName("tableUsers", event.target.value));
+      }, () => TableFilterByName("tableProjectUsers", event.target.value));
 
     }
 
@@ -110,7 +110,7 @@ class ProjectUsers extends React.Component {
 
     let list = RenderPagination(totalPages, this.state.maxPageTableUsers, this.paginationPrevious, 
                                                                           this.paginationNext,
-                                                                          this.handlePagination);
+                                                                          this.handleUsersPagination);
 
     this.setState({
       usersPagination: list
@@ -126,7 +126,7 @@ class ProjectUsers extends React.Component {
 
       let list = PaginationPrevious(this.state.maxPageTableUsers, this.state.maxTotalPageTabs, this.paginationPrevious, 
                                                                                                this.paginationNext,
-                                                                                               this.handlePagination);
+                                                                                               this.handleUsersPagination);
 
       this.setState({
         pagination: list,
@@ -147,7 +147,7 @@ class ProjectUsers extends React.Component {
 
       let list = PaginationNext(totalPages, currentMaxPage, this.state.maxTotalPageTabs, this.paginationPrevious, 
                                                                                          this.paginationNext,
-                                                                                         this.handlePagination);
+                                                                                         this.handleUsersPagination);
 
       this.setState({
         pagination: list,
@@ -205,7 +205,7 @@ class ProjectUsers extends React.Component {
 
               </table>
 
-              <ul className="pagination" id ="UsersPagination">
+              <ul className="pagination" id ="ProjectUsersPagination">
                 {this.state.usersPagination}
               </ul>
 

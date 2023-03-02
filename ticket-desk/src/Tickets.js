@@ -130,6 +130,7 @@ class Tickets extends React.Component {
   }
 
   handleChange(event) {
+
     if (!event.target.value) {
 
       $("#TicketsPagination").show();
@@ -148,8 +149,6 @@ class Tickets extends React.Component {
       }, () => TableFilterByName("tableTickets", event.target.value));
 
     }
-
-    TableFilterByName("tableTickets", event.target.value);
 
   }
 
@@ -183,7 +182,7 @@ class Tickets extends React.Component {
     event.preventDefault();
 
     // if there's still 10 more pages to scroll thru (previous), render the previous 10 pagination tabs
-    if (this.state.maxPageTableUsers > this.state.maxTotalPageTabs) {
+    if (this.state.maxPageTableTickets > this.state.maxTotalPageTabs) {
 
       let list = PaginationPrevious(this.state.maxPageTableTickets, this.state.maxTotalPageTabs, this.paginationPrevious, 
                                                                                                  this.paginationNext,
@@ -195,6 +194,7 @@ class Tickets extends React.Component {
       });
 
     } 
+
   }
 
   paginationNext(event) {
