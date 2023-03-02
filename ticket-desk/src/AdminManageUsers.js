@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import $ from 'jquery';
 
 import TableFilterByName from './utils/tableFilterByName';
 import CountPages from './utils/countPages';
@@ -114,7 +115,21 @@ class AdminManageUsers extends React.Component {
 
   handleChange(event) {
 
-    TableFilterByName("tableAdminManageUsers", event.target.value);
+    if (!event.target.value) {
+
+      $("#AdminManageUsersPagination").show();
+
+      this.renderPagination();
+      this.handlePagination(event, 0);
+    } else {
+
+      $("#AdminManageUsersPagination").hide();
+
+      this.setState({
+        currentTableUsers: this.state.users
+      }, () => TableFilterByName("tableAdminManageUsers", event.target.value));
+
+    }
 
   }
 
@@ -227,7 +242,7 @@ class AdminManageUsers extends React.Component {
 
                 </table>
 
-                <ul className="pagination">
+                <ul className="pagination" id="AdminManageUsersPagination">
                   {this.state.pagination}
                 </ul>
 
