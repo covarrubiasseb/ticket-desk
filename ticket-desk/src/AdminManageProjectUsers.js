@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import $ from 'jquery';
 
 import TableFilterByName from './utils/TableFilterByName';
 import TableClear from './utils/TableClear';
@@ -121,11 +122,17 @@ class AdminManageProjectUsers extends React.Component {
 
     if (!event.target.value) {
 
+      $("#AdminManageProjectUsersPagination").show();
+
       TableClear("tableAdminManageProjectUsers");
 
     } else {
 
-      TableFilterByName("tableAdminManageProjectUsers", event.target.value);
+      $("#AdminManageProjectUsersPagination").hide();
+
+      this.setState({
+        currentTableUsers: this.state.users
+      }, () => TableFilterByName("tableAdminManageProjectUsers", event.target.value));
 
     }
 
@@ -236,7 +243,7 @@ class AdminManageProjectUsers extends React.Component {
 
           </table>
 
-          <ul className="pagination">
+          <ul className="pagination" id="AdminManageProjectUsersPagination">
             {this.state.pagination}
           </ul>
 
