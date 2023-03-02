@@ -119,8 +119,11 @@ class AdminManageUsers extends React.Component {
 
       $("#AdminManageUsersPagination").show();
 
+      TableFilterByName("tableAdminManageUsers", event.target.value);
+
       this.renderPagination();
       this.handlePagination(event, 0);
+
     } else {
 
       $("#AdminManageUsersPagination").hide();
