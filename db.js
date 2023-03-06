@@ -1,7 +1,5 @@
 const { config } = require('dotenv').config();
 
-console.log(process.env.JAWSDB_DB)
-
 const queries = {
 
   createDB: `CREATE DATABASE IF NOT EXISTS TicketDesk;`,
@@ -189,5 +187,7 @@ const queries = {
     return `DELETE FROM comments WHERE commentID="${commentID}";`
   }
 }
+
+console.log(queries.useDB)
 
 module.exports = { queries }
