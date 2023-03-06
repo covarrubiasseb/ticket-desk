@@ -6,7 +6,7 @@ const queries = {
 
   createDB: `CREATE DATABASE IF NOT EXISTS TicketDesk;`,
 
-  useDB: `USE ${process.env.JAWSDB_DB || 'TicketDesk'};`,
+  useDB: `USE ${process.env.JAWSDB_DB};`,
 
   createTableUsers: `CREATE TABLE IF NOT EXISTS users (
     userID int NOT NULL AUTO_INCREMENT,
