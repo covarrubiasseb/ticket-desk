@@ -1,5 +1,7 @@
 const { config } = require('dotenv').config();
 
+console.log(process.env.JAWSDB_DB)
+
 const queries = {
 
   createDB: `CREATE DATABASE IF NOT EXISTS TicketDesk;`,
