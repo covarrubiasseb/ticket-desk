@@ -1,8 +1,10 @@
+const { config } = require('dotenv').config();
+
 const queries = {
 
   createDB: `CREATE DATABASE IF NOT EXISTS TicketDesk;`,
 
-  useDB: `USE TicketDesk;`,
+  useDB: `USE ${process.env.JAWSDB_DB || 'TicketDesk'};`,
 
   createTableUsers: `CREATE TABLE IF NOT EXISTS users (
     userID int NOT NULL AUTO_INCREMENT,
