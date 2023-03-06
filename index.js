@@ -17,6 +17,7 @@ const app = express();
 app.use(express.json());
 
 // Static Page
+console.log(`${__dirname}/ticket-desk/build`);
 app.use(express.static(`${__dirname}/ticket-desk/build`));
 
 // API Routes
