@@ -11,8 +11,7 @@ const DB_Pass = process.env.JAWSDB_PASS || process.env.DB_PASS;
 const connection = mysql.createConnection({
   host: DB_Host,
   user: DB_User,
-  password: DB_Pass,
-  database: process.env.JAWSDB_DB || 'TicketDesk' 
+  password: DB_Pass
 });
 
 connection.connect(err => {
