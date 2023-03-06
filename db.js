@@ -4,7 +4,7 @@ const queries = {
 
   createDB: `CREATE DATABASE IF NOT EXISTS TicketDesk;`,
 
-  useDB: `USE ${process.env.JAWSDB_DB};`,
+  useDB: `USE ${process.env.JAWSDB_DB || 'TicketDesk'};`,
 
   createTableUsers: `CREATE TABLE IF NOT EXISTS users (
     userID int NOT NULL AUTO_INCREMENT,
@@ -187,7 +187,5 @@ const queries = {
     return `DELETE FROM comments WHERE commentID="${commentID}";`
   }
 }
-
-console.log(queries.useDB)
 
 module.exports = { queries }
