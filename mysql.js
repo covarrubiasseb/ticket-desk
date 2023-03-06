@@ -4,9 +4,9 @@ const { config } = require('dotenv');
 
 config();
 
-const DB_Host = process.env.DB_HOST;
-const DB_User = process.env.DB_USER;
-const DB_Pass = process.env.DB_PASS;
+const DB_Host = process.env.JAWSDB_HOST || process.env.DB_HOST;
+const DB_User = process.env.JAWSDB_USER || process.env.DB_USER;
+const DB_Pass = process.env.JAWSDB_PASS || process.env.DB_PASS;
 
 const connection = mysql.createConnection({
   host: DB_Host,
