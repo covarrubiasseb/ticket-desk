@@ -17,6 +17,7 @@ class Login extends React.Component {
   }
 
   handleSubmit(event) {
+
     event.preventDefault();
 
     axios.post('/api/login', {
@@ -28,8 +29,6 @@ class Login extends React.Component {
 
         this.props.getUserData(response.data.userData);
         this.props.setPageMain();
-      } else {
-        console.log(response);
       }
     });
   }
@@ -72,10 +71,22 @@ class Login extends React.Component {
 
                                     <form className="user" onSubmit={this.handleSubmit}>
                                         <div className="form-group">
-                                            <input type="email" className="form-control form-control-user" id="loginInputEmail" value={this.state.email} onChange={this.handleEmailChange} placeholder="Enter Email Address..." />
+                                            <input required
+                                                   type="email" 
+                                                   className="form-control form-control-user" 
+                                                   id="loginInputEmail" 
+                                                   value={this.state.email} 
+                                                   onChange={this.handleEmailChange}
+                                                   placeholder="Enter Email Address..." />
                                         </div>
                                         <div className="form-group">
-                                            <input type="password" className="form-control form-control-user" id="loginInputPassword" value={this.state.password} onChange={this.handlePasswordChange} placeholder="Password" />
+                                            <input required
+                                                   type="password" 
+                                                   className="form-control form-control-user" 
+                                                   id="loginInputPassword" 
+                                                   value={this.state.password} 
+                                                   onChange={this.handlePasswordChange} 
+                                                   placeholder="Enter Password..." />
                                         </div>
 
                                         <button type="submit" className="btn btn-primary btn-user btn-block">
