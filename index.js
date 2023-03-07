@@ -1,7 +1,7 @@
 const express = require('express');
 const process = require('process');
 const { config } = require('dotenv').config();
-const test = require('./test/test')();
+const test = require('./test/Test')();
 
 const userAuthRouter = require('./api/userAuth');
 const usersRouter = require('./api/users');
