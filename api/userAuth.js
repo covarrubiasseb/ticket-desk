@@ -72,7 +72,7 @@ router.post('/api/register', (req, res) => {
 
   // Check if email exists in DB
   mysql.connection.query(db.queries.findUser(registerEmail), (err, results) => {
-
+    console.log(results);
     // if email doesn't exist create new user
     if (results.length === 0) {
 
