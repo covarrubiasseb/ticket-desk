@@ -1,7 +1,7 @@
 const fs = require('fs');
 const bcrypt = require('bcrypt');
 const mysql = require('../mysql');
-const db = require('./db_test');
+const db = require('./DB_Test');
 const process = require('process');
 const { config } = require('dotenv').config();
 
