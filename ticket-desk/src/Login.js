@@ -116,6 +116,9 @@ class Login extends React.Component {
 
                                     <div className="text-center">
                                         <a className="small" href="#" onClick={this.props.setPageRegister}>Create an Account!</a>
+                                    </div>
+
+                                    <div>
                                         <a className="small" href="#" onClick={this.handleDemo}>Try a Demo User! (Admin)</a>
                                     </div>
 
