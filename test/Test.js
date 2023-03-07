@@ -23,6 +23,43 @@ async function createUsers(users) {
 
 }
 
+// Insert Projects
+async function createProjects(projects) {
+
+  let userID = 1;
+
+  for (const project of projects) {
+
+    let resultID = ( (userID % 10) || (10) );
+
+    userID++;
+
+    await mysql.connection.promise().query(db.queries.createProject(project.name, project.description, resultID))
+          .then( () => console.log(`Project Created: ${project.name}`));
+
+  }
+
+}
+
+async function setProjectsAdmin(projects) {
+
+  let index = 4;
+
+  for (const project of projects) {
+    
+    if (index < 104) {
+
+      await mysql.connection.promise().query(db.queries.addUserToProject(1, index))
+      .then( () => console.log(`userID: 1 Added to projectID: ${index}`));
+
+    }
+
+    index++;
+
+  }
+
+}
+
 function PopulateData() {
 
   if (process.env.DB_TEST_HAS_USERS === 'false') {
@@ -53,23 +90,19 @@ function PopulateData() {
 
   }
 
-}
+  // Set UserID 1 as Admin of Project
 
+  if (process.env.DB_TEST_HAS_PROJECTS_ADMIN === 'false') {
 
+    fs.readFile('./test/data/MOCK_DATA_PROJECTS.json', 'utf-8', (err, stringified) => {
+      if (err) { console.log(err); }
+      else {
+        let data = JSON.parse(stringified);
 
-// Insert Projects
-async function createProjects(projects) {
+        setProjectsAdmin(data);
 
-  let userID = 1;
-
-  for (const project of projects) {
-
-    let resultID = ( (userID % 10) || (10) );
-
-    userID++;
-
-    await mysql.connection.promise().query(db.queries.createProject(project.name, project.description, resultID))
-          .then( () => console.log(`Project Created: ${project.name}`));
+      }
+    });
 
   }
 
