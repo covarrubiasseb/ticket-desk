@@ -13,6 +13,7 @@ class Login extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handleDemo = this.handleDemo.bind(this);
 
   }
 
