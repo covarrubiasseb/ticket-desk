@@ -33,6 +33,22 @@ class Login extends React.Component {
     });
   }
 
+  handleDemo(event) {
+    event.preventDefault();
+
+    axios.post('/api/login', {
+      email: 'demoadmin@example.com',
+      password: 'Demo123'
+    })
+    .then(response => {
+      if (response.status === 200) {
+
+        this.props.getUserData(response.data.userData);
+        this.props.setPageMain();
+      }
+    });
+  }
+
   handleEmailChange(event) {
     this.setState({
       email: event.target.value
@@ -99,7 +115,7 @@ class Login extends React.Component {
 
                                     <div className="text-center">
                                         <a className="small" href="#" onClick={this.props.setPageRegister}>Create an Account!</a>
-                                        <a className="small" href="#">Try a Demo User! (Admin)</a>
+                                        <a className="small" href="#" onClick={this.handleDemo}>Try a Demo User! (Admin)</a>
                                     </div>
 
                                 </div>
