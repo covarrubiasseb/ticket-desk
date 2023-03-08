@@ -49,7 +49,7 @@ async function setProjectsAdmin(projects) {
     
     if (index <= 100) {
 
-      await mysql.connection.promise().query(db.queries.addUserToProject(4, index))
+      await mysql.connection.promise().query(db.queries.addUserToProject(1, index))
       .then( () => console.log(`userID: 1 Added to projectID: ${index}`));
 
     }
