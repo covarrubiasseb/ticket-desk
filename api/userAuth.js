@@ -21,7 +21,7 @@ router.post('/api/login', (req, res) => {
   mysql.connection.query(db.queries.findUser(loginEmail), (err, results) => {
     let user = results[0];
     // if email exists check password
-    if (user) {
+    if (results && user) {
 
       let hash = results[0].hash;
       // if password is correct
