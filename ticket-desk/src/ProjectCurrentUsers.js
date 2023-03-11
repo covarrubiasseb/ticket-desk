@@ -10,7 +10,7 @@ import RenderPagination from './utils/RenderPagination';
 import PaginationPrevious from './utils/PaginationPrevious';
 import PaginationNext from './utils/PaginationNext';
 
-class ProjectUsers extends React.Component {
+class ProjectCurrentUsers extends React.Component {
   constructor(props) {
     super(props);
 
@@ -221,4 +221,4 @@ class ProjectUsers extends React.Component {
 
 }
 
-export default ProjectUsers;
+export default ProjectCurrentUsers;

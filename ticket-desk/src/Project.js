@@ -3,10 +3,11 @@ import axios from 'axios';
 import $ from 'jquery';
 
 import ProjectTickets from './ProjectTickets';
-import ProjectUsers from './ProjectUsers';
+
+import ProjectCurrentUsers from './ProjectCurrentUsers';
+import AdminManageProjectUsers from './AdminManageProjectUsers';
 
 import ProjectEditForm from './ProjectEditForm';
-import AdminManageProjectUsers from './AdminManageProjectUsers';
 
 class Project extends React.Component {
   constructor(props) {
@@ -154,7 +155,7 @@ class Project extends React.Component {
                         setPageTicket={this.props.setPageTicket}
                         closeTicketModal={this.closeTicketModal} />
 
-        <ProjectUsers headersConfig={this.props.headersConfig}
+        <ProjectCurrentUsers headersConfig={this.props.headersConfig}
                       userID={this.props.userID} 
                       projectID={this.props.projectData.projectID} />
 
