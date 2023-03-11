@@ -5,14 +5,8 @@ import $ from 'jquery';
 import ProjectTickets from './ProjectTickets';
 import ProjectUsers from './ProjectUsers';
 
-import TicketForm from'./TicketForm';
 import ProjectEditForm from './ProjectEditForm';
 import AdminManageProjectUsers from './AdminManageProjectUsers';
-
-import TableFilterByName from './utils/tableFilterByName';
-import CountPages from './utils/countPages';
-
-
 
 class Project extends React.Component {
   constructor(props) {
