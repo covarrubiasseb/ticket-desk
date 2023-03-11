@@ -13,6 +13,7 @@ class Login extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handleDemo = this.handleDemo.bind(this);
 
   }
 
@@ -23,6 +24,22 @@ class Login extends React.Component {
     axios.post('/api/login', {
       email: this.state.email,
       password: this.state.password
+    })
+    .then(response => {
+      if (response.status === 200) {
+
+        this.props.getUserData(response.data.userData);
+        this.props.setPageMain();
+      }
+    });
+  }
+
+  handleDemo(event) {
+    event.preventDefault();
+
+    axios.post('/api/login', {
+      email: 'demoadmin@example.com',
+      password: 'Demo123'
     })
     .then(response => {
       if (response.status === 200) {
@@ -99,6 +116,10 @@ class Login extends React.Component {
 
                                     <div className="text-center">
                                         <a className="small" href="#" onClick={this.props.setPageRegister}>Create an Account!</a>
+                                    </div>
+
+                                    <div className="text-center">
+                                        <a className="small" href="#" onClick={this.handleDemo}>Try a Demo User! (Admin)</a>
                                     </div>
 
                                 </div>

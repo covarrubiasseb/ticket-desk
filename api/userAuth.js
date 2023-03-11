@@ -21,7 +21,7 @@ router.post('/api/login', (req, res) => {
   mysql.connection.query(db.queries.findUser(loginEmail), (err, results) => {
     let user = results[0];
     // if email exists check password
-    if (user) {
+    if (results && user) {
 
       let hash = results[0].hash;
       // if password is correct
@@ -73,7 +73,7 @@ router.post('/api/register', (req, res) => {
   // Check if email exists in DB
   mysql.connection.query(db.queries.findUser(registerEmail), (err, results) => {
     // if email doesn't exist create new user
-    if (results.length === 0) {
+    if (!results || results.length === 0) {
 
       bcrypt.hash(registerPassword, saltRounds, (err, hash) => {
 

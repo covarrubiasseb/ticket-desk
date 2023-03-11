@@ -1,7 +1,7 @@
 const express = require('express');
 const process = require('process');
 const { config } = require('dotenv').config();
-// const test = require('./test/test');
+// const test = require('./test/Test')();
 
 const userAuthRouter = require('./api/userAuth');
 const usersRouter = require('./api/users');
@@ -17,7 +17,6 @@ const app = express();
 app.use(express.json());
 
 // Static Page
-console.log(`${__dirname}/ticket-desk/build`);
 app.use(express.static(`${__dirname}/ticket-desk/build`));
 
 // API Routes
