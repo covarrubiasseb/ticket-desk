@@ -1,11 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import $ from 'jquery';
 
 import TableFilterByName from './utils/TableFilterByName';
 import TableClear from './utils/TableClear';
-import CountPages from './utils/CountPages';
-
 
 class AdminManageProjectUsers extends React.Component {
   constructor(props) {

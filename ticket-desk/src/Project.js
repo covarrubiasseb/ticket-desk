@@ -5,8 +5,6 @@ import $ from 'jquery';
 import ProjectTickets from './ProjectTickets';
 
 import ProjectUsers from './ProjectUsers';
-import ProjectCurrentUsers from './ProjectCurrentUsers';
-import AdminManageProjectUsers from './AdminManageProjectUsers';
 
 import ProjectEditForm from './ProjectEditForm';
 
