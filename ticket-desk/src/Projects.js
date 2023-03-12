@@ -32,6 +32,8 @@ class Projects extends React.Component {
     this.renderPagination = this.renderPagination.bind(this);
     this.paginationPrevious = this.paginationPrevious.bind(this);
     this.paginationNext = this.paginationNext.bind(this);
+
+    this.closeCreateProjectModal = this.closeCreateProjectModal.bind(this);
   }
 
   getProjects() {
@@ -175,6 +177,10 @@ class Projects extends React.Component {
     }
   }
 
+  closeCreateProjectModal() {
+    $("#closeCreateProjectModal").trigger("click");
+  }
+
   componentDidMount() {
     this.getProjects();
   }
@@ -186,25 +192,38 @@ class Projects extends React.Component {
         <div className="d-sm-flex align-items-center justify-content-between mb-4">
           <h1 className="h3 mb-0 text-gray-800">Projects</h1>
         </div>
-
-        <button className="btn btn-primary mb-2" type="button" data-toggle="collapse" data-target="#collapseNewProjectForm" aria-expanded="false" aria-controls="collapseNewProjectForm">
-          Create New Project (Admin only)
-        </button>
-
-        <div className="row">
-
-          <div className="collapse col-xl-9" id="collapseNewProjectForm">
-            <div className="card card-body mt-2">
-              <ProjectForm className="mb-2" getProjects={this.getProjects} userID={this.props.userID} userEmail={this.props.userData.email} headersConfig={this.props.headersConfig} />
-            </div>
-          </div>
-
-        </div>
         
         <div className="row">
           <div className="col-xl-9">
             <div className="card shadow mb-4">
               <div className="card-body">
+
+              <button className="btn btn-primary" type="button" data-toggle="modal" data-target="#createProjectModal" aria-expanded="false" aria-controls="createProjectModal">
+                Create New Project
+              </button>
+
+              <div className="modal fade" id="createProjectModal" tabIndex="-1" role="dialog" aria-labelledby="createProjectModalLabel"
+                  aria-hidden="true">
+                <div className="modal-dialog" role="document">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h5 className="modal-title" id="createProjectModalLabel">Create New Project</h5>
+                      <button className="close" id="closeCreateProjectModal" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+
+                    <div className="modal-body">
+                      <ProjectForm className="mb-2" headersConfig={this.props.headersConfig}
+                                                    getProjects={this.getProjects} 
+                                                    userID={this.props.userID} 
+                                                    userEmail={this.props.userData.email}
+                                                    closeCreateProjectModal={this.closeCreateProjectModal} />
+                    </div>
+
+                  </div>
+                </div>
+              </div>
 
               <div className="row justify-content-end">
 
