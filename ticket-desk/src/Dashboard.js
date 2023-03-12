@@ -10,12 +10,15 @@ class Dashboard extends React.Component {
       tickets: [],
       ticketsTypeClientTotal: 0,
       ticketsTypeServerTotal: 0,
-      ticketsTypeDevOpsTotal: 0
+      ticketsTypeDevOpsTotal: 0,
+      ticketsStatusOpenTotal: 0,
+      ticketsStatusClosedTotal: 0
     }
 
     this.getProjectTotal = this.getProjectTotal.bind(this);
     this.getTickets = this.getTickets.bind(this);
     this.calculateTicketTypeTotals = this.calculateTicketTypeTotals.bind(this);
+    this.calculateTicketStatusTotals = this.calculateTicketStatusTotals.bind(this);
   }
 
   getProjectTotal() {
@@ -42,6 +45,8 @@ class Dashboard extends React.Component {
       }, () => {
 
         this.calculateTicketTypeTotals();
+
+        this.calculateTicketStatusTotals();
 
       });
 
@@ -73,6 +78,30 @@ class Dashboard extends React.Component {
       ticketsTypeClientTotal: clientTotal,
       ticketsTypeServerTotal: serverTotal,
       ticketsTypeDevOpsTotal: devOpsTotal 
+
+    });
+
+  }
+
+  calculateTicketStatusTotals() {
+    let openTotal = 0;
+    let closedTotal = 0;
+
+    this.state.tickets.forEach(ticket => {
+      if (ticket.status === 'Open') {
+        openTotal++;
+      }
+
+      if (ticket.status === 'Closed') {
+        closedTotal++;
+      }
+
+    });
+
+    this.setState({
+
+      ticketsStatusOpenTotal: openTotal,
+      ticketsStatusClosedTotal: closedTotal
 
     });
 
@@ -135,7 +164,7 @@ class Dashboard extends React.Component {
 
         <div className="row">
 
-          <div className="col-12">
+          <div className="col-6">
 
             <div className="card shadow my-4">
 
@@ -147,7 +176,7 @@ class Dashboard extends React.Component {
                 
                 <div className="m-2">Client Side</div>
                 <div className="progress m-2">
-                  <div className="progress-bar bg-success" role="progressbar" style={{ width: `${Math.round( (this.state.ticketsTypeClientTotal / this.state.tickets.length) * 100 )}%`}} 
+                  <div className="progress-bar bg-primary" role="progressbar" style={{ width: `${Math.round( (this.state.ticketsTypeClientTotal / this.state.tickets.length) * 100 )}%`}} 
                        aria-valuenow={Math.round(this.state.ticketsTypeClientTotal / this.state.tickets.length)} aria-valuemin="0" aria-valuemax={this.state.tickets.length}>
                     <span className="text-gray-800 font-weight-bold">{this.state.ticketsTypeClientTotal}</span>
                   </div>
@@ -166,6 +195,38 @@ class Dashboard extends React.Component {
                   <div className="progress-bar bg-warning" role="progressbar" style={{ width: `${Math.round( (this.state.ticketsTypeDevOpsTotal / this.state.tickets.length) * 100 )}%`}} 
                        aria-valuenow={Math.round(this.state.ticketsTypeDevOpsTotal / this.state.tickets.length)} aria-valuemin="0" aria-valuemax={this.state.tickets.length}>
                     <span className="text-gray-800 font-weight-bold">{this.state.ticketsTypeDevOpsTotal}</span>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div className="col-6">
+
+            <div className="card shadow my-4">
+
+              <div className="card-header">
+                <h6 className="m-0 font-weight-bold text-primary">Tickets By Status</h6>
+              </div>
+
+              <div className="card-body">
+                
+                <div className="m-2">Open</div>
+                <div className="progress m-2">
+                  <div className="progress-bar bg-success" role="progressbar" style={{ width: `${Math.round( (this.state.ticketsStatusOpenTotal / this.state.tickets.length) * 100 )}%`}} 
+                       aria-valuenow={Math.round(this.state.ticketsStatusOpenTotal / this.state.tickets.length)} aria-valuemin="0" aria-valuemax={this.state.tickets.length}>
+                    <span className="text-gray-800 font-weight-bold">{this.state.ticketsStatusOpenTotal}</span>
+                  </div>
+                </div>
+
+                <div className="m-2">Closed</div>
+                <div className="progress m-2">
+                  <div className="progress-bar bg-danger" role="progressbar" style={{ width: `${Math.round( (this.state.ticketsStatusClosedTotal / this.state.tickets.length) * 100 )}%`}} 
+                       aria-valuenow={Math.round(this.state.ticketsStatusClosedTotal / this.state.tickets.length)} aria-valuemin="0" aria-valuemax={this.state.tickets.length}>
+                    <span className="text-gray-800 font-weight-bold">{this.state.ticketsStatusClosedTotal}</span>
                   </div>
                 </div>
 
