@@ -90,7 +90,8 @@ class App extends React.Component {
   renderCurrentPage() {
     switch (this.state.currentPage) {
       case 'Dashboard':
-        return <Dashboard userID={this.state.userData.userID} />
+        return <Dashboard headersConfig={this.state.config}
+                          userID={this.state.userData.userID} />
       case 'Projects':
         return <Projects headersConfig={this.state.config} 
                          userID={this.state.userData.userID} 
