@@ -34,36 +34,31 @@ class ProjectCurrentUsers extends React.Component {
   }
 
   getUsers() {
-
-    axios.get(`/api/project/users?projectID=${this.props.projectID}`, this.props.headersConfig)
-    .then(response => {
       
+    this.setState({
+      users: this.props.currentUsers.map(user => {
+        
+        return (
+
+          <tr>
+            <td>{`${user.firstName} ${user.lastName}`}</td>
+            <td>{user.email}</td>
+            <td>{user.role}</td>
+          </tr>
+
+        );
+
+      })
+
+    }, () => {
+
       this.setState({
-        users: response.data.map(user => {
-          
-          return (
 
-            <tr>
-              <td>{`${user.firstName} ${user.lastName}`}</td>
-              <td>{user.email}</td>
-              <td>{user.role}</td>
-            </tr>
-
-          );
-
-        })
+        currentTableUsers: this.state.users.slice(0, this.state.usersEntriesLength)
 
       }, () => {
 
-        this.setState({
-
-          currentTableUsers: this.state.users.slice(0, this.state.usersEntriesLength)
-
-        }, () => {
-
-          this.renderUsersPagination();
-
-        });
+        this.renderUsersPagination();
 
       });
 
@@ -162,7 +157,14 @@ class ProjectCurrentUsers extends React.Component {
   componentDidMount() {
     // GET Project Users
     this.getUsers();
+  }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.currentUsers !== this.props.currentUsers) {
+
+      this.getUsers();
+
+    }
   }
 
   render() {
