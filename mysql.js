@@ -21,7 +21,7 @@ connection.connect(err => {
   }
 })
 // Create Database and Tables (if not exists)
-connection.query(db.queries.createDB);
+// connection.query(db.queries.createDB);
 connection.query(db.queries.useDB);
 connection.query(db.queries.createTableUsers);
 connection.query(db.queries.createTableProjects);
