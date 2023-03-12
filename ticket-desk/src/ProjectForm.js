@@ -7,8 +7,7 @@ class ProjectForm extends React.Component {
 
     this.state = {
       projectName: '',
-      projectDesc: '',
-      modalText: ''
+      projectDesc: ''
     };
 
     this.handleNameChange = this.handleNameChange.bind(this);
@@ -47,17 +46,9 @@ class ProjectForm extends React.Component {
       )
       .then(response => {
 
-        if (!response.data.valid) {
-          this.setState({
-            modalText: 'You must be an Admin to create new projects'
-          });
-
+        if (response.data.valid) {
+          this.props.closeCreateProjectModal();
           // refresh Projects
-        } else {
-          this.setState({
-            modalText: 'Project Created!'
-          });
-
           this.props.getProjects();
         }
 
@@ -94,26 +85,12 @@ class ProjectForm extends React.Component {
               aria-describedby="basic-addon2" onChange={this.handleDescChange} value={this.state.projectDesc} />
         </div>
 
-        <button href="#" className="btn btn-secondary btn-icon-split float-right" type="submit" data-toggle="modal" data-target="#projectModal">
+        <button href="#" className="btn btn-secondary btn-icon-split float-right" type="submit">
           <span className="icon text-white-50">
               <i className="fas fa-arrow-right"></i>
           </span>
           <span className="text">Create Project</span>
         </button>
-
-        <div className="modal fade" id="projectModal" tabIndex="-1" role="dialog" aria-labelledby="projectModalLabel"
-              aria-hidden="true">
-            <div className="modal-dialog" role="document">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h5 className="modal-title" id="projectModalLabel">{this.state.modalText}</h5>
-                        <button className="close" type="button" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
       </form>
     );
